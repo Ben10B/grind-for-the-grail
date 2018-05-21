@@ -21,11 +21,11 @@ public class Sprite {
         this.level = level;
     }
 
-    public void LevelUp(){
-
+    public void levelUp(){
+        //TODO implement levelUp method
     }
 
-    public void AddExp(int amt){
+    public void addExp(int amt){
         setExp(getExp() + amt);
     }
 

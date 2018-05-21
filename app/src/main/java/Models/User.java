@@ -1,6 +1,7 @@
 package Models;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class User {
     private String username;
@@ -14,15 +15,15 @@ public class User {
         this.password = password;
     }
 
-    public void AddDungeon(String title){
-        Dungeon temp = new Dungeon(title, sprite.getMaxHealth()); //TODO check health
+    public void AddDungeon(String title, Date endDate){
+        Dungeon temp = new Dungeon(title, sprite.getMaxHealth(), endDate);
         ArrayList<Dungeon> dungeonTemp = getDungeons();
         dungeonTemp.add(temp);
         setDungeons(dungeonTemp);
     }
 
-//    public void RemoveDungeon(Dungeon dungeon){
-//
+//    public void removeDungeon(Dungeon dungeon){
+//          //TODO implement removeDungeon method
 //    }
 
     public String getUsername() {

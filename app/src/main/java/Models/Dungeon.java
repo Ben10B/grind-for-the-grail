@@ -1,32 +1,77 @@
 package Models;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class Dungeon {
     private String title;
-
     private int maxHealth;
     private int currentHealth;
 //    private String ultimateReward;// <<stretch>>
 //    private String regReward;// <<stretch>>
 //    private String ultimatePenalty;// <<stretch>>
 //    private String regPenalty;// <<stretch>>
-//    private ArrayList<DungeonDate> dungeonDates;// <<stretch>>
+    private ArrayList<DungeonDate> dungeonDates;// <<stretch>>
 //    private Difficulty difficulty;// <<stretch>>
 //    private boolean heroMode;// <<stretch>>
 
-    public Dungeon(String title, int maxHealth) {
+    public Dungeon(String title, int maxHealth, Date endDate) {
         this.title = title;
         this.maxHealth = maxHealth;
+        dungeonDates = new ArrayList<DungeonDate>();
+        Calendar c = Calendar.getInstance();
+        for (int i = 0; i < 7;i++){//TODO adjust for endDate addition
+            DungeonDate temp = new DungeonDate(c.getTime(), Status.Inactive);
+            dungeonDates.add(temp);
+            c.add(Calendar.DATE, 1);
+
+        }
     }
 
     public void FailDay(){
-        //take health
-        //check if dead
-            //yes?: ultimatePenalty
-            //no?: regPenalty
+        currentHealth -= getHealthLost();
+        boolean isAlive = getCurrentHealth() > 0? true : false;
+        if (isAlive){
+            //TODO yes?: regPenalty
+            //TODO does a day get added?
+//            Calendar c = Calendar.getInstance();
+//            c.setTime(getDungeonDates().get(getDungeonDates().size()).getDate());
+//            c.add(Calendar.DATE, 1);
+//            DungeonDate temp = new DungeonDate(c.getTime(), Status.Inactive);
+//            dungeonDates.add(temp);
+
+        }else{
+            //TODO no?: ultimatePenalty
+
+        }
+
     }
 
+    private int getHealthLost(){
+        int healthLost = 1;
+        ArrayList<DungeonDate> dates = getDungeonDates();
+        int index = -1;
+        for (int i = 0; i < dates.size();i++){
+            if (dates.get(i).getDate() == Calendar.getInstance().getTime()){
+                index = i;
+                break;
+            }
+        }
+        if (index > 0){
+            for (int i = index; i > dates.size(); i--){
+                if (dates.get(i).getStatus() != Status.Failed){
+                    break;
+                }
+                else if (dates.get(i).getStatus() == Status.Failed){
+                    healthLost *= 2;
+                }
+            }
+        }
+        return healthLost;
+    }
+
+    //TODO implement SucceedDay method
     public int SucceedDay(){
         //check if dungeon is completed
             //yes?: ultimateReward
@@ -91,13 +136,13 @@ public class Dungeon {
 //        this.regPenalty = regPenalty;
 //    }
 //
-//    public ArrayList<DungeonDate> getDungeonDates() {
-//        return dungeonDates;
-//    }
-//
-//    public void setDungeonDates(ArrayList<DungeonDate> dungeonDates) {
-//        this.dungeonDates = dungeonDates;
-//    }
+    public ArrayList<DungeonDate> getDungeonDates() {
+        return dungeonDates;
+    }
+
+    public void setDungeonDates(ArrayList<DungeonDate> dungeonDates) {
+        this.dungeonDates = dungeonDates;
+    }
 //
 //    public Difficulty getDifficulty() {
 //        return difficulty;
