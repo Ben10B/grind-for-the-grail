@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 public class Sprite {
 
-//    private String name;//<<stretch>>
+    private String name;//<<stretch>>
     private int maxHealth;
     private int exp;
     private int level;
-//    private int gold;//<<stretch>>
-//    private ArrayList<SpriteObject> items;//<<stretch>>
+    private int gold;//<<stretch>>
+    private ArrayList<SpriteObject> items;//<<stretch>>
 
     public Sprite(int maxHealth) {
         this.maxHealth = maxHealth;
@@ -21,25 +21,30 @@ public class Sprite {
         this.level = level;
     }
 
-    public void levelUp(){
-        //TODO implement levelUp method
+    public void levelUp(int overflow) {
+        setMaxHealth(getMaxHealth() + 1);
+        setExp(0 + overflow);
     }
 
-    public void addExp(int amt){
+    public void addExp(int amt) {
         setExp(getExp() + amt);
+        int nextLvl = ((getLevel() * 2) + 3);
+        if (getExp() >= nextLvl) {
+            levelUp((nextLvl - getExp()));
+        }
     }
 
-//    public void AddGold(int amt){
-//        setGold(getGold() + amt);
-//    }
-//
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public void setName(String name) {
-//        this.name = name;
-//    }
+    public void addGold(int amt) {
+        setGold(getGold() + amt);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public int getMaxHealth() {
         return maxHealth;
@@ -65,19 +70,19 @@ public class Sprite {
         this.level = level;
     }
 
-//    public int getGold() {
-//        return gold;
-//    }
-//
-//    public void setGold(int gold) {
-//        this.gold = gold;
-//    }
-//
-//    public ArrayList<SpriteObject> getItems() {
-//        return items;
-//    }
-//
-//    public void setItems(ArrayList<SpriteObject> items) {
-//        this.items = items;
-//    }
+    public int getGold() {
+        return gold;
+    }
+
+    public void setGold(int gold) {
+        this.gold = gold;
+    }
+
+    public ArrayList<SpriteObject> getItems() {
+        return items;
+    }
+
+    public void setItems(ArrayList<SpriteObject> items) {
+        this.items = items;
+    }
 }

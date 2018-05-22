@@ -8,13 +8,13 @@ public class Dungeon {
     private String title;
     private int maxHealth;
     private int currentHealth;
-//    private String ultimateReward;// <<stretch>>
-//    private String regReward;// <<stretch>>
-//    private String ultimatePenalty;// <<stretch>>
-//    private String regPenalty;// <<stretch>>
+    private String ultimateReward;// <<stretch>>
+    private String regReward;// <<stretch>>
+    private String ultimatePenalty;// <<stretch>>
+    private String regPenalty;// <<stretch>>
     private ArrayList<DungeonDate> dungeonDates;// <<stretch>>
-//    private Difficulty difficulty;// <<stretch>>
-//    private boolean heroMode;// <<stretch>>
+    private Difficulty difficulty;// <<stretch>>
+    private boolean heroMode;// <<stretch>>
 
     public Dungeon(String title, int maxHealth, Date endDate) {
         this.title = title;
@@ -29,7 +29,7 @@ public class Dungeon {
         }
     }
 
-    public void FailDay(){
+    public void failDay(){
         currentHealth -= getHealthLost();
         boolean isAlive = getCurrentHealth() > 0? true : false;
         if (isAlive){
@@ -72,7 +72,7 @@ public class Dungeon {
     }
 
     //TODO implement SucceedDay method
-    public int SucceedDay(){
+    public int succeedDay(){
         //check if dungeon is completed
             //yes?: ultimateReward
             //no?: regReward and advance day
@@ -104,38 +104,38 @@ public class Dungeon {
         this.currentHealth = currentHealth;
     }
 
-//    public String getUltimateReward() {
-//        return ultimateReward;
-//    }
-//
-//    public void setUltimateReward(String ultimateReward) {
-//        this.ultimateReward = ultimateReward;
-//    }
-//
-//    public String getRegReward() {
-//        return regReward;
-//    }
-//
-//    public void setRegReward(String regReward) {
-//        this.regReward = regReward;
-//    }
-//
-//    public String getUltimatePenalty() {
-//        return ultimatePenalty;
-//    }
-//
-//    public void setUltimatePenalty(String ultimatePenalty) {
-//        this.ultimatePenalty = ultimatePenalty;
-//    }
-//
-//    public String getRegPenalty() {
-//        return regPenalty;
-//    }
-//
-//    public void setRegPenalty(String regPenalty) {
-//        this.regPenalty = regPenalty;
-//    }
-//
+    public String getUltimateReward() {
+        return ultimateReward;
+    }
+
+    public void setUltimateReward(String ultimateReward) {
+        this.ultimateReward = ultimateReward;
+    }
+
+    public String getRegReward() {
+        return regReward;
+    }
+
+    public void setRegReward(String regReward) {
+        this.regReward = regReward;
+    }
+
+    public String getUltimatePenalty() {
+        return ultimatePenalty;
+    }
+
+    public void setUltimatePenalty(String ultimatePenalty) {
+        this.ultimatePenalty = ultimatePenalty;
+    }
+
+    public String getRegPenalty() {
+        return regPenalty;
+    }
+
+    public void setRegPenalty(String regPenalty) {
+        this.regPenalty = regPenalty;
+    }
+
     public ArrayList<DungeonDate> getDungeonDates() {
         return dungeonDates;
     }
@@ -143,22 +143,22 @@ public class Dungeon {
     public void setDungeonDates(ArrayList<DungeonDate> dungeonDates) {
         this.dungeonDates = dungeonDates;
     }
-//
-//    public Difficulty getDifficulty() {
-//        return difficulty;
-//    }
-//
-//    public void setDifficulty(Difficulty difficulty) {
-//        this.difficulty = difficulty;
-//    }
-//
-//    public boolean isHeroMode() {
-//        return heroMode;
-//    }
-//
-//    public void setHeroMode(boolean heroMode) {
-//        this.heroMode = heroMode;
-//    }
+
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public boolean isHeroMode() {
+        return heroMode;
+    }
+
+    public void setHeroMode(boolean heroMode) {
+        this.heroMode = heroMode;
+    }
 
 
 }

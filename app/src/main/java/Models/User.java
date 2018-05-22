@@ -6,7 +6,7 @@ import java.util.Date;
 public class User {
     private String username;
     private String password;
-//    private String email;
+    private String email; //<<stretch>>
     private Sprite sprite;
     private ArrayList<Dungeon> dungeons;
 
@@ -22,9 +22,9 @@ public class User {
         setDungeons(dungeonTemp);
     }
 
-//    public void removeDungeon(Dungeon dungeon){
-//          //TODO implement removeDungeon method
-//    }
+    public void removeDungeon(Dungeon dungeon){
+          //TODO implement removeDungeon method
+    }
 
     public String getUsername() {
         return username;
@@ -42,13 +42,13 @@ public class User {
         this.password = password;
     }
 
-//    public String getEmail() {
-//        return email;
-//    }
-//
-//    public void setEmail(String email) {
-//        this.email = email;
-//    }
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public Sprite getSprite() {
         return sprite;
@@ -65,7 +65,4 @@ public class User {
     public void setDungeons(ArrayList<Dungeon> dungeons) {
         this.dungeons = dungeons;
     }
-
-
-
 }
