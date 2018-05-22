@@ -21,49 +21,35 @@ public class Dungeon {
         this.maxHealth = maxHealth;
         dungeonDates = new ArrayList<DungeonDate>();
         Calendar c = Calendar.getInstance();
-        for (int i = 0; i < 7;i++){//TODO adjust for endDate addition
-            DungeonDate temp = new DungeonDate(c.getTime(), Status.Inactive);
+        DungeonDate temp = new DungeonDate(c.getTime(), Status.Inactive);
+        do {
             dungeonDates.add(temp);
             c.add(Calendar.DATE, 1);
-
-        }
+            temp = new DungeonDate(c.getTime(), Status.Inactive);
+        } while (temp.getDate() != endDate);
     }
 
-    public void failDay(){
+    public void failDay() {
         currentHealth -= getHealthLost();
-        boolean isAlive = getCurrentHealth() > 0? true : false;
-        if (isAlive){
+        boolean isAlive = getCurrentHealth() > 0;
+        if (isAlive) {
             //TODO yes?: regPenalty
-            //TODO does a day get added?
-//            Calendar c = Calendar.getInstance();
-//            c.setTime(getDungeonDates().get(getDungeonDates().size()).getDate());
-//            c.add(Calendar.DATE, 1);
-//            DungeonDate temp = new DungeonDate(c.getTime(), Status.Inactive);
-//            dungeonDates.add(temp);
-
-        }else{
+        } else {
             //TODO no?: ultimatePenalty
-
         }
-
     }
 
-    private int getHealthLost(){
+    /* This is a helper method for failDay(). It determines the amount of health that the player
+    will lose, based on how many days in a row they have failed. */
+    private int getHealthLost() {
         int healthLost = 1;
         ArrayList<DungeonDate> dates = getDungeonDates();
-        int index = -1;
-        for (int i = 0; i < dates.size();i++){
-            if (dates.get(i).getDate() == Calendar.getInstance().getTime()){
-                index = i;
-                break;
-            }
-        }
-        if (index > 0){
-            for (int i = index; i > dates.size(); i--){
-                if (dates.get(i).getStatus() != Status.Failed){
+        int index = dates.indexOf(currentDungeonDate());
+        if (index > 0) {
+            for (int i = index; i > dates.size(); i--) {
+                if (dates.get(i).getStatus() != Status.Failed) {
                     break;
-                }
-                else if (dates.get(i).getStatus() == Status.Failed){
+                } else if (dates.get(i).getStatus() == Status.Failed) {
                     healthLost *= 2;
                 }
             }
@@ -71,13 +57,45 @@ public class Dungeon {
         return healthLost;
     }
 
-    //TODO implement SucceedDay method
-    public int succeedDay(){
-        //check if dungeon is completed
-            //yes?: ultimateReward
-            //no?: regReward and advance day
-        //return exp earned
-        return 0;
+    public int succeedDay() {
+        //TODO <<stretch>> They get gold too
+        int exp = 0;
+        switch (getDifficulty()) {
+            case Squire:
+                exp = 1;
+                break;
+            case Knight:
+                exp = 2;
+                break;
+            case Grail:
+                exp = 3;
+                break;
+        }
+        if(isCompleted()){
+            //TODO yes?: ultimateReward
+        }else {
+            //TODO no?: regReward
+        }
+        return exp;
+    }
+
+    private boolean isCompleted() {
+        ArrayList<DungeonDate> dates = getDungeonDates();
+        DungeonDate today = currentDungeonDate();
+        DungeonDate endDate = dates.get(dates.size());
+        return today.getDate() == endDate.getDate();
+    }
+
+    private DungeonDate currentDungeonDate() {
+        DungeonDate output = null;
+        ArrayList<DungeonDate> dates = getDungeonDates();
+        for (int i = 0; i < dates.size(); i++) {
+            if (dates.get(i).getDate() == Calendar.getInstance().getTime()) {
+                output = dates.get(i);
+                break;
+            }
+        }
+        return output;
     }
 
     public String getTitle() {
