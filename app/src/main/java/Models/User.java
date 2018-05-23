@@ -26,6 +26,7 @@ public class User {
           //TODO implement removeDungeon method
     }
 
+    //Getters and Setters beyond this point
     public String getUsername() {
         return username;
     }

@@ -38,6 +38,7 @@ public class Sprite {
         setGold(getGold() + amt);
     }
 
+    //Getters and Setters beyond this point
     public String getName() {
         return name;
     }
