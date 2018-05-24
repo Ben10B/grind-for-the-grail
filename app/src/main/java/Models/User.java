@@ -15,15 +15,17 @@ public class User {
         this.password = password;
     }
 
-    public void AddDungeon(String title, Date endDate){
+    public void addDungeon(String title, Date endDate){
         Dungeon temp = new Dungeon(title, sprite.getMaxHealth(), endDate);
         ArrayList<Dungeon> dungeonTemp = getDungeons();
         dungeonTemp.add(temp);
         setDungeons(dungeonTemp);
     }
 
-    public void removeDungeon(Dungeon dungeon){
-          //TODO implement removeDungeon method
+    public boolean removeDungeon(Dungeon dungeon){
+        ArrayList<Dungeon> dungeonList = getDungeons();
+        boolean removed = dungeonList.remove(dungeon);
+        return removed;
     }
 
     //Getters and Setters beyond this point
