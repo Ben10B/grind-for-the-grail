@@ -15,29 +15,56 @@ public class Dungeon {
     private ArrayList<DungeonDate> dungeonDates;// <<stretch>>
     private Difficulty difficulty;// <<stretch>>
     private boolean heroMode;// <<stretch>>
-
+    
     public Dungeon(String title, int maxHealth, Date endDate) {
         this.title = title;
         this.maxHealth = maxHealth;
-        dungeonDates = new ArrayList<DungeonDate>();
-        Calendar c = Calendar.getInstance();
-        DungeonDate temp = new DungeonDate(c.getTime(), Status.Inactive);
-        do {
-            dungeonDates.add(temp);
-            c.add(Calendar.DATE, 1);
-            temp = new DungeonDate(c.getTime(), Status.Inactive);
-        } while (temp.getDate() != endDate);
+        this.currentHealth = maxHealth;
+        this.ultimateReward = "";
+        this.regReward = "";
+        this.ultimatePenalty = "";
+        this.regPenalty = "";
+        dungeonDates = createDungeonDates(endDate);
+        this.difficulty = Difficulty.None;
+        this.heroMode = false;
+    }
+
+    public Dungeon(String title, int maxHealth, Date endDate, Difficulty difficulty) {
+        this.title = title;
+        this.maxHealth = maxHealth;
+        this.currentHealth = maxHealth;
+        this.ultimateReward = "";
+        this.regReward = "";
+        this.ultimatePenalty = "";
+        this.regPenalty = "";
+        dungeonDates = createDungeonDates(endDate);
+        this.difficulty = difficulty;
+        this.heroMode = false;
+    }
+
+    public Dungeon(String title, int maxHealth, Date endDate, String ultimateReward, String regReward, String ultimatePenalty, String regPenalty, Difficulty difficulty, boolean heroMode) {
+        this.title = title;
+        this.maxHealth = maxHealth;
+        this.currentHealth = maxHealth;
+        this.ultimateReward = ultimateReward;
+        this.regReward = regReward;
+        this.ultimatePenalty = ultimatePenalty;
+        this.regPenalty = regPenalty;
+        dungeonDates = createDungeonDates(endDate);
+        this.difficulty = difficulty;
+        this.heroMode = heroMode;
     }
 
     public void failDay(Date day) {
+        String penalty = "";
         DungeonDate failedDay = getDungeonDateByDate(day);
         failedDay.setStatus(Status.Failed);
         currentHealth -= getHealthLost();
         boolean isAlive = getCurrentHealth() > 0;
-        if (isAlive) {
-            //TODO yes?: regPenalty
-        } else {
-            //TODO no?: ultimatePenalty
+        if (isAlive && !getRegPenalty().isEmpty()) {
+            penalty = getRegPenalty();
+        } else if(!isAlive && !getUltimatePenalty().isEmpty()) {
+            penalty = getUltimatePenalty();
         }
     }
 
@@ -119,6 +146,18 @@ public class Dungeon {
             }
         }
         return output;
+    }
+
+    private ArrayList<DungeonDate> createDungeonDates(Date endDate){
+        ArrayList<DungeonDate> dates = new ArrayList<DungeonDate>();
+        Calendar c = Calendar.getInstance();
+        DungeonDate temp = new DungeonDate(c.getTime(), Status.Inactive);
+        do {
+            dates.add(temp);
+            c.add(Calendar.DATE, 1);
+            temp = new DungeonDate(c.getTime(), Status.Inactive);
+        } while (temp.getDate() != endDate);
+        return dates;
     }
 
     //Getters and Setters beyond this point
