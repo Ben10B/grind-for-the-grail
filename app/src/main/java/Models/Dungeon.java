@@ -148,6 +148,12 @@ public class Dungeon {
         return output;
     }
 
+    /**
+     * Creates the initial collection of DungeonDates from the current date to the given end Date.
+     * Helper Method
+     * @param endDate - Date of the last day
+     * @return - Collection of DungeonDates from current day to endDate
+     */
     private ArrayList<DungeonDate> createDungeonDates(Date endDate){
         ArrayList<DungeonDate> dates = new ArrayList<DungeonDate>();
         Calendar c = Calendar.getInstance();
