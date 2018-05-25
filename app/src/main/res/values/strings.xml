@@ -24,8 +24,8 @@
     <!--Strings related to CreateEventActivity-->
     <string name="create_event">Create Dungeon</string>
     <string name="goalInput">Enter Goal</string>
-    <string name="rewardInput">Optional: Enter Reward</string>
-    <string name="punishmentInput">Optional: Enter Punishment</string>
+    <string name="rewardInput">Enter Reward (optional)</string>
+    <string name="punishmentInput">Enter Punishment (optional)</string>
     <string name="endDateInput">MM/DD/YYYY</string>
     <string name="diffTextView">Choose Difficulty</string>
     <string name="easyRadioBtn">Easy</string>
