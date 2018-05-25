@@ -3,6 +3,7 @@ package Models;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 
 public class Dungeon {
     private String title;
@@ -55,7 +56,7 @@ public class Dungeon {
         this.heroMode = heroMode;
     }
 
-    public void failDay(Date day) {
+    public String failDay(Date day) {
         String penalty = "";
         DungeonDate failedDay = getDungeonDateByDate(day);
         failedDay.setStatus(Status.Failed);
@@ -66,17 +67,18 @@ public class Dungeon {
         } else if(!isAlive && !getUltimatePenalty().isEmpty()) {
             penalty = getUltimatePenalty();
         }
+        return penalty;
     }
 
-    public int completeDay(Date day) {
-        //TODO They get gold too
+    public String completeDay(Date day, Sprite sprite) {
+        String reward = "";
+        Random rand = new Random();
         DungeonDate completedDay = getDungeonDateByDate(day);
         completedDay.setStatus(Status.Completed);
         int exp = 0;
-        int gold = 0;
+        int gold = rand.nextInt(10)+1;
         switch (getDifficulty()) {
-            //TODO How much gold for each?
-            case Squire:
+            case Squire: case None:
                 exp = 1;
                 break;
             case Knight:
@@ -86,12 +88,30 @@ public class Dungeon {
                 exp = 3;
                 break;
         }
-        if(isCompleted()){
-            //TODO yes?: ultimateReward
-        }else {
-            //TODO no?: regReward
+        sprite.addExp(exp);
+        sprite.addGold(gold);
+        if (!isCompleted() && !getRegReward().isEmpty()) {
+            reward = getRegReward();
+        } else if(isCompleted()) {
+            if (!getUltimateReward().isEmpty()){reward = getUltimateReward();}
+            //exp = length * diffMod
+            //gold = (length * 7-10)* diffMod
+            switch (getDifficulty()) {
+                case Squire: case None:
+                    exp += (getDungeonDates().size() * 1);
+                    gold += (getDungeonDates().size() * rand.nextInt(4)+7)*1;
+                    break;
+                case Knight:
+                    exp += (getDungeonDates().size() * 1.5);
+                    gold += (getDungeonDates().size() * rand.nextInt(4)+7)*1.5;
+                    break;
+                case Grail:
+                    exp += (getDungeonDates().size() * 2);
+                    gold += (getDungeonDates().size() * rand.nextInt(4)+7)*2;
+                    break;
+            }
         }
-        return exp;
+        return reward;
     }
 
     /**Determines the amount of health that the player will lose when they fail a day.
