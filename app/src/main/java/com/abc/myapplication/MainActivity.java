@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity
         }else if(id == R.id.nav_sprite){
 
         }else if(id == R.id.nav_modelInfo){
-
+            startActivity(new Intent(this, FoggModelActivity.class));
         }
 //        if (id == R.id.nav_camera) {
 //            // Handle the camera action
