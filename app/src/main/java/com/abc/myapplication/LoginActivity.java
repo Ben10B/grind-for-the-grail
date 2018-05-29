@@ -33,8 +33,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import Models.User;
-
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
@@ -147,11 +145,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
-        mAuthTask = new UserLoginTask("TestUser", "Password");
-        Intent myIntent = new Intent(this, MainActivity.class);
-        myIntent.putExtra("username", mAuthTask.mEmail);
-        myIntent.putExtra("password", mAuthTask.mPassword);
-        startActivity(myIntent);
+        startActivity(new Intent(this, MainActivity.class));
         finish();
 //        if (mAuthTask != null) {
 //            return;
