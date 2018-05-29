@@ -19,12 +19,23 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import java.util.Date;
+
+import Models.Dungeon;
+import Models.User;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent received = getIntent();
+        String username = received.getStringExtra("username");
+        String password = received.getStringExtra("password");
+        this.user = new User(username,password);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -154,4 +165,10 @@ public class MainActivity extends AppCompatActivity
     public void createEvent(View view){
         startActivity(new Intent(this, CreateEventActivity.class));
     }
+
+    private void createTestDungeons(){
+        user.addDungeon("Test Dungeon 1", new Date(2018,6,7));
+        user.addDungeon("Test Dungeon 2", new Date(2018,6,28));
+    }
+
 }
