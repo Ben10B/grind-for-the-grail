@@ -105,6 +105,7 @@ public class EventActivity extends AppCompatActivity {
                     Button b = findViewById(id + 2);
                     b.setBackgroundColor(Color.argb(50, 88, 88, 88));
                     b.setTextColor(Color.argb(50, 0, 0, 0));
+                    Toast.makeText(EventActivity.this, R.string.no_btn_clicked_text, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -121,10 +122,10 @@ public class EventActivity extends AppCompatActivity {
                     Button b = findViewById(id-2);
                     b.setBackgroundColor(Color.argb(50, 88,88,88));
                     b.setTextColor(Color.argb(50, 0,0,0));
-                    Toast.makeText(EventActivity.this, R.string.yes_btn_clicked_text, Toast.LENGTH_LONG).show();
-        //          String snackBarText = getResources().getString(R.string.yes_btn_clicked_text);
-//                  LinearLayout snackBarLayout = findViewById(R.id.snackbar);
-//                  Snackbar mySnackbar = Snackbar.make(snackBarLayout, snackBarText, Snackbar.LENGTH_SHORT);
+
+                    Toast.makeText(EventActivity.this, R.string.yes_btn_clicked_text, Toast.LENGTH_SHORT).show();
+
+
 
                 }
             }
