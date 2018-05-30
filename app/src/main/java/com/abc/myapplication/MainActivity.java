@@ -19,12 +19,23 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import java.util.Date;
+
+import Models.Dungeon;
+import Models.User;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent received = getIntent();
+        String username = received.getStringExtra("username");
+        String password = received.getStringExtra("password");
+        this.user = new User(username,password);
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -153,5 +164,55 @@ public class MainActivity extends AppCompatActivity
     }
     public void createEvent(View view){
         startActivity(new Intent(this, CreateEventActivity.class));
+    }
+
+    private void createTestDungeons(){
+        user.addDungeon("Test Dungeon 1", new Date(2018,6,7));
+        user.addDungeon("Test Dungeon 2", new Date(2018,6,28));
+
+    }
+
+    private void addUserDungeons(){
+//        createTestDungeons();
+        LinearLayout linearLayout = findViewById(R.id.dungeonContainer);
+        Intent intent = getIntent();
+        Button btnShow = new Button(this);
+        for(Dungeon d : user.getDungeons()){
+            btnShow = new Button(this);
+            btnShow.setText(d.getTitle());
+            btnShow.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            btnShow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(MainActivity.this, "Dungeon Screen", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(MainActivity.this, EventActivity.class);
+                    startActivity(intent);
+                }
+            });
+            linearLayout.addView(btnShow);
+
+        }
+        // Create Button Dynamically at Runtime
+
+        Button btnShow2 = new Button(this);
+        String goal = intent.getStringExtra("GOAL");
+        btnShow2.setText("Dungeon: " +goal);
+        btnShow2.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        btnShow2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "Dungeon Screen", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(MainActivity.this, EventActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // Add Button to LinearLayout
+        if (linearLayout != null) {
+//            linearLayout.addView(btnShow);
+            if(goal != null){
+                linearLayout.addView(btnShow2);
+            }
+        }
     }
 }
