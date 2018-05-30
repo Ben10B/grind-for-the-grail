@@ -11,14 +11,31 @@ public class Sprite {
     private int gold;//<<stretch>>
     private ArrayList<SpriteObject> items;//<<stretch>>
 
-    public Sprite(int maxHealth) {
-        this.maxHealth = maxHealth;
+    public Sprite(String name) {
+        this.name = name;
+        this.maxHealth = 2;
+        this.exp = 0;
+        this.level = 1;
+        this.gold = 0;
+        this.items = new ArrayList<SpriteObject>();
     }
 
-    public Sprite(int maxHealth, int exp, int level) {
+    public Sprite(String name, int maxHealth) {
+        this.name = name;
+        this.maxHealth = maxHealth;
+        this.exp = 0;
+        this.level = 1;
+        this.gold = 0;
+        this.items = new ArrayList<SpriteObject>();
+    }
+
+    public Sprite(String name, int maxHealth, int exp, int level) {
+        this.name = name;
         this.maxHealth = maxHealth;
         this.exp = exp;
         this.level = level;
+        this.gold = 0;
+        this.items = new ArrayList<SpriteObject>();
     }
 
     public void levelUp(int overflow) {

@@ -13,6 +13,8 @@ public class User {
     public User(String username, String password) {
         this.username = username;
         this.password = password;
+        dungeons = new ArrayList<Dungeon>();
+        this.sprite = new Sprite(username);
     }
 
     public void addDungeon(String title, Date endDate){
