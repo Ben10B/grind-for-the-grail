@@ -60,14 +60,16 @@ public class Dungeon {
         String penalty = "";
         DungeonDate failedDay = getDungeonDateByDate(day);
         failedDay.setStatus(Status.Failed);
-        currentHealth -= getHealthLost();
+        int hpLost = getHealthLost();
+        currentHealth -= hpLost;
         boolean isAlive = getCurrentHealth() > 0;
         if (isAlive && !getRegPenalty().isEmpty()) {
             penalty = getRegPenalty();
         } else if(!isAlive && !getUltimatePenalty().isEmpty()) {
             penalty = getUltimatePenalty();
         }
-        return penalty;
+        String output = "You lost " + hpLost + " health!\n" + penalty;
+        return output;
     }
 
     public String completeDay(Date day, Sprite sprite) {
@@ -88,8 +90,6 @@ public class Dungeon {
                 exp = 3;
                 break;
         }
-        sprite.addExp(exp);
-        sprite.addGold(gold);
         if (!isCompleted() && !getRegReward().isEmpty()) {
             reward = getRegReward();
         } else if(isCompleted()) {
@@ -111,7 +111,10 @@ public class Dungeon {
                     break;
             }
         }
-        return reward;
+        sprite.addExp(exp);
+        sprite.addGold(gold);
+        String output = "You earned " + gold + " gold!\nYou earned " + exp + " exp!\n" + reward;
+        return output;
     }
 
     /**Determines the amount of health that the player will lose when they fail a day.
@@ -182,9 +185,10 @@ public class Dungeon {
             dates.add(temp);
             c.add(Calendar.DATE, 1);
             temp = new DungeonDate(c.getTime(), Status.Inactive);
-        } while (temp.getDate() != endDate);
+        } while (temp.getDate().getMonth() != endDate.getMonth() && temp.getDate().getDay() != endDate.getDay());
         return dates;
     }
+
 
     //Getters and Setters beyond this point
     public String getTitle() {

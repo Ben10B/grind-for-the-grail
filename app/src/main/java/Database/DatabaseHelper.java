@@ -1,10 +1,13 @@
-package com.abc.myapplication;
+package Database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import com.abc.myapplication.DatabaseUserContract;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASENAME = "grail.db";
@@ -115,5 +118,54 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(DatabaseItemContract.ContractEntry.COST, cost);
         db.insert(DatabaseItemContract.ContractEntry.TABLE_NAME,null,contentValues);
         Log.d("Database", "One row inserted in " + DatabaseItemContract.ContractEntry.TABLE_NAME);
+    }
+    public Cursor readUsers(SQLiteDatabase db){
+        String[] projections = {
+                DatabaseUserContract.ContractEntry.NAME,
+                DatabaseUserContract.ContractEntry.EMAIL
+        };
+        return db.query(DatabaseUserContract.ContractEntry.TABLE_NAME,projections,null,null,null,null,null);
+    }
+    public Cursor readSprites(SQLiteDatabase db){
+        String[] projections = {
+                DatabaseSpriteContract.ContractEntry.MAXHEALTH,
+                DatabaseSpriteContract.ContractEntry.LEVEL,
+                DatabaseSpriteContract.ContractEntry.LEVEL,
+                DatabaseSpriteContract.ContractEntry.GOLD
+        };
+        return db.query(DatabaseSpriteContract.ContractEntry.TABLE_NAME,projections,null,null,null,null,null);
+    }
+    public Cursor readDungeons(SQLiteDatabase db){
+        String[] projections = {
+                DatabaseDungeonContract.ContractEntry.DUNGEONID,
+                DatabaseDungeonContract.ContractEntry.MAXHEALTH,
+                DatabaseDungeonContract.ContractEntry.HEALTH,
+                DatabaseDungeonContract.ContractEntry.DIFFICULTY,
+                DatabaseDungeonContract.ContractEntry.REGULARPENALTY,
+                DatabaseDungeonContract.ContractEntry.REGULARREWARD,
+                DatabaseDungeonContract.ContractEntry.ULTIMATEFAILURE,
+                DatabaseDungeonContract.ContractEntry.ULTIMATEREWARD,
+                DatabaseDungeonContract.ContractEntry.HEROMODE
+        };
+        return db.query(DatabaseDungeonContract.ContractEntry.TABLE_NAME,projections,null,null,null,null,null);
+    }
+    public Cursor readDungeonDates(SQLiteDatabase db){
+        String[] projections = {
+                DatabaseDungeonDatesContract.ContractEntry.DATEID,
+                DatabaseDungeonDatesContract.ContractEntry.DUNGEONID,
+                DatabaseDungeonDatesContract.ContractEntry.DATE,
+                DatabaseDungeonDatesContract.ContractEntry.STATUS
+        };
+        return db.query(DatabaseDungeonDatesContract.ContractEntry.TABLE_NAME,projections,null,null,null,null,null);
+    }
+    public Cursor readItems(SQLiteDatabase db){
+        String[] projections = {
+                DatabaseItemContract.ContractEntry.ITEMNAME,
+                DatabaseItemContract.ContractEntry.COST
+        };
+        return db.query(DatabaseItemContract.ContractEntry.TABLE_NAME,projections,null,null,null,null,null);
+    }
+    public void updateUser(String name, String email, SQLiteDatabase db){
+        ContentValues contentValues = new ContentValues();
     }
 }

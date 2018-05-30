@@ -1,4 +1,4 @@
-package com.abc.myapplication;
+package Database;
 
 public final class DatabaseItemContract {
     DatabaseItemContract(){}
