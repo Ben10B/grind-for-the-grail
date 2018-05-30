@@ -35,6 +35,15 @@
             android:name=".EventActivity"
             android:label="Dungeon"
             android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".FoggModelActivity"
+            android:label="@string/title_activity_fogg_model"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.abc.myapplication.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
