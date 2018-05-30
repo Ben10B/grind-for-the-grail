@@ -3,6 +3,7 @@ package com.abc.myapplication;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class EventActivity extends AppCompatActivity {
     private Toolbar toolbar;
@@ -34,9 +36,11 @@ public class EventActivity extends AppCompatActivity {
 //        tabLayout = findViewById(R.id.tabs);
 //        tabLayout.setupWithViewPager(viewPager);
         int j = 1;
-        for(int i = 1; i <= 31; i++){
-            addButtons("May "+i+" 2018", j); j += 3;
+        for(int i = 1; i <= 31; i++) {
+            addButtons("May " + i + " 2018", j);
+            j += 3;
         }
+
     }
 
     private void addButtons(String date, int row_id) {
@@ -117,6 +121,11 @@ public class EventActivity extends AppCompatActivity {
                     Button b = findViewById(id-2);
                     b.setBackgroundColor(Color.argb(50, 88,88,88));
                     b.setTextColor(Color.argb(50, 0,0,0));
+                    Toast.makeText(EventActivity.this, R.string.yes_btn_clicked_text, Toast.LENGTH_LONG).show();
+        //          String snackBarText = getResources().getString(R.string.yes_btn_clicked_text);
+//                  LinearLayout snackBarLayout = findViewById(R.id.snackbar);
+//                  Snackbar mySnackbar = Snackbar.make(snackBarLayout, snackBarText, Snackbar.LENGTH_SHORT);
+
                 }
             }
         });
