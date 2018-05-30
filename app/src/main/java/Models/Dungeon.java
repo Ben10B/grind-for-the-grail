@@ -182,9 +182,10 @@ public class Dungeon {
             dates.add(temp);
             c.add(Calendar.DATE, 1);
             temp = new DungeonDate(c.getTime(), Status.Inactive);
-        } while (temp.getDate() != endDate);
+        } while (temp.getDate().getMonth() != endDate.getMonth() && temp.getDate().getDay() != endDate.getDay());
         return dates;
     }
+
 
     //Getters and Setters beyond this point
     public String getTitle() {
