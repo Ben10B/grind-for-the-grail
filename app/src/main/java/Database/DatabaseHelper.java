@@ -1,4 +1,4 @@
-package com.abc.myapplication;
+package Database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import com.abc.myapplication.DatabaseUserContract;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASENAME = "grail.db";
@@ -162,5 +164,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 DatabaseItemContract.ContractEntry.COST
         };
         return db.query(DatabaseItemContract.ContractEntry.TABLE_NAME,projections,null,null,null,null,null);
+    }
+    public void updateUser(String name, String email, SQLiteDatabase db){
+        ContentValues contentValues = new ContentValues();
     }
 }
