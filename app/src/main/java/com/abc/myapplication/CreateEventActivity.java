@@ -1,6 +1,7 @@
 package com.abc.myapplication;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import Database.DatabaseHelper;
+import Models.Dungeon;
 
 public class CreateEventActivity extends AppCompatActivity {
 
@@ -33,8 +35,9 @@ public class CreateEventActivity extends AppCompatActivity {
         String penalty = pT.getText().toString();
         String diff = button.getText().toString();
 
-        DatabaseHelper databaseHelper = new DatabaseHelper(this);
-//        databaseHelper.addDungeon(4, 7, diff, penalty,reward, "sex", "grreat sex", "null", );
+
+
+//        Dungeon newDungeon = new Dungeon(goal, 7, date);
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("GOAL", goal);
