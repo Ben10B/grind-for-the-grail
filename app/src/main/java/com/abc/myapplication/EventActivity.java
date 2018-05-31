@@ -18,16 +18,21 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public class EventActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private ViewPager viewPager;
     private ViewPagerAdapter adapter;
     private TabLayout tabLayout;
+    Date currentDate = Calendar.getInstance().getTime();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
+        Calendar incrementedDate = Calendar.getInstance();
 
 //        viewPager = findViewById(R.id.pager);
 //        adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -37,7 +42,9 @@ public class EventActivity extends AppCompatActivity {
 //        tabLayout.setupWithViewPager(viewPager);
         int j = 1;
         for(int i = 1; i <= 31; i++) {
-            addButtons("May " + i + " 2018", j);
+            incrementedDate.add(Calendar.DATE, i);
+            Date printedDate = incrementedDate.getTime();
+            addButtons(printedDate+"", j);
             j += 3;
         }
 
