@@ -1,4 +1,4 @@
-package com.abc.myapplication;
+package Database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -15,7 +15,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "(" + DatabaseUserContract.ContractEntry.NAME + " text primary key, " +
             DatabaseUserContract.ContractEntry.EMAIL + " text);";
     public static final String CREATE_TABLE_SPRITE = "create table " + DatabaseSpriteContract.ContractEntry.TABLE_NAME +
-            "(" + DatabaseSpriteContract.ContractEntry.MAXHEALTH + " number, " +
+            "(" + DatabaseSpriteContract.ContractEntry.SPRITEID + " number primary key, " +
+            DatabaseSpriteContract.ContractEntry.MAXHEALTH + " number, " +
             DatabaseSpriteContract.ContractEntry.EXP + " number, " +
             DatabaseSpriteContract.ContractEntry.LEVEL + " number, " +
             DatabaseSpriteContract.ContractEntry.GOLD + " gold);";
@@ -35,7 +36,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             DatabaseDungeonDatesContract.ContractEntry.DATE + " text, " +
             DatabaseDungeonDatesContract.ContractEntry.STATUS + " text);";
     public static final String CREATE_TABLE_ITEM = "create table " + DatabaseItemContract.ContractEntry.TABLE_NAME +
-            "(" + DatabaseItemContract.ContractEntry.ITEMNAME + " text, " +
+            "(" + DatabaseItemContract.ContractEntry.ITEMID + " number primary key, " +
+            DatabaseItemContract.ContractEntry.ITEMNAME + " text, " +
             DatabaseItemContract.ContractEntry.COST + " number);";
     public static final String DROP_TABLE_USER = "drop table if exists " + DatabaseUserContract.ContractEntry.TABLE_NAME;
     public static final String DROP_TABLE_SPRITE = "drop table if exists " + DatabaseSpriteContract.ContractEntry.TABLE_NAME;
@@ -126,6 +128,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
     public Cursor readSprites(SQLiteDatabase db){
         String[] projections = {
+                DatabaseSpriteContract.ContractEntry.SPRITEID,
                 DatabaseSpriteContract.ContractEntry.MAXHEALTH,
                 DatabaseSpriteContract.ContractEntry.LEVEL,
                 DatabaseSpriteContract.ContractEntry.LEVEL,
@@ -158,9 +161,60 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
     public Cursor readItems(SQLiteDatabase db){
         String[] projections = {
+                DatabaseItemContract.ContractEntry.ITEMID,
                 DatabaseItemContract.ContractEntry.ITEMNAME,
                 DatabaseItemContract.ContractEntry.COST
         };
         return db.query(DatabaseItemContract.ContractEntry.TABLE_NAME,projections,null,null,null,null,null);
+    }
+    public void updateUser(String name, String email, SQLiteDatabase db){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DatabaseUserContract.ContractEntry.NAME, name);
+        contentValues.put(DatabaseUserContract.ContractEntry.EMAIL, email);
+
+        String selection = DatabaseUserContract.ContractEntry.NAME + " = " + name;
+        db.update(DatabaseUserContract.ContractEntry.TABLE_NAME, contentValues, selection, null);
+    }
+    public void updateSpite(int spriteid,int maxhealth, int exp, int level, int gold, SQLiteDatabase db){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DatabaseSpriteContract.ContractEntry.MAXHEALTH, maxhealth);
+        contentValues.put(DatabaseSpriteContract.ContractEntry.EXP, exp);
+        contentValues.put(DatabaseSpriteContract.ContractEntry.LEVEL, level);
+        contentValues.put(DatabaseSpriteContract.ContractEntry.GOLD, gold);
+
+        String selection = DatabaseSpriteContract.ContractEntry.SPRITEID + " = " + spriteid;
+        db.update(DatabaseSpriteContract.ContractEntry.TABLE_NAME, contentValues, selection, null);
+    }
+    public void updateDungeon(int dungeonid, int maxhealth, int health, String difficulty, String regularpenalty, String regularreward,
+                              String ultimatefailure, String ultimatereward , String heromode, SQLiteDatabase db){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DatabaseDungeonContract.ContractEntry.MAXHEALTH, maxhealth);
+        contentValues.put(DatabaseDungeonContract.ContractEntry.HEALTH, health);
+        contentValues.put(DatabaseDungeonContract.ContractEntry.DIFFICULTY, difficulty);
+        contentValues.put(DatabaseDungeonContract.ContractEntry.REGULARPENALTY, regularpenalty);
+        contentValues.put(DatabaseDungeonContract.ContractEntry.REGULARREWARD, regularreward);
+        contentValues.put(DatabaseDungeonContract.ContractEntry.ULTIMATEFAILURE, ultimatefailure);
+        contentValues.put(DatabaseDungeonContract.ContractEntry.ULTIMATEREWARD, ultimatereward);
+        contentValues.put(DatabaseDungeonContract.ContractEntry.HEROMODE, heromode);
+
+        String selection = DatabaseDungeonContract.ContractEntry.DUNGEONID + " = " + dungeonid;
+        db.update(DatabaseDungeonContract.ContractEntry.TABLE_NAME, contentValues, selection, null);
+    }
+    public void updateDungeonDates(int dateid,int dungeonid, String date, String status, SQLiteDatabase db){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DatabaseDungeonDatesContract.ContractEntry.DUNGEONID, dungeonid);
+        contentValues.put(DatabaseDungeonDatesContract.ContractEntry.DATE, date);
+        contentValues.put(DatabaseDungeonDatesContract.ContractEntry.STATUS, status);
+
+        String selection = DatabaseDungeonDatesContract.ContractEntry.DATEID + " = " + dateid;
+        db.update(DatabaseDungeonDatesContract.ContractEntry.TABLE_NAME, contentValues, selection, null);
+    }
+    public void updateItems(int itemid,String itemname, int cost, SQLiteDatabase db){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DatabaseItemContract.ContractEntry.ITEMNAME, itemname);
+        contentValues.put(DatabaseItemContract.ContractEntry.COST, cost);
+
+        String selection = DatabaseItemContract.ContractEntry.ITEMID + " = " + itemid;
+        db.update(DatabaseItemContract.ContractEntry.TABLE_NAME, contentValues, selection, null);
     }
 }

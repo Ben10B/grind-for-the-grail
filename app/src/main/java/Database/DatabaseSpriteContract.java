@@ -1,9 +1,10 @@
-package com.abc.myapplication;
+package Database;
 
 public final class DatabaseSpriteContract {
     DatabaseSpriteContract(){}
     public static class ContractEntry {
         public static final String TABLE_NAME = "sprite";
+        public static final String SPRITEID = "sprite_id";
         public static final String MAXHEALTH = "max_health";
         public static final String EXP = "exp";
         public static final String LEVEL = "level";

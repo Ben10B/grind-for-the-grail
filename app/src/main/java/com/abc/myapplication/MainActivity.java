@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import java.util.Date;
 
+import Database.DatabaseHelper;
 import Models.Dungeon;
 import Models.User;
 
@@ -57,7 +58,9 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        userDungeons();
+        createTestDungeons();
+        addUserDungeons();
+//        userDungeons();
     }
 
     private void userDungeons() {
@@ -214,5 +217,9 @@ public class MainActivity extends AppCompatActivity
                 linearLayout.addView(btnShow2);
             }
         }
+    }
+
+    private void loadUser(){
+        //DatabaseHelper dbh = new DatabaseHelper();
     }
 }
