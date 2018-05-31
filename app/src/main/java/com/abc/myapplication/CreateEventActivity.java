@@ -8,6 +8,8 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import Database.DatabaseHelper;
+
 public class CreateEventActivity extends AppCompatActivity {
 
 
@@ -36,8 +38,9 @@ public class CreateEventActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("GOAL", goal);
-
-        startActivity(intent);
-        finish();
+//        if(goal.length() == 0){
+            startActivity(intent);
+            finish();
+//        }
     }
 }
