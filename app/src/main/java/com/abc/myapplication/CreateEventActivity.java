@@ -9,6 +9,8 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import java.util.Date;
+
 import Database.DatabaseHelper;
 import Models.Dungeon;
 
@@ -35,9 +37,17 @@ public class CreateEventActivity extends AppCompatActivity {
         String penalty = pT.getText().toString();
         String diff = button.getText().toString();
 
+        int year = Integer.parseInt(date.substring(0, 3));
+        int month = Integer.parseInt(date.substring(5, 6));
+        int day = Integer.parseInt(date.substring(8, 9));
 
+        Date date1 = new Date(year, month, day);
+        Dungeon newDungeon = new Dungeon(goal, 7, date1);
 
-//        Dungeon newDungeon = new Dungeon(goal, 7, date);
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        SQLiteDatabase database = databaseHelper.getWritableDatabase();
+        databaseHelper.addDungeon(4, 7, diff, penalty,reward, "sex", "grreat sex", "OFF", database);
+        databaseHelper.close();
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("GOAL", goal);
