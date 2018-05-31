@@ -8,6 +8,8 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import Database.DatabaseHelper;
+
 public class CreateEventActivity extends AppCompatActivity {
 
 
