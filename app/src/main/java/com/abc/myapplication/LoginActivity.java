@@ -29,6 +29,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,6 +94,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+    }
+    public void register(View view){
+//        startActivity(new Intent(this, GreetingActivity.class));
+//        finish();
+        //Toast.makeText(LoginActivity.this,"fsafas", Toast.LENGTH_LONG).show();
     }
 
     private void populateAutoComplete() {
