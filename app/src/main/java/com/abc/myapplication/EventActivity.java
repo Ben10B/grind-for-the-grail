@@ -40,17 +40,21 @@ public class EventActivity extends AppCompatActivity {
 //
 //        tabLayout = findViewById(R.id.tabs);
 //        tabLayout.setupWithViewPager(viewPager);
-        int j = 1;
+        int id = 1;
         for(int i = 1; i <= 31; i++) {
             incrementedDate.add(Calendar.DATE, i);
             Date printedDate = incrementedDate.getTime();
-            addButtons(printedDate+"", j);
-            j += 3;
+            if(i > 1) {
+                addButtons(printedDate + "", id, "yet");
+            }else{
+                addButtons(printedDate+"", id, "came");
+            }
+            id += 3;
         }
 
     }
 
-    private void addButtons(String date, int row_id) {
+    private void addButtons(String date, int row_id, String has) {
         //Row Container
         TableRow tableRow = new TableRow(this);
         tableRow.setGravity(Gravity.CENTER);
@@ -88,6 +92,8 @@ public class EventActivity extends AppCompatActivity {
         yesBtn.setTextColor(Color.WHITE);
         yesBtn.setTypeface(null, Typeface.BOLD);
         yesBtn.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+
 
         // Add Button to Row Container
         tableRow.addView(noBtn);
@@ -131,11 +137,15 @@ public class EventActivity extends AppCompatActivity {
                     b.setTextColor(Color.argb(50, 0,0,0));
 
                     Toast.makeText(EventActivity.this, R.string.yes_btn_clicked_text, Toast.LENGTH_SHORT).show();
-
-
-
                 }
             }
         });
+        if(has.equals("yet")){
+            noBtn.setClickable(false);
+            yesBtn.setClickable(false);
+            noBtn.setBackgroundColor(Color.argb(50, 88,88,88));
+            yesBtn.setBackgroundColor(Color.argb(50, 88,88,88));
+            textView.setBackgroundColor(Color.argb(50, 88,88,88));
+        }
     }
 }
