@@ -1,6 +1,7 @@
 package com.abc.myapplication;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,8 +13,11 @@ import android.widget.RadioGroup;
 import java.util.Date;
 
 import Database.DatabaseHelper;
+import Database.DatabaseSpriteContract;
+import Database.DatabaseUserContract;
 import Models.Difficulty;
 import Models.Dungeon;
+import Models.User;
 
 public class CreateEventActivity extends AppCompatActivity {
 
@@ -43,15 +47,21 @@ public class CreateEventActivity extends AppCompatActivity {
         int day = Integer.parseInt(date.substring(8, 9));
 
         Date date1 = new Date(year, month, day);
+
 //        Dungeon newDungeon = new Dungeon(goal, 7, date1, "grreat sex", reward, "sex", penalty, Difficulty.None, false);
 //
-//        DatabaseHelper databaseHelper = new DatabaseHelper(this);
-//        SQLiteDatabase database = databaseHelper.getWritableDatabase();
-//        databaseHelper.addDungeon(4, 7, diff, penalty,reward, "sex", "grreat sex", "OFF", database);
-//        databaseHelper.close();
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        Cursor spriteCursor = databaseHelper.readAllSprites(databaseHelper.getReadableDatabase());
+        spriteCursor.moveToFirst();
+        int maxhealth = spriteCursor.getInt(spriteCursor.getColumnIndex(DatabaseSpriteContract.ContractEntry.MAXHEALTH));
+        spriteCursor.close();
+        SQLiteDatabase database = databaseHelper.getWritableDatabase();
+        databaseHelper.addDungeon(goal,maxhealth, maxhealth, diff, penalty,reward, "sex", "grreat sex", null, database);
+        databaseHelper.close();
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("GOAL", goal);
+        
 //        if(goal.length() == 0){
             startActivity(intent);
             finish();

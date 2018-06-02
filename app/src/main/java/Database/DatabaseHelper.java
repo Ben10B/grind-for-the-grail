@@ -279,7 +279,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String selection = DatabaseItemContract.ContractEntry.ITEMID + " = " + itemid;
         db.delete(DatabaseItemContract.ContractEntry.TABLE_NAME, selection, null);
     }
-    public User generateUserFromDatatabase (){
+    public User generateUserFromDatatabase(){
         Cursor userCursor = readAllUsers(this.getReadableDatabase());
         String username = userCursor.getString(userCursor.getColumnIndex(DatabaseUserContract.ContractEntry.NAME));
         String email = userCursor.getString(userCursor.getColumnIndex(DatabaseUserContract.ContractEntry.EMAIL));
@@ -321,7 +321,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 String ultimatepenalty = dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.ULTIMATEFAILURE));
                 String ultimatereward = dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.ULTIMATEREWARD));
 
-                Dungeon dungeon = new Dungeon(dungeonname,maxhealth,health,ultimatereward,regularreward,ultimatepenalty,regularpenalty,dungeonDateList.toArray(new DungeonDate[dungeonDateList.size()]), Difficulty.valueOf(difficulty));
+                Dungeon dungeon = new Dungeon(dungeonname,maxhealthdungeon,health,ultimatereward,regularreward,ultimatepenalty,regularpenalty,dungeonDateList.toArray(new DungeonDate[dungeonDateList.size()]), Difficulty.valueOf(difficulty));
                 dungeonList.add(dungeon);
                 dungeonCursor.moveToNext();
             }
