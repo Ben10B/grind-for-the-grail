@@ -10,14 +10,8 @@ import java.util.Date;
 import Database.DatabaseHelper;
 
 public class User implements Parcelable{
-    public User(String username, String email, Sprite sprite, Dungeon[] dungeons) {
-        this.username = username;
-        this.email = email;
-        this.sprite = sprite;
-        this.dungeons = dungeons;
-    }
-
     private String username;
+
     private String email; //<<stretch>>
     private Sprite sprite;
     private Dungeon[] dungeons;
@@ -31,8 +25,9 @@ public class User implements Parcelable{
         }
     };
 
-    public User(String username, String password) {
+    public User(String username, String email) {
         this.username = username;
+        this.email = email;
         this.dungeons = new Dungeon[5];
         this.sprite = new Sprite(username);
     }
@@ -44,6 +39,13 @@ public class User implements Parcelable{
         Object[] ar = in.readArray(Dungeon.class.getClassLoader());
         this.dungeons = Arrays.copyOf(ar,ar.length,Dungeon[].class);
         //TODO This might break!
+    }
+
+    public User(String username, String email, Sprite sprite, Dungeon[] dungeons) {
+        this.username = username;
+        this.email = email;
+        this.sprite = sprite;
+        this.dungeons = dungeons;
     }
 
     public void addDungeon(String title, Date endDate){
