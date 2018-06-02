@@ -12,9 +12,9 @@ public class GreetingActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        DatabaseHelper dbhelper = new DatabaseHelper(this);
-        Cursor cursor = dbhelper.readAllUsers(dbhelper.getReadableDatabase());
-        if(cursor.getCount() >= 1){
+//        DatabaseHelper dbhelper = new DatabaseHelper(this);
+//        Cursor cursor = dbhelper.readAllUsers(dbhelper.getReadableDatabase());
+//        if(cursor.getCount() >= 1){
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_greeting);
 //        } else {

@@ -7,11 +7,15 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import Models.Difficulty;
 import Models.Dungeon;
 import Models.DungeonDate;
 import Models.Sprite;
+import Models.Status;
 import Models.User;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -275,13 +279,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String username = userCursor.getString(userCursor.getColumnIndex(DatabaseUserContract.ContractEntry.NAME));
         String email = userCursor.getString(userCursor.getColumnIndex(DatabaseUserContract.ContractEntry.EMAIL));
         userCursor.close();
-        User user = new User();
+
         Cursor spriteCursor = readAllDungeons(this.getReadableDatabase());
         int maxhealth = spriteCursor.getInt(spriteCursor.getColumnIndex(DatabaseSpriteContract.ContractEntry.MAXHEALTH));
         int level = spriteCursor.getInt(spriteCursor.getColumnIndex(DatabaseSpriteContract.ContractEntry.LEVEL));
         int exp = spriteCursor.getInt(spriteCursor.getColumnIndex(DatabaseSpriteContract.ContractEntry.EXP));
         int gold = spriteCursor.getInt(spriteCursor.getColumnIndex(DatabaseSpriteContract.ContractEntry.GOLD));
-        Sprite sprite = new Sprite();
+        Sprite sprite = new Sprite("",maxhealth,exp,level,gold,null);
         spriteCursor.close();
         Cursor dungeonCursor = readAllDungeons(this.getReadableDatabase());
         ArrayList<Dungeon> dungeonList = new ArrayList<Dungeon>();
@@ -294,9 +298,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     while (!dungeonDatesCursor.isAfterLast()) {
                         String date = dungeonDatesCursor.getString(dungeonDatesCursor.getColumnIndex(DatabaseDungeonDatesContract.ContractEntry.DATE));
                         String status = dungeonDatesCursor.getString(dungeonDatesCursor.getColumnIndex(DatabaseDungeonDatesContract.ContractEntry.STATUS));
-                        DungeonDate dungeonDate = new DungeonDate();
-                        dungeonDateList.add(dungeonDate);
-                        dungeonDatesCursor.moveToNext();
+                        try {
+                            DungeonDate dungeonDate = new DungeonDate(new SimpleDateFormat("yyyy-mm-dd jj:mm:ss").parse(date), Status.valueOf(status));
+                            dungeonDateList.add(dungeonDate);
+                            dungeonDatesCursor.moveToNext();
+                        } catch(ParseException e){ }
                     }
                 }
                 dungeonDatesCursor.close();
@@ -309,13 +315,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 String ultimatepenalty = dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.ULTIMATEFAILURE));
                 String ultimatereward = dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.ULTIMATEREWARD));
 
-                Dungeon dungeon = new Dungeon();
+                Dungeon dungeon = new Dungeon("",maxhealth,health,ultimatereward,regularreward,ultimatepenalty,regularpenalty,dungeonDateList.toArray(new DungeonDate[dungeonDateList.size()]), Difficulty.valueOf(difficulty));
                 dungeonList.add(dungeon);
                 dungeonCursor.moveToNext();
             }
         }
         dungeonCursor.close();
-
+        User user = new User(username,email,sprite,dungeonList.toArray(new Dungeon[dungeonList.size()]));
 
         return user;
     }
