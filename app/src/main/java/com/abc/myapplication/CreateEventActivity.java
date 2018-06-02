@@ -43,12 +43,12 @@ public class CreateEventActivity extends AppCompatActivity {
         int day = Integer.parseInt(date.substring(8, 9));
 
         Date date1 = new Date(year, month, day);
-        Dungeon newDungeon = new Dungeon(goal, 7, date1, "grreat sex", reward, "sex", penalty, Difficulty.None, false);
-
-        DatabaseHelper databaseHelper = new DatabaseHelper(this);
-        SQLiteDatabase database = databaseHelper.getWritableDatabase();
-        databaseHelper.addDungeon(4, 7, diff, penalty,reward, "sex", "grreat sex", "OFF", database);
-        databaseHelper.close();
+//        Dungeon newDungeon = new Dungeon(goal, 7, date1, "grreat sex", reward, "sex", penalty, Difficulty.None, false);
+//
+//        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+//        SQLiteDatabase database = databaseHelper.getWritableDatabase();
+//        databaseHelper.addDungeon(4, 7, diff, penalty,reward, "sex", "grreat sex", "OFF", database);
+//        databaseHelper.close();
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("GOAL", goal);

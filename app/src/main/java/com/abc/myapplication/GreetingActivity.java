@@ -12,18 +12,17 @@ public class GreetingActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        DatabaseHelper dbhelper = new DatabaseHelper(this);
-//        Cursor cursor = dbhelper.readAllUsers(dbhelper.getReadableDatabase());
-//        if(cursor.getCount() >= 1){
+        DatabaseHelper dbhelper = new DatabaseHelper(this);
+        Cursor cursor = dbhelper.readAllUsers(dbhelper.getReadableDatabase());
+        if(cursor.getCount() >= 1){
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_greeting);
-//        } else {
-//            super.onCreate(savedInstanceState);
-//            setContentView(R.layout.activity_register);
-//            startActivity(new Intent(this, RegisterActivity.class));
-//            finish();
-//        }
-
+        } else {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_register);
+            startActivity(new Intent(this, RegisterActivity.class));
+            finish();
+        }
     }
     public void goToDashboard(View view){
         Intent intent = new Intent(GreetingActivity.this, MainActivity.class);
