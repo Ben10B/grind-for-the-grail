@@ -16,12 +16,12 @@ public class RegisterActivity extends AppCompatActivity {
     }
     public void register(View view){
         EditText username = findViewById(R.id.username);
-        EditText password = findViewById(R.id.password);
+        EditText mail = findViewById(R.id.email);
 
         String name = username.getText().toString();
-        String pass = password.getText().toString();
+        String email = mail.getText().toString();
 
-        if(!name.equals("") && !pass.equals("")){
+        if(!name.equals("") && !email.equals("")){
             //Add username and password to database
 
             //Redirect user to GreetingActivity
