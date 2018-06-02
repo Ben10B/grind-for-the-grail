@@ -20,7 +20,9 @@ public class GreetingActivity extends AppCompatActivity {
             setContentView(R.layout.activity_greeting);
         } else {
             super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_login);
+            setContentView(R.layout.activity_register);
+            startActivity(new Intent(this, RegisterActivity.class));
+            finish();
         }
 
     }
