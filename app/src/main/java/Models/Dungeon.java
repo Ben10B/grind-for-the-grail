@@ -228,7 +228,7 @@ public class Dungeon implements Parcelable{
             c.add(Calendar.DATE, 1);
             temp = new DungeonDate(c.getTime(), Status.Inactive);
         } while (temp.getDate().getMonth() != endDate.getMonth() && temp.getDate().getDay() != endDate.getDay());
-        DungeonDate[] output = dates.toArray(new DungeonDate[0]);
+        DungeonDate[] output = dates.toArray(new DungeonDate[dates.size()]);
         return output;
     }
 

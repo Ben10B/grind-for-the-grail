@@ -9,16 +9,8 @@ import java.util.List;
 
 public class Sprite implements Parcelable{
 
-    public Sprite(String name, int maxHealth, int exp, int level, int gold, List<SpriteObject> items) {
-        this.name = name;
-        this.maxHealth = maxHealth;
-        this.exp = exp;
-        this.level = level;
-        this.gold = gold;
-        this.items = items;
-    }
-
     private String name;//<<stretch>>
+
     private int maxHealth;
     private int exp;
     private int level;
@@ -33,7 +25,6 @@ public class Sprite implements Parcelable{
             return new Sprite[size];
         }
     };
-
     public Sprite(Parcel in){
         this.name = in.readString();
         this.maxHealth = in.readInt();
@@ -72,6 +63,15 @@ public class Sprite implements Parcelable{
         this.level = level;
         this.gold = 0;
         this.items = new ArrayList<SpriteObject>();
+    }
+
+    public Sprite(String name, int maxHealth, int exp, int level, int gold, List<SpriteObject> items) {
+        this.name = name;
+        this.maxHealth = maxHealth;
+        this.exp = exp;
+        this.level = level;
+        this.gold = gold;
+        this.items = items;
     }
 
     public void levelUp(int overflow) {
