@@ -44,6 +44,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.abc.myapplication.MainActivity" />
         </activity>
+        <activity android:name=".CreditsActivity"
+            android:label="@string/credits_title">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.abc.myapplication.MainActivity"> </meta-data>
+        </activity>
         <activity android:name=".RegisterActivity"
             android:label="Register"></activity>
     </application>
