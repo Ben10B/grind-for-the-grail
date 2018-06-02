@@ -5,6 +5,7 @@ public final class DatabaseDungeonContract {
     public static class ContractEntry {
         public static final String TABLE_NAME = "dungeon";
         public static final String DUNGEONID = "dungeon_id";
+        public static final String NAME = "dungeon_name";
         public static final String MAXHEALTH = "max_health";
         public static final String HEALTH = "health";
         public static final String ULTIMATEREWARD = "ultimate_reward";
