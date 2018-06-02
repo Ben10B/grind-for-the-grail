@@ -33,10 +33,10 @@ public class RegisterActivity extends AppCompatActivity {
             Sprite userSprite = user.getSprite();
             databaseHelper.addSprite(userSprite.getMaxHealth(),userSprite.getExp(),userSprite.getLevel(),userSprite.getGold(),databaseHelper.getWritableDatabase());
 //            //Redirect user to GreetingActivity
-            Intent intent = new Intent(this, GreetingActivity.class);
-            intent.putExtra("USER", user);
-            startActivity(intent);
-//            startActivity(new Intent(this, GreetingActivity.class));
+//            Intent intent = new Intent(this, GreetingActivity.class);
+//            intent.putExtra("USER", user);
+//            startActivity(intent);
+            startActivity(new Intent(this, GreetingActivity.class));
             finish();
         }
         else{
