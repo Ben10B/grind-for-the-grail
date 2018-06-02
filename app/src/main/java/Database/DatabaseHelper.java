@@ -217,4 +217,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String selection = DatabaseItemContract.ContractEntry.ITEMID + " = " + itemid;
         db.update(DatabaseItemContract.ContractEntry.TABLE_NAME, contentValues, selection, null);
     }
+    public void deleteUser(String name, SQLiteDatabase db){
+        String selection = DatabaseUserContract.ContractEntry.NAME + " = " + name;
+        db.delete(DatabaseUserContract.ContractEntry.TABLE_NAME, selection, null);
+    }
+    public void deleteSprite(String spriteid, SQLiteDatabase db){
+        String selection = DatabaseSpriteContract.ContractEntry.SPRITEID + " = " + spriteid;
+        db.delete(DatabaseSpriteContract.ContractEntry.TABLE_NAME, selection, null);
+    }
+    public void deleteDungeon(int dungeonid, SQLiteDatabase db){
+        String selection = DatabaseDungeonContract.ContractEntry.DUNGEONID + " = " + dungeonid;
+        db.delete(DatabaseDungeonContract.ContractEntry.TABLE_NAME, selection, null);
+    }
+    public void deleteDungeonDate(int dateid, SQLiteDatabase db){
+        String selection = DatabaseDungeonDatesContract.ContractEntry.DATEID + " = " + dateid;
+        db.delete(DatabaseDungeonDatesContract.ContractEntry.TABLE_NAME, selection, null);
+    }
+    public void deleteItem(int itemid, SQLiteDatabase db){
+        String selection = DatabaseItemContract.ContractEntry.ITEMID + " = " + itemid;
+        db.delete(DatabaseItemContract.ContractEntry.TABLE_NAME, selection, null);
+    }
 }
