@@ -61,6 +61,7 @@ public class CreateEventActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("GOAL", goal);
+        
 //        if(goal.length() == 0){
             startActivity(intent);
             finish();
