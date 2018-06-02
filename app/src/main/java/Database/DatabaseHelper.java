@@ -33,6 +33,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             DatabaseSpriteContract.ContractEntry.GOLD + " gold);";
     public static final String CREATE_TABLE_DUNGEON = "create table " + DatabaseDungeonContract.ContractEntry.TABLE_NAME +
             "(" + DatabaseDungeonContract.ContractEntry.DUNGEONID + " number primary key, " +
+            DatabaseDungeonContract.ContractEntry.NAME + " text, " +
             DatabaseDungeonContract.ContractEntry.MAXHEALTH + " number, " +
             DatabaseDungeonContract.ContractEntry.HEALTH + " number, " +
             DatabaseDungeonContract.ContractEntry.DIFFICULTY + " text, " +
@@ -101,9 +102,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert(DatabaseSpriteContract.ContractEntry.TABLE_NAME,null,contentValues);
         Log.d("Database", "One row inserted in " + DatabaseSpriteContract.ContractEntry.TABLE_NAME);
     }
-    public void addDungeon(int maxhealth, int health, String difficulty, String regularpenalty, String regularreward,
+    public void addDungeon(String name,int maxhealth, int health, String difficulty, String regularpenalty, String regularreward,
                            String ultimatefailure, String ultimatereward , String heromode, SQLiteDatabase db){
         ContentValues contentValues = new ContentValues();
+        contentValues.put(DatabaseDungeonContract.ContractEntry.NAME, name);
         contentValues.put(DatabaseDungeonContract.ContractEntry.MAXHEALTH, maxhealth);
         contentValues.put(DatabaseDungeonContract.ContractEntry.HEALTH, health);
         contentValues.put(DatabaseDungeonContract.ContractEntry.DIFFICULTY, difficulty);
@@ -150,6 +152,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor readAllDungeons(SQLiteDatabase db){
         String[] projections = {
                 DatabaseDungeonContract.ContractEntry.DUNGEONID,
+                DatabaseDungeonContract.ContractEntry.NAME,
                 DatabaseDungeonContract.ContractEntry.MAXHEALTH,
                 DatabaseDungeonContract.ContractEntry.HEALTH,
                 DatabaseDungeonContract.ContractEntry.DIFFICULTY,
@@ -164,6 +167,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor readDungeon(int dungeonid, SQLiteDatabase db){
         String[] projections = {
                 DatabaseDungeonContract.ContractEntry.DUNGEONID,
+                DatabaseDungeonContract.ContractEntry.NAME,
                 DatabaseDungeonContract.ContractEntry.MAXHEALTH,
                 DatabaseDungeonContract.ContractEntry.HEALTH,
                 DatabaseDungeonContract.ContractEntry.DIFFICULTY,
@@ -222,9 +226,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String selection = DatabaseSpriteContract.ContractEntry.SPRITEID + " = " + spriteid;
         db.update(DatabaseSpriteContract.ContractEntry.TABLE_NAME, contentValues, selection, null);
     }
-    public void updateDungeon(int dungeonid, int maxhealth, int health, String difficulty, String regularpenalty, String regularreward,
+    public void updateDungeon(int dungeonid, String name, int maxhealth, int health, String difficulty, String regularpenalty, String regularreward,
                               String ultimatefailure, String ultimatereward , String heromode, SQLiteDatabase db){
         ContentValues contentValues = new ContentValues();
+        contentValues.put(DatabaseDungeonContract.ContractEntry.NAME, name);
         contentValues.put(DatabaseDungeonContract.ContractEntry.MAXHEALTH, maxhealth);
         contentValues.put(DatabaseDungeonContract.ContractEntry.HEALTH, health);
         contentValues.put(DatabaseDungeonContract.ContractEntry.DIFFICULTY, difficulty);
@@ -280,7 +285,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String email = userCursor.getString(userCursor.getColumnIndex(DatabaseUserContract.ContractEntry.EMAIL));
         userCursor.close();
 
-        Cursor spriteCursor = readAllDungeons(this.getReadableDatabase());
+        Cursor spriteCursor = readAllSprites(this.getReadableDatabase());
         int maxhealth = spriteCursor.getInt(spriteCursor.getColumnIndex(DatabaseSpriteContract.ContractEntry.MAXHEALTH));
         int level = spriteCursor.getInt(spriteCursor.getColumnIndex(DatabaseSpriteContract.ContractEntry.LEVEL));
         int exp = spriteCursor.getInt(spriteCursor.getColumnIndex(DatabaseSpriteContract.ContractEntry.EXP));
@@ -306,6 +311,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     }
                 }
                 dungeonDatesCursor.close();
+                String dungeonname = dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.NAME));
                 int maxhealthdungeon = dungeonCursor.getInt(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.MAXHEALTH));
                 int health = dungeonCursor.getInt(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.HEALTH));
                 String difficulty = dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.DIFFICULTY));
@@ -315,7 +321,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 String ultimatepenalty = dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.ULTIMATEFAILURE));
                 String ultimatereward = dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.ULTIMATEREWARD));
 
-                Dungeon dungeon = new Dungeon("",maxhealth,health,ultimatereward,regularreward,ultimatepenalty,regularpenalty,dungeonDateList.toArray(new DungeonDate[dungeonDateList.size()]), Difficulty.valueOf(difficulty));
+                Dungeon dungeon = new Dungeon(dungeonname,maxhealth,health,ultimatereward,regularreward,ultimatepenalty,regularpenalty,dungeonDateList.toArray(new DungeonDate[dungeonDateList.size()]), Difficulty.valueOf(difficulty));
                 dungeonList.add(dungeon);
                 dungeonCursor.moveToNext();
             }
