@@ -7,6 +7,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.ArrayList;
+
+import Models.Dungeon;
+import Models.DungeonDate;
+import Models.Sprite;
+import Models.User;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASENAME = "grail.db";
     public static final int DATABASEVERSION = 1;
@@ -119,14 +126,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert(DatabaseItemContract.ContractEntry.TABLE_NAME,null,contentValues);
         Log.d("Database", "One row inserted in " + DatabaseItemContract.ContractEntry.TABLE_NAME);
     }
-    public Cursor readUsers(SQLiteDatabase db){
+    public Cursor readAllUsers(SQLiteDatabase db){
         String[] projections = {
                 DatabaseUserContract.ContractEntry.NAME,
                 DatabaseUserContract.ContractEntry.EMAIL
         };
         return db.query(DatabaseUserContract.ContractEntry.TABLE_NAME,projections,null,null,null,null,null);
     }
-    public Cursor readSprites(SQLiteDatabase db){
+    public Cursor readAllSprites(SQLiteDatabase db){
         String[] projections = {
                 DatabaseSpriteContract.ContractEntry.SPRITEID,
                 DatabaseSpriteContract.ContractEntry.MAXHEALTH,
@@ -136,7 +143,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         };
         return db.query(DatabaseSpriteContract.ContractEntry.TABLE_NAME,projections,null,null,null,null,null);
     }
-    public Cursor readDungeons(SQLiteDatabase db){
+    public Cursor readAllDungeons(SQLiteDatabase db){
         String[] projections = {
                 DatabaseDungeonContract.ContractEntry.DUNGEONID,
                 DatabaseDungeonContract.ContractEntry.MAXHEALTH,
@@ -150,7 +157,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         };
         return db.query(DatabaseDungeonContract.ContractEntry.TABLE_NAME,projections,null,null,null,null,null);
     }
-    public Cursor readDungeonDates(SQLiteDatabase db){
+    public Cursor readDungeon(int dungeonid, SQLiteDatabase db){
+        String[] projections = {
+                DatabaseDungeonContract.ContractEntry.DUNGEONID,
+                DatabaseDungeonContract.ContractEntry.MAXHEALTH,
+                DatabaseDungeonContract.ContractEntry.HEALTH,
+                DatabaseDungeonContract.ContractEntry.DIFFICULTY,
+                DatabaseDungeonContract.ContractEntry.REGULARPENALTY,
+                DatabaseDungeonContract.ContractEntry.REGULARREWARD,
+                DatabaseDungeonContract.ContractEntry.ULTIMATEFAILURE,
+                DatabaseDungeonContract.ContractEntry.ULTIMATEREWARD,
+                DatabaseDungeonContract.ContractEntry.HEROMODE
+        };
+        String selection = DatabaseDungeonContract.ContractEntry.DUNGEONID + " = " + dungeonid;
+        return db.query(DatabaseDungeonContract.ContractEntry.TABLE_NAME,projections,selection,null,null,null,null);
+    }
+
+    public Cursor readAllDungeonDates(SQLiteDatabase db){
         String[] projections = {
                 DatabaseDungeonDatesContract.ContractEntry.DATEID,
                 DatabaseDungeonDatesContract.ContractEntry.DUNGEONID,
@@ -159,7 +182,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         };
         return db.query(DatabaseDungeonDatesContract.ContractEntry.TABLE_NAME,projections,null,null,null,null,null);
     }
-    public Cursor readItems(SQLiteDatabase db){
+    public Cursor readDungeonDatesByDungeon(int dungeonid, SQLiteDatabase db){
+        String[] projections = {
+                DatabaseDungeonDatesContract.ContractEntry.DATEID,
+                DatabaseDungeonDatesContract.ContractEntry.DUNGEONID,
+                DatabaseDungeonDatesContract.ContractEntry.DATE,
+                DatabaseDungeonDatesContract.ContractEntry.STATUS
+        };
+        String selection = DatabaseDungeonDatesContract.ContractEntry.DUNGEONID + " = " + dungeonid;
+        return db.query(DatabaseDungeonDatesContract.ContractEntry.TABLE_NAME,projections,selection,null,null,null,null);
+    }
+    public Cursor readAllItems(SQLiteDatabase db){
         String[] projections = {
                 DatabaseItemContract.ContractEntry.ITEMID,
                 DatabaseItemContract.ContractEntry.ITEMNAME,
@@ -236,5 +269,54 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void deleteItem(int itemid, SQLiteDatabase db){
         String selection = DatabaseItemContract.ContractEntry.ITEMID + " = " + itemid;
         db.delete(DatabaseItemContract.ContractEntry.TABLE_NAME, selection, null);
+    }
+    public User generateUserFromDatatabase (){
+        Cursor userCursor = readAllUsers(this.getReadableDatabase());
+        String username = userCursor.getString(userCursor.getColumnIndex(DatabaseUserContract.ContractEntry.NAME));
+        String email = userCursor.getString(userCursor.getColumnIndex(DatabaseUserContract.ContractEntry.EMAIL));
+        userCursor.close();
+        User user = new User();
+        Cursor spriteCursor = readAllDungeons(this.getReadableDatabase());
+        int maxhealth = spriteCursor.getInt(spriteCursor.getColumnIndex(DatabaseSpriteContract.ContractEntry.MAXHEALTH));
+        int level = spriteCursor.getInt(spriteCursor.getColumnIndex(DatabaseSpriteContract.ContractEntry.LEVEL));
+        int exp = spriteCursor.getInt(spriteCursor.getColumnIndex(DatabaseSpriteContract.ContractEntry.EXP));
+        int gold = spriteCursor.getInt(spriteCursor.getColumnIndex(DatabaseSpriteContract.ContractEntry.GOLD));
+        Sprite sprite = new Sprite();
+        spriteCursor.close();
+        Cursor dungeonCursor = readAllDungeons(this.getReadableDatabase());
+        ArrayList<Dungeon> dungeonList = new ArrayList<Dungeon>();
+        if (dungeonCursor.moveToFirst()){
+            while(!dungeonCursor.isAfterLast()){
+                int dungeonid = dungeonCursor.getInt(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.DUNGEONID));
+                Cursor dungeonDatesCursor = readDungeonDatesByDungeon(dungeonid,this.getReadableDatabase());
+                ArrayList<DungeonDate> dungeonDateList = new ArrayList<DungeonDate>();
+                if (dungeonDatesCursor.moveToFirst()) {
+                    while (!dungeonDatesCursor.isAfterLast()) {
+                        String date = dungeonDatesCursor.getString(dungeonDatesCursor.getColumnIndex(DatabaseDungeonDatesContract.ContractEntry.DATE));
+                        String status = dungeonDatesCursor.getString(dungeonDatesCursor.getColumnIndex(DatabaseDungeonDatesContract.ContractEntry.STATUS));
+                        DungeonDate dungeonDate = new DungeonDate();
+                        dungeonDateList.add(dungeonDate);
+                        dungeonDatesCursor.moveToNext();
+                    }
+                }
+                dungeonDatesCursor.close();
+                int maxhealthdungeon = dungeonCursor.getInt(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.MAXHEALTH));
+                int health = dungeonCursor.getInt(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.HEALTH));
+                String difficulty = dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.DIFFICULTY));
+                String heromode = dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.HEROMODE));
+                String regularpenalty = dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.REGULARPENALTY));
+                String regularreward = dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.REGULARREWARD));
+                String ultimatepenalty = dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.ULTIMATEFAILURE));
+                String ultimatereward = dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.ULTIMATEREWARD));
+
+                Dungeon dungeon = new Dungeon();
+                dungeonList.add(dungeon);
+                dungeonCursor.moveToNext();
+            }
+        }
+        dungeonCursor.close();
+
+
+        return user;
     }
 }
