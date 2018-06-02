@@ -28,7 +28,7 @@ public class User implements Parcelable{
     public User(String username, String email) {
         this.username = username;
         this.email = email;
-        this.dungeons = new Dungeon[5];
+        this.dungeons = new Dungeon[0];
         this.sprite = new Sprite(username);
     }
 
