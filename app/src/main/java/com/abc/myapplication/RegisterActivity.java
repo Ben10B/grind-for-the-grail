@@ -7,6 +7,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import Database.DatabaseHelper;
+import Models.Sprite;
+import Models.User;
+
 public class RegisterActivity extends AppCompatActivity {
 
     @Override
@@ -23,9 +27,16 @@ public class RegisterActivity extends AppCompatActivity {
 
         if(!name.equals("") && !email.equals("")){
             //Add username and password to database
-
-            //Redirect user to GreetingActivity
-            startActivity(new Intent(this, GreetingActivity.class));
+            User user = new User(name,email);
+            DatabaseHelper databaseHelper = new DatabaseHelper(this);
+            databaseHelper.addUser(user.getUsername(),user.getEmail(),databaseHelper.getWritableDatabase());
+            Sprite userSprite = user.getSprite();
+            databaseHelper.addSprite(userSprite.getMaxHealth(),userSprite.getExp(),userSprite.getLevel(),userSprite.getGold(),databaseHelper.getWritableDatabase());
+//            //Redirect user to GreetingActivity
+            Intent intent = new Intent(this, GreetingActivity.class);
+            intent.putExtra("USER", user);
+            startActivity(intent);
+//            startActivity(new Intent(this, GreetingActivity.class));
             finish();
         }
         else{
