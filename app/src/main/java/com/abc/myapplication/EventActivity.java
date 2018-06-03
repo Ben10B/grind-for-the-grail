@@ -19,6 +19,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -44,7 +45,6 @@ public class EventActivity extends AppCompatActivity {
         Toast.makeText(this, dungeonTitle, Toast.LENGTH_SHORT).show();
         dungeon = user.getDungeonByTitle(dungeonTitle);
         setContentView(R.layout.activity_event);
-        Calendar incrementedDate = Calendar.getInstance();
 
 //        viewPager = findViewById(R.id.pager);
 //        adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -53,24 +53,21 @@ public class EventActivity extends AppCompatActivity {
 //        tabLayout = findViewById(R.id.tabs);
 //        tabLayout.setupWithViewPager(viewPager);
 
-//        DungeonDate[] dates = dungeon.getDungeonDates();
+        ArrayList<DungeonDate> dates = dungeon.getDungeonDates();
         int id = 1;
-//        for (int i = 1; i < dates.length; i++) {
-        for(int i = 1; i <= 31; i++) {
-            incrementedDate.add(Calendar.DATE, 1);
-            Date printedDate = incrementedDate.getTime();
-//            Date printedDate = dates[i].getDate();
+        for (int i = 0; i < dates.size(); i++) {
+            Date printedDate = dates.get(i).getDate();
             if(i > 1) {
-                addButtons(printedDate + "", id, "yet");
+                addButtons(printedDate, id, "yet");
             }else{
-                addButtons(printedDate+"", id, "came");
+                addButtons(printedDate, id, "came");
             }
             id += 3;
         }
 
     }
 
-    private void addButtons(String date, int row_id, String has) {
+    private void addButtons(Date date, int row_id, String has) {
         //Row Container
         TableRow tableRow = new TableRow(this);
         tableRow.setGravity(Gravity.CENTER);
@@ -91,7 +88,7 @@ public class EventActivity extends AppCompatActivity {
 
         //Text Date
         TextView textView = new TextView(this);
-        textView.setText(date);
+        textView.setText(date.toString());
         textView.setId((row_id+1));
         textView.setEms(10);
         textView.setBackgroundColor(Color.BLACK);
