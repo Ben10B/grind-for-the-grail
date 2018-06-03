@@ -22,6 +22,7 @@ import android.widget.Toast;
 import java.util.Calendar;
 import java.util.Date;
 
+import Models.Difficulty;
 import Models.Dungeon;
 import Models.DungeonDate;
 import Models.User;
@@ -151,6 +152,9 @@ public class EventActivity extends AppCompatActivity {
                     Button b = findViewById(id-2);
                     b.setBackgroundColor(Color.argb(50, 88,88,88));
                     b.setTextColor(Color.argb(50, 0,0,0));
+                    Difficulty difficulty = dungeon.getDifficulty();
+//                    dungeon.completeDay( ,user.getSprite(), );
+
 
                     Toast.makeText(EventActivity.this, R.string.yes_btn_clicked_text, Toast.LENGTH_SHORT).show();
                 }
