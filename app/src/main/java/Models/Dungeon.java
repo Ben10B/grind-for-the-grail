@@ -199,7 +199,7 @@ public class Dungeon implements Serializable{// Parcelable{
      * @param date - Date of the desired DungeonDate
      * @return - Matching DungeonDate
      */
-    public int getDungeonDateIndexByDate(Date date) {
+    private int getDungeonDateIndexByDate(Date date) {
         int index = 0;
 //        DungeonDate output = null;
         ArrayList<DungeonDate> dates = getDungeonDates();
