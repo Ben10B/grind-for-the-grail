@@ -31,9 +31,9 @@
     <string name="punishmentInput">Enter Punishment (optional)</string>
     <string name="endDateInput">End Date YYYY/MM/DD</string>
     <string name="diffTextView">Choose Difficulty</string>
-    <string name="easyRadioBtn">Easy</string>
-    <string name="mediumRadioBtn">Medium</string>
-    <string name="hardRadioBtn">Hard</string>
+    <string name="easyRadioBtn">Squire</string>
+    <string name="mediumRadioBtn">Knight</string>
+    <string name="hardRadioBtn">Grail</string>
     <string name="title_activity_event">EventActivity</string>
 
     <!-- TODO: Remove or change this placeholder text -->
