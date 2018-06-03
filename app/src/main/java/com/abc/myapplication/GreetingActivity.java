@@ -16,7 +16,6 @@ public class GreetingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         DatabaseHelper dbhelper = new DatabaseHelper(this);
         Cursor cursor = dbhelper.readAllUsers(dbhelper.getReadableDatabase());
-//        Intent intent = getIntent();
         if(cursor.getCount() >= 1){
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_greeting);
@@ -26,12 +25,9 @@ public class GreetingActivity extends AppCompatActivity {
             setContentView(R.layout.activity_register);
             startActivity(new Intent(this, RegisterActivity.class));
             finish();
-
-    }
+        }
     }
     public void goToDashboard(View view){
-        Toast.makeText(this, "ij", Toast.LENGTH_LONG).show();
-//        Intent intent = new Intent(GreetingActivity.this, MainActivity.class);
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }

@@ -75,6 +75,18 @@ public class User implements Parcelable{
         setDungeons(newArr);
     }
 
+    public Dungeon getDungeonByTitle(String title){
+        Dungeon output = null;
+        Dungeon[] d = getDungeons();
+        for(int i = 0; i < d.length; i++){
+            if (d[i].getTitle() == title){
+                output = d[i];
+                break;
+            }
+        }
+        return output;
+    }
+
     @Override
     public int describeContents() {
         return 0;
