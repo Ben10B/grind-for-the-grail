@@ -169,9 +169,8 @@ public class MainActivity extends AppCompatActivity
 //        createTestDungeons();
         LinearLayout linearLayout = findViewById(R.id.dungeonContainer);
         Intent intent = getIntent();
-        Button btnShow = new Button(this);
         for(Dungeon d : user.getDungeons()){
-            btnShow = new Button(this);
+            final Button btnShow = new Button(this);
             btnShow.setText(d.getTitle());
             btnShow.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             btnShow.setOnClickListener(new View.OnClickListener() {
@@ -179,11 +178,12 @@ public class MainActivity extends AppCompatActivity
                 public void onClick(View v) {
                     Toast.makeText(MainActivity.this, "Dungeon Screen", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(MainActivity.this, EventActivity.class);
+                    intent.putExtra("NAME", btnShow.getText());
+//                    intent.putExtra("USER", user);
                     startActivity(intent);
                 }
             });
             linearLayout.addView(btnShow);
-
         }
         // Create Button Dynamically at Runtime
 
