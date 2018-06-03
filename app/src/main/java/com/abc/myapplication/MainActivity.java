@@ -141,28 +141,13 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if(id == R.id.nav_account){
-
-        }else if(id == R.id.nav_sprite){
-
+            startActivity(new Intent(this, ProfileActivity.class));
         }else if(id == R.id.nav_modelInfo){
             startActivity(new Intent(this, FoggModelActivity.class));
         }
         else if(id == R.id.credits){
             startActivity(new Intent(this, CreditsActivity.class));
         }
-//        if (id == R.id.nav_camera) {
-//            // Handle the camera action
-//        } else if (id == R.id.nav_gallery) {
-//
-//        } else if (id == R.id.nav_slideshow) {
-//
-//        } else if (id == R.id.nav_manage) {
-//
-//        } else if (id == R.id.nav_share) {
-//
-//        } else if (id == R.id.nav_send) {
-//
-//        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

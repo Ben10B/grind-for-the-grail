@@ -9,10 +9,6 @@
             android:icon="@drawable/ic_profile"
             android:title="Account" />
         <item
-            android:id="@+id/nav_sprite"
-            android:icon="@drawable/ic_sprite"
-            android:title="Sprite" />
-        <item
             android:id="@+id/nav_modelInfo"
             android:icon="@drawable/ic_model_info"
             android:title="Fogg Model Info"

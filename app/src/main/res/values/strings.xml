@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Grind for the Grail Test</string>
+    <string name="app_name">Grind for the Grail</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -17,8 +17,8 @@
     <string name="title_activity_main">Dashboard</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title">Grind for the Grail</string>
+    <string name="nav_header_subtitle">A quest a day keeps hades away.</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string name="greetingButton">Enter</string>
@@ -62,4 +62,10 @@
     <string name="credits_title">Credits</string>
     <string name="credits_body">Images Provided by Vecteezy.com</string>
     <string name="title_activity_credits">CreditsActivity</string>
+    //-----------------------------------------------------------------------PROFILE STRINGS
+    <string name="profile_username">UserName</string>
+    <string name="profile_exp">Exp</string>
+    <string name="profile_level">Level</string>
+    <string name="profile_gold">Gold</string>
+    <string name="profile_email">Email</string>
 </resources>
