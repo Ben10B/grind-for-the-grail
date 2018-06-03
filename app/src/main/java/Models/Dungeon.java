@@ -108,7 +108,7 @@ public class Dungeon implements Serializable{// Parcelable{
         } else if(!isAlive && !getUltimatePenalty().isEmpty()) {
             penalty = getUltimatePenalty();
         }
-        String output = "You lost " + hpLost + " health!\n" + penalty;
+        String output = "- " + hpLost + " hp\n" + penalty;
         return output;
     }
 
@@ -153,7 +153,7 @@ public class Dungeon implements Serializable{// Parcelable{
         }
         sprite.addExp(exp);
         sprite.addGold(gold);
-        String output = "You earned " + gold + " gold!\nYou earned " + exp + " exp!\n" + reward;
+        String output = "+ " + gold + " gp + " + exp + " xp\n" + reward;
         return output;
     }
 
@@ -199,7 +199,7 @@ public class Dungeon implements Serializable{// Parcelable{
      * @param date - Date of the desired DungeonDate
      * @return - Matching DungeonDate
      */
-    public int getDungeonDateIndexByDate(Date date) {
+    private int getDungeonDateIndexByDate(Date date) {
         int index = 0;
 //        DungeonDate output = null;
         ArrayList<DungeonDate> dates = getDungeonDates();
