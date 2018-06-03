@@ -73,34 +73,34 @@ public class CreateEventActivity extends AppCompatActivity {
         } catch(Exception e){}
 
         if(!goal.equals("") && !diff.equals("") && endDate != null){
-//            DatabaseHelper databaseHelper = new DatabaseHelper(this);
-//            Cursor spriteCursor = databaseHelper.readAllSprites(databaseHelper.getReadableDatabase());
-//            spriteCursor.moveToFirst();
-//            int maxhealth = spriteCursor.getInt(spriteCursor.getColumnIndex(DatabaseSpriteContract.ContractEntry.MAXHEALTH));
-//            spriteCursor.close();
-//            SQLiteDatabase database = databaseHelper.getWritableDatabase();
-//            Dungeon dungeon = new Dungeon(goal,maxhealth,endDate,Difficulty.valueOf(diff));
-//            databaseHelper.addDungeon(goal,maxhealth, maxhealth, diff, penalty,reward, "", "", null, database);
-//            Cursor dungeonCursor = databaseHelper.readAllDungeons(databaseHelper.getReadableDatabase());
-//            int dungeonid = 0;
-//            if (dungeonCursor.moveToFirst()) {
-//                while (!dungeonCursor.isAfterLast()) {
-//                    if(dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.NAME)) == goal &&
-//                            dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.DIFFICULTY)) == diff &&
-//                            dungeonCursor.getInt(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.MAXHEALTH)) == maxhealth)
-//                        dungeonid = dungeonCursor.getInt(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.DUNGEONID));
-//                    dungeonCursor.moveToNext();
-//                }
-//            }
-//
-//            for (DungeonDate d : dungeon.getDungeonDates()) {
-//                DateFormat dateFormat = new SimpleDateFormat("mm-dd-yyyy hh:mm:ss");
-//                databaseHelper.addDungeonDate(dungeonid,dateFormat.format(d.getDate()),d.getStatus().toString(),databaseHelper.getWritableDatabase());
-//            }
-//            databaseHelper.close();
-//
-//            startActivity(new Intent(this, MainActivity.class));
-//            finish();
+            DatabaseHelper databaseHelper = new DatabaseHelper(this);
+            Cursor spriteCursor = databaseHelper.readAllSprites(databaseHelper.getReadableDatabase());
+            spriteCursor.moveToFirst();
+            int maxhealth = spriteCursor.getInt(spriteCursor.getColumnIndex(DatabaseSpriteContract.ContractEntry.MAXHEALTH));
+            spriteCursor.close();
+            SQLiteDatabase database = databaseHelper.getWritableDatabase();
+            Dungeon dungeon = new Dungeon(goal,maxhealth,endDate,Difficulty.valueOf(diff));
+            databaseHelper.addDungeon(goal,maxhealth, maxhealth, diff, penalty,reward, "", "", null, database);
+            Cursor dungeonCursor = databaseHelper.readAllDungeons(databaseHelper.getReadableDatabase());
+            int dungeonid = 0;
+            if (dungeonCursor.moveToFirst()) {
+                while (!dungeonCursor.isAfterLast()) {
+                    if(dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.NAME)) == goal &&
+                            dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.DIFFICULTY)) == diff &&
+                            dungeonCursor.getInt(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.MAXHEALTH)) == maxhealth)
+                        dungeonid = dungeonCursor.getInt(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.DUNGEONID));
+                    dungeonCursor.moveToNext();
+                }
+            }
+
+            for (DungeonDate d : dungeon.getDungeonDates()) {
+                DateFormat dateFormat = new SimpleDateFormat("mm-dd-yyyy hh:mm:ss");
+                databaseHelper.addDungeonDate(dungeonid,dateFormat.format(d.getDate()),d.getStatus().toString(),databaseHelper.getWritableDatabase());
+            }
+            databaseHelper.close();
+
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
         }else{
             Toast.makeText(this, "GOAL, DATE, & DIFFICULTY REQUIRED", Toast.LENGTH_LONG).show();
         }

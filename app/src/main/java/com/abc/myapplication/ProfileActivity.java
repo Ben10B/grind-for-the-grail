@@ -19,8 +19,6 @@ public class ProfileActivity extends AppCompatActivity {
         User user = databaseHelper.generateUserFromDatabase();
         databaseHelper.close();
         Sprite sprite = user.getSprite();
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
 
         String userExp = user.getSprite().getExp()+"";
         TextView expTextView = findViewById(R.id.profile_exp_textview);
@@ -37,6 +35,10 @@ public class ProfileActivity extends AppCompatActivity {
         String userEmail = user.getEmail();
         TextView emailTextView = findViewById(R.id.profile_email_textview);
         emailTextView.setText(userEmail);
+
+        String userName = user.getUsername();
+        TextView userNameTextView = findViewById(R.id.profile_username_textview);
+        userNameTextView.setText((userName));
 
     }
 }

@@ -7,6 +7,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import Database.DatabaseHelper;
 import Models.Sprite;
 import Models.User;
@@ -25,8 +28,15 @@ public class RegisterActivity extends AppCompatActivity {
         String name = username.getText().toString();
         String email = mail.getText().toString();
 
-        if(!name.equals("") && !email.equals("")){
-            //Add username and password to database
+        Matcher matcher = null;
+        try{
+            String regex = "^(.+)@(.+)$";
+            Pattern pattern = Pattern.compile(regex);
+            matcher = pattern.matcher(email);
+        }catch(Exception e){Toast.makeText(this,"INVALID EMAIL FORMAT", Toast.LENGTH_LONG).show();}
+
+        if(!name.equals("") && matcher.matches()){
+            //Add username and email to database
             User user = new User(name,email);
             DatabaseHelper databaseHelper = new DatabaseHelper(this);
             databaseHelper.addUser(user.getUsername(),user.getEmail(),databaseHelper.getWritableDatabase());
