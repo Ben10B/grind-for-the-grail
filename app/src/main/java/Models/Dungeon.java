@@ -3,25 +3,14 @@ package Models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
-public class Dungeon implements Parcelable{
-    public Dungeon(String title, int maxHealth, int currentHealth, String ultimateReward, String regReward, String ultimatePenalty, String regPenalty, DungeonDate[] dungeonDates, Difficulty difficulty) {
-        this.title = title;
-        this.maxHealth = maxHealth;
-        this.currentHealth = currentHealth;
-        this.ultimateReward = ultimateReward;
-        this.regReward = regReward;
-        this.ultimatePenalty = ultimatePenalty;
-        this.regPenalty = regPenalty;
-        this.dungeonDates = dungeonDates;
-        this.difficulty = difficulty;
-    }
-
+public class Dungeon implements Serializable{// Parcelable{
     private String title;
     private int maxHealth;
     private int currentHealth;
@@ -29,32 +18,33 @@ public class Dungeon implements Parcelable{
     private String regReward;// <<stretch>>
     private String ultimatePenalty;// <<stretch>>
     private String regPenalty;// <<stretch>>
-    private DungeonDate[] dungeonDates;// <<stretch>>
+//    private DungeonDate[] dungeonDates;// <<stretch>>
+    private ArrayList<DungeonDate> dungeonDates;// <<stretch>>
     private Difficulty difficulty;// <<stretch>>
-//    private boolean heroMode;// <<stretch>>
-    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
-        public Dungeon createFromParcel(Parcel in) {
-            return new Dungeon(in);
-        }
-
-        public Dungeon[] newArray(int size) {
-            return new Dungeon[size];
-        }
-    };
-
-    public Dungeon(Parcel in) {
-        this.title = in.readString();
-        this.maxHealth = in.readInt();
-        this.currentHealth = in.readInt();
-        this.ultimateReward = in.readString();
-        this.regReward = in.readString();
-        this.ultimatePenalty = in.readString();
-        this.regPenalty = in.readString();
-        Object[] arr = in.readArray(DungeonDate.class.getClassLoader());
-        this.dungeonDates = Arrays.copyOf(arr, arr.length,DungeonDate[].class);
-        this.difficulty = Difficulty.valueOf(in.readString());
-//        this.heroMode = in.read;
-    }
+    //    private boolean heroMode;// <<stretch>>
+//    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+//        public Dungeon createFromParcel(Parcel in) {
+//            return new Dungeon(in);
+//        }
+//
+//        public Dungeon[] newArray(int size) {
+//            return new Dungeon[size];
+//        }
+//    };
+//
+//    public Dungeon(Parcel in) {
+//        this.title = in.readString();
+//        this.maxHealth = in.readInt();
+//        this.currentHealth = in.readInt();
+//        this.ultimateReward = in.readString();
+//        this.regReward = in.readString();
+//        this.ultimatePenalty = in.readString();
+//        this.regPenalty = in.readString();
+//        Object[] arr = in.readArray(DungeonDate.class.getClassLoader());
+//        this.dungeonDates = Arrays.copyOf(arr, arr.length,DungeonDate[].class);
+//        this.difficulty = Difficulty.valueOf(in.readString());
+////        this.heroMode = in.read;
+//    }
 
     public Dungeon(String title, int maxHealth, Date endDate) {
         this.title = title;
@@ -94,10 +84,21 @@ public class Dungeon implements Parcelable{
         this.difficulty = difficulty;
 //        this.heroMode = heroMode;
     }
+    public Dungeon(String title, int maxHealth, int currentHealth, String ultimateReward, String regReward, String ultimatePenalty, String regPenalty, ArrayList<DungeonDate> dungeonDates, Difficulty difficulty) {
+        this.title = title;
+        this.maxHealth = maxHealth;
+        this.currentHealth = currentHealth;
+        this.ultimateReward = ultimateReward;
+        this.regReward = regReward;
+        this.ultimatePenalty = ultimatePenalty;
+        this.regPenalty = regPenalty;
+        this.dungeonDates = dungeonDates;
+        this.difficulty = difficulty;
+    }
 
     public String failDay(Date day) {
         String penalty = "";
-        DungeonDate failedDay = getDungeonDates()[getDungeonDateByDate(day)];
+        DungeonDate failedDay = getDungeonDates().get(getDungeonDateIndexByDate(day));
         failedDay.setStatus(Status.Failed);
         int hpLost = getHealthLost();
         currentHealth -= hpLost;
@@ -114,7 +115,7 @@ public class Dungeon implements Parcelable{
     public String completeDay(Date day, Sprite sprite) {
         String reward = "";
         Random rand = new Random();
-        DungeonDate completedDay = getDungeonDates()[getDungeonDateByDate(day)];
+        DungeonDate completedDay = getDungeonDates().get(getDungeonDateIndexByDate(day));
         completedDay.setStatus(Status.Completed);
         int exp = 0;
         int gold = rand.nextInt(10)+1;
@@ -137,16 +138,16 @@ public class Dungeon implements Parcelable{
             //gold = (length * 7-10)* diffMod
             switch (getDifficulty()) {
                 case Squire: case None:
-                    exp += (getDungeonDates().length * 1);
-                    gold += (getDungeonDates().length * rand.nextInt(4)+7)*1;
+                    exp += (getDungeonDates().size() * 1);
+                    gold += (getDungeonDates().size() * rand.nextInt(4)+7)*1;
                     break;
                 case Knight:
-                    exp += (getDungeonDates().length * 1.5);
-                    gold += (getDungeonDates().length * rand.nextInt(4)+7)*1.5;
+                    exp += (getDungeonDates().size() * 1.5);
+                    gold += (getDungeonDates().size() * rand.nextInt(4)+7)*1.5;
                     break;
                 case Grail:
-                    exp += (getDungeonDates().length * 2);
-                    gold += (getDungeonDates().length * rand.nextInt(4)+7)*2;
+                    exp += (getDungeonDates().size() * 2);
+                    gold += (getDungeonDates().size() * rand.nextInt(4)+7)*2;
                     break;
             }
         }
@@ -162,13 +163,13 @@ public class Dungeon implements Parcelable{
      */
     private int getHealthLost() {
         int healthLost = 1;
-        DungeonDate[] dates = getDungeonDates();
-        int index = getDungeonDateByDate(Calendar.getInstance().getTime());
+        ArrayList<DungeonDate> dates = getDungeonDates();
+        int index = getDungeonDateIndexByDate(Calendar.getInstance().getTime());
         if (index > 0) {
-            for (int i = index; i > dates.length; i--) {
-                if (dates[i].getStatus() != Status.Failed) {
+            for (int i = index; i > dates.size(); i--) {
+                if (dates.get(i).getStatus() != Status.Failed) {
                     break;
-                } else if (dates[i].getStatus() == Status.Failed) {
+                } else if (dates.get(i).getStatus() == Status.Failed) {
                     healthLost *= 2;
                 }
             }
@@ -182,7 +183,7 @@ public class Dungeon implements Parcelable{
      */
     private boolean isCompleted() {
         boolean output = true;
-        DungeonDate[] dates = getDungeonDates();
+        ArrayList<DungeonDate> dates = getDungeonDates();
         for (DungeonDate dDate : dates){
             if(dDate.getStatus() != Status.Completed && dDate.getStatus() != Status.Failed){
                 output = false;
@@ -198,12 +199,12 @@ public class Dungeon implements Parcelable{
      * @param date - Date of the desired DungeonDate
      * @return - Matching DungeonDate
      */
-    private int getDungeonDateByDate(Date date) {
+    private int getDungeonDateIndexByDate(Date date) {
         int index = 0;
 //        DungeonDate output = null;
-        DungeonDate[] dates = getDungeonDates();
-        for (int i = 0; i < dates.length; i++) {
-            if (dates[i].getDate() == date) {
+        ArrayList<DungeonDate> dates = getDungeonDates();
+        for (int i = 0; i < dates.size(); i++) {
+            if (dates.get(i).getDate() == date) {
 //                output = dates[i];
                 index = i;
                 break;
@@ -219,7 +220,7 @@ public class Dungeon implements Parcelable{
      * @param endDate - Date of the last day
      * @return - Collection of DungeonDates from current day to endDate
      */
-    private DungeonDate[] createDungeonDates(Date endDate){
+    private ArrayList<DungeonDate> createDungeonDates(Date endDate){
         ArrayList<DungeonDate> dates = new ArrayList<DungeonDate>();
         Calendar c = Calendar.getInstance();
         DungeonDate temp = new DungeonDate(c.getTime(), Status.Inactive);
@@ -228,28 +229,28 @@ public class Dungeon implements Parcelable{
             c.add(Calendar.DATE, 1);
             temp = new DungeonDate(c.getTime(), Status.Inactive);
         } while (temp.getDate().getMonth() != endDate.getMonth() && temp.getDate().getDay() != endDate.getDay());
-        DungeonDate[] output = dates.toArray(new DungeonDate[dates.size()]);
-        return output;
+//        DungeonDate[] output = dates.toArray(new DungeonDate[dates.size()]);
+        return dates;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(getTitle());
-        dest.writeInt(getMaxHealth());
-        dest.writeInt(getCurrentHealth());
-        dest.writeString(getUltimateReward());
-        dest.writeString(getRegReward());
-        dest.writeString(getUltimatePenalty());
-        dest.writeString(getRegPenalty());
-        dest.writeArray(getDungeonDates());
-        dest.writeString(getDifficulty().name());
-//        this.heroMode = in.read;
-    }
+//    @Override
+//    public int describeContents() {
+//        return 0;
+//    }
+//
+//    @Override
+//    public void writeToParcel(Parcel dest, int flags) {
+//        dest.writeString(getTitle());
+//        dest.writeInt(getMaxHealth());
+//        dest.writeInt(getCurrentHealth());
+//        dest.writeString(getUltimateReward());
+//        dest.writeString(getRegReward());
+//        dest.writeString(getUltimatePenalty());
+//        dest.writeString(getRegPenalty());
+//        dest.writeArray(getDungeonDates());
+//        dest.writeString(getDifficulty().name());
+////        this.heroMode = in.read;
+//    }
 
     //Getters and Setters beyond this point
 
@@ -309,11 +310,11 @@ public class Dungeon implements Parcelable{
         this.regPenalty = regPenalty;
     }
 
-    public DungeonDate[] getDungeonDates() {
+    public ArrayList<DungeonDate> getDungeonDates() {
         return dungeonDates;
     }
 
-    public void setDungeonDates(DungeonDate[] dungeonDates) {
+    public void setDungeonDates(ArrayList<DungeonDate> dungeonDates) {
         this.dungeonDates = dungeonDates;
     }
 

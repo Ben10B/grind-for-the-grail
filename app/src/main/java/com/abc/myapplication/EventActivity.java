@@ -24,6 +24,7 @@ import java.util.Date;
 
 import Models.Dungeon;
 import Models.DungeonDate;
+import Models.User;
 
 public class EventActivity extends AppCompatActivity {
     private Toolbar toolbar;
@@ -31,13 +32,17 @@ public class EventActivity extends AppCompatActivity {
     private ViewPagerAdapter adapter;
     private TabLayout tabLayout;
     Date currentDate = Calendar.getInstance().getTime();
+    private User user;
     private Dungeon dungeon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        dungeon = intent.getParcelableExtra("dungeon");
+        user = (User)intent.getSerializableExtra("user");
+        String dungeonTitle = intent.getStringExtra("dungeonTitle");
+        Toast.makeText(this, dungeonTitle, Toast.LENGTH_SHORT).show();
+        dungeon = user.getDungeonByTitle(dungeonTitle);
         setContentView(R.layout.activity_event);
         Calendar incrementedDate = Calendar.getInstance();
 
