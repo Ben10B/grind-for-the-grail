@@ -42,7 +42,7 @@ public class EventActivity extends AppCompatActivity {
 //        tabLayout.setupWithViewPager(viewPager);
         int id = 1;
         for(int i = 1; i <= 31; i++) {
-            incrementedDate.add(Calendar.DATE, i);
+            incrementedDate.add(Calendar.DATE, 1);
             Date printedDate = incrementedDate.getTime();
             if(i > 1) {
                 addButtons(printedDate + "", id, "yet");
