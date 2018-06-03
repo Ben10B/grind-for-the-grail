@@ -324,13 +324,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 String ultimatepenalty = dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.ULTIMATEFAILURE));
                 String ultimatereward = dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.ULTIMATEREWARD));
 
-                Dungeon dungeon = new Dungeon(dungeonname,maxhealthdungeon,health,ultimatereward,regularreward,ultimatepenalty,regularpenalty,dungeonDateList.toArray(new DungeonDate[dungeonDateList.size()]), Difficulty.valueOf(difficulty));
+//                Dungeon dungeon = new Dungeon(dungeonname,maxhealthdungeon,health,ultimatereward,regularreward,ultimatepenalty,regularpenalty,dungeonDateList.toArray(new DungeonDate[dungeonDateList.size()]), Difficulty.valueOf(difficulty));
+                Dungeon dungeon = new Dungeon(dungeonname,maxhealthdungeon,health,ultimatereward,regularreward,ultimatepenalty,regularpenalty,dungeonDateList, Difficulty.valueOf(difficulty));
                 dungeonList.add(dungeon);
                 dungeonCursor.moveToNext();
             }
         }
         dungeonCursor.close();
-        User user = new User(username,email,sprite,dungeonList.toArray(new Dungeon[dungeonList.size()]));
+//        User user = new User(username,email,sprite,dungeonList.toArray(new Dungeon[dungeonList.size()]));
+        User user = new User(username,email,sprite,dungeonList);
 
         return user;
     }

@@ -21,6 +21,7 @@ import android.widget.Toast;
 import java.util.Date;
 
 import Database.DatabaseHelper;
+import Models.Difficulty;
 import Models.Dungeon;
 import Models.User;
 
@@ -31,10 +32,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent received = getIntent();
-        String username = received.getStringExtra("username");
-        String password = received.getStringExtra("password");
-
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -160,13 +157,11 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void createTestDungeons(){
-        user.addDungeon("Test Dungeon 1", new Date(2018,6,7));
-        user.addDungeon("Test Dungeon 2", new Date(2018,6,28));
-
+        user.addDungeon("Test Dungeon 1", new Date(2018,6,7), Difficulty.Squire);
+        user.addDungeon("Test Dungeon 2", new Date(2018,6,28), Difficulty.Knight);
     }
 
     private void addUserDungeons(){
-//        createTestDungeons();
         LinearLayout linearLayout = findViewById(R.id.dungeonContainer);
         Intent intent = getIntent();
         for(Dungeon d : user.getDungeons()){
@@ -177,10 +172,10 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(MainActivity.this, "Dungeon Screen", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(MainActivity.this, EventActivity.class);
-                    intent.putExtra("NAME", btnShow.getText());
-//                    intent.putExtra("USER", user);
-                    startActivity(intent);
+                    Intent send = new Intent(MainActivity.this, EventActivity.class);
+                    send.putExtra("user", user);
+                    send.putExtra("dungeonTitle", btnShow.getText());
+                    startActivity(send);
                 }
             });
             linearLayout.addView(btnShow);
@@ -189,16 +184,16 @@ public class MainActivity extends AppCompatActivity
 
         final Button btnShow2 = new Button(this);
         String goal = intent.getStringExtra("GOAL");
-        btnShow2.setText("Dungeon: " + goal);
+        btnShow2.setText(goal);
         btnShow2.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         btnShow2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(MainActivity.this, "Dungeon Screen", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(MainActivity.this, EventActivity.class);
-                intent.putExtra("user", user);
-                intent.putExtra("dungeon", user.getDungeonByTitle(btnShow2.getText().toString()));
-                startActivity(intent);
+                Intent send = new Intent(MainActivity.this, EventActivity.class);
+                send.putExtra("user", user);
+                send.putExtra("dungeonTitle", btnShow2.getText());
+                startActivity(send);
             }
         });
 
