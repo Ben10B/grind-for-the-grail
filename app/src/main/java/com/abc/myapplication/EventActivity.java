@@ -68,7 +68,7 @@ public class EventActivity extends AppCompatActivity {
 
     }
 
-    private void addButtons(Date date, int row_id, String has) {
+    private void addButtons(final Date date, int row_id, String has) {
         //Row Container
         TableRow tableRow = new TableRow(this);
         tableRow.setGravity(Gravity.CENTER);
@@ -150,10 +150,10 @@ public class EventActivity extends AppCompatActivity {
                     b.setBackgroundColor(Color.argb(50, 88,88,88));
                     b.setTextColor(Color.argb(50, 0,0,0));
                     Difficulty difficulty = dungeon.getDifficulty();
-//                    dungeon.completeDay( ,user.getSprite(), );
+                    String rewardTitle = dungeon.completeDay(date ,user.getSprite());
 
 
-                    Toast.makeText(EventActivity.this, R.string.yes_btn_clicked_text, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EventActivity.this, rewardTitle, Toast.LENGTH_SHORT).show();
                 }
             }
         });
