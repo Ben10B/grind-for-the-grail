@@ -2,6 +2,8 @@ package com.abc.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -185,15 +187,17 @@ public class MainActivity extends AppCompatActivity
         }
         // Create Button Dynamically at Runtime
 
-        Button btnShow2 = new Button(this);
+        final Button btnShow2 = new Button(this);
         String goal = intent.getStringExtra("GOAL");
-        btnShow2.setText("Dungeon: " +goal);
+        btnShow2.setText("Dungeon: " + goal);
         btnShow2.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         btnShow2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(MainActivity.this, "Dungeon Screen", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(MainActivity.this, EventActivity.class);
+                intent.putExtra("user", user);
+                intent.putExtra("dungeon", user.getDungeonByTitle(btnShow2.getText().toString()));
                 startActivity(intent);
             }
         });
