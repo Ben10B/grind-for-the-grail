@@ -72,7 +72,7 @@ public class CreateEventActivity extends AppCompatActivity {
 
         } catch(Exception e){}
 
-        if(!goal.equals("") && !diff.equals("") && date != null){
+        if(!goal.equals("") && !diff.equals("") && endDate != null){
 //            DatabaseHelper databaseHelper = new DatabaseHelper(this);
 //            Cursor spriteCursor = databaseHelper.readAllSprites(databaseHelper.getReadableDatabase());
 //            spriteCursor.moveToFirst();
