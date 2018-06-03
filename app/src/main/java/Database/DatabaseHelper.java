@@ -144,7 +144,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 DatabaseSpriteContract.ContractEntry.SPRITEID,
                 DatabaseSpriteContract.ContractEntry.MAXHEALTH,
                 DatabaseSpriteContract.ContractEntry.LEVEL,
-                DatabaseSpriteContract.ContractEntry.LEVEL,
+                DatabaseSpriteContract.ContractEntry.EXP,
                 DatabaseSpriteContract.ContractEntry.GOLD
         };
         return db.query(DatabaseSpriteContract.ContractEntry.TABLE_NAME,projections,null,null,null,null,null);
@@ -279,13 +279,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String selection = DatabaseItemContract.ContractEntry.ITEMID + " = " + itemid;
         db.delete(DatabaseItemContract.ContractEntry.TABLE_NAME, selection, null);
     }
-    public User generateUserFromDatatabase(){
+    public User generateUserFromDatabase(){
         Cursor userCursor = readAllUsers(this.getReadableDatabase());
+        userCursor.moveToFirst();
         String username = userCursor.getString(userCursor.getColumnIndex(DatabaseUserContract.ContractEntry.NAME));
         String email = userCursor.getString(userCursor.getColumnIndex(DatabaseUserContract.ContractEntry.EMAIL));
         userCursor.close();
 
         Cursor spriteCursor = readAllSprites(this.getReadableDatabase());
+        spriteCursor.moveToFirst();
         int maxhealth = spriteCursor.getInt(spriteCursor.getColumnIndex(DatabaseSpriteContract.ContractEntry.MAXHEALTH));
         int level = spriteCursor.getInt(spriteCursor.getColumnIndex(DatabaseSpriteContract.ContractEntry.LEVEL));
         int exp = spriteCursor.getInt(spriteCursor.getColumnIndex(DatabaseSpriteContract.ContractEntry.EXP));
@@ -293,6 +295,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Sprite sprite = new Sprite("",maxhealth,exp,level,gold,null);
         spriteCursor.close();
         Cursor dungeonCursor = readAllDungeons(this.getReadableDatabase());
+        dungeonCursor.moveToFirst();
         ArrayList<Dungeon> dungeonList = new ArrayList<Dungeon>();
         if (dungeonCursor.moveToFirst()){
             while(!dungeonCursor.isAfterLast()){
@@ -304,7 +307,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         String date = dungeonDatesCursor.getString(dungeonDatesCursor.getColumnIndex(DatabaseDungeonDatesContract.ContractEntry.DATE));
                         String status = dungeonDatesCursor.getString(dungeonDatesCursor.getColumnIndex(DatabaseDungeonDatesContract.ContractEntry.STATUS));
                         try {
-                            DungeonDate dungeonDate = new DungeonDate(new SimpleDateFormat("yyyy-mm-dd jj:mm:ss").parse(date), Status.valueOf(status));
+                            DungeonDate dungeonDate = new DungeonDate(new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse(date), Status.valueOf(status));
                             dungeonDateList.add(dungeonDate);
                             dungeonDatesCursor.moveToNext();
                         } catch(ParseException e){ }

@@ -1,5 +1,6 @@
 package com.abc.myapplication;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
@@ -21,16 +22,22 @@ import android.widget.Toast;
 import java.util.Calendar;
 import java.util.Date;
 
+import Models.Dungeon;
+import Models.DungeonDate;
+
 public class EventActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private ViewPager viewPager;
     private ViewPagerAdapter adapter;
     private TabLayout tabLayout;
     Date currentDate = Calendar.getInstance().getTime();
+    private Dungeon dungeon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        dungeon = intent.getParcelableExtra("dungeon");
         setContentView(R.layout.activity_event);
         Calendar incrementedDate = Calendar.getInstance();
 
@@ -40,10 +47,14 @@ public class EventActivity extends AppCompatActivity {
 //
 //        tabLayout = findViewById(R.id.tabs);
 //        tabLayout.setupWithViewPager(viewPager);
+
+//        DungeonDate[] dates = dungeon.getDungeonDates();
         int id = 1;
+//        for (int i = 1; i < dates.length; i++) {
         for(int i = 1; i <= 31; i++) {
-            incrementedDate.add(Calendar.DATE, i);
+            incrementedDate.add(Calendar.DATE, 1);
             Date printedDate = incrementedDate.getTime();
+//            Date printedDate = dates[i].getDate();
             if(i > 1) {
                 addButtons(printedDate + "", id, "yet");
             }else{
