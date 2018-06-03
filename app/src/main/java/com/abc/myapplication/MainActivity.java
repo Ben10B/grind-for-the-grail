@@ -32,16 +32,14 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent received = getIntent();
+        String username = received.getStringExtra("username");
+        String password = received.getStringExtra("password");
+        this.user = new User(username,password);
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-//        Intent received = getIntent();
-//        String username = received.getStringExtra("username");
-//        String password = received.getStringExtra("password");
-        DatabaseHelper databaseHelper = new DatabaseHelper(this);
-        this.user = databaseHelper.generateUserFromDatatabase();
-        databaseHelper.close();
-
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -60,7 +58,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-//        createTestDungeons();
+        createTestDungeons();
         addUserDungeons();
 //        userDungeons();
     }
