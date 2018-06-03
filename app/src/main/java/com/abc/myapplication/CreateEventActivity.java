@@ -40,27 +40,32 @@ public class CreateEventActivity extends AppCompatActivity {
         String date = dT.getText().toString();
         String reward = rT.getText().toString();
         String penalty = pT.getText().toString();
-        String diff = button.getText().toString();
 
-        int year = Integer.parseInt(date.substring(0, 3));
-        int month = Integer.parseInt(date.substring(5, 6));
-        int day = Integer.parseInt(date.substring(8, 9));
+        Date date1;
+        try{
+            String diff = button.getText().toString();
+            int year = Integer.parseInt(date.substring(0, 3));
+            int month = Integer.parseInt(date.substring(5, 6));
+            int day = Integer.parseInt(date.substring(8, 9));
 
-        Date date1 = new Date(year, month, day);
+            date1 = new Date(year, month, day);
+        } catch(Exception e){}
+
 
 //        Dungeon newDungeon = new Dungeon(goal, 7, date1, "grreat sex", reward, "sex", penalty, Difficulty.None, false);
-//
-        DatabaseHelper databaseHelper = new DatabaseHelper(this);
-        Cursor spriteCursor = databaseHelper.readAllSprites(databaseHelper.getReadableDatabase());
-        spriteCursor.moveToFirst();
-        int maxhealth = spriteCursor.getInt(spriteCursor.getColumnIndex(DatabaseSpriteContract.ContractEntry.MAXHEALTH));
-        spriteCursor.close();
-        SQLiteDatabase database = databaseHelper.getWritableDatabase();
-        databaseHelper.addDungeon(goal,maxhealth, maxhealth, diff, penalty,reward, "sex", "grreat sex", null, database);
-        databaseHelper.close();
+////
+//        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+//        Cursor spriteCursor = databaseHelper.readAllSprites(databaseHelper.getReadableDatabase());
+//        spriteCursor.moveToFirst();
+//        int maxhealth = spriteCursor.getInt(spriteCursor.getColumnIndex(DatabaseSpriteContract.ContractEntry.MAXHEALTH));
+//        spriteCursor.close();
+//        SQLiteDatabase database = databaseHelper.getWritableDatabase();
+//        databaseHelper.addDungeon(goal,maxhealth, maxhealth, diff, penalty,reward, "sex", "grreat sex", null, database);
+//        databaseHelper.close();
 
         Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("GOAL", goal);
+//        intent.putExtra("GOAL", goal);
+
 //        if(goal.length() == 0){
             startActivity(intent);
             finish();

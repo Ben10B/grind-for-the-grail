@@ -18,8 +18,6 @@ public class GreetingActivity extends AppCompatActivity {
         Cursor cursor = dbhelper.readAllUsers(dbhelper.getReadableDatabase());
 //        Intent intent = getIntent();
         if(cursor.getCount() >= 1){
-//            DatabaseHelper dungeonHelper = new DatabaseHelper(this);
-//            User user = dungeonHelper.generateUserFromDatatabase();
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_greeting);
         } else {
