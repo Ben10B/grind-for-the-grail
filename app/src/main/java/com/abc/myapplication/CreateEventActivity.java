@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import Database.DatabaseDungeonContract;
+import Database.DatabaseDungeonDatesContract;
 import Database.DatabaseHelper;
 import Database.DatabaseSpriteContract;
 import Database.DatabaseUserContract;
@@ -98,6 +99,7 @@ public class CreateEventActivity extends AppCompatActivity {
                     dungeonCursor.moveToNext();
                 }
             }
+            databaseHelper.addDungeon(dungeonid,goal,maxhealth, maxhealth, diff, penalty,reward, "", "", null, database);
 
             for (DungeonDate d : dungeon.getDungeonDates()) {
                 DateFormat dateFormat = new SimpleDateFormat("mm-dd-yyyy hh:mm:ss");

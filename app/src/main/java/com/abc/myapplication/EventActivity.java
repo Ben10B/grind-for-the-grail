@@ -1,20 +1,21 @@
 package com.abc.myapplication;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.ColorDrawable;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +24,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import Database.DatabaseHelper;
+import Database.DatabaseSpriteContract;
 import Models.Difficulty;
 import Models.Dungeon;
 import Models.DungeonDate;
@@ -46,6 +49,11 @@ public class EventActivity extends AppCompatActivity {
         String dungeonTitle = intent.getStringExtra("dungeonTitle");
         dungeon = user.getDungeonByTitle(dungeonTitle);
         setContentView(R.layout.activity_event);
+
+        //Progress Bar Dynamic Stuff
+        ProgressBar progressBar = findViewById(R.id.dungeon_health_progress_bar);
+        progressBar.setMax(dungeon.getMaxHealth());
+        progressBar.setProgress(dungeon.getCurrentHealth());
 
 //        viewPager = findViewById(R.id.pager);
 //        adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -84,7 +92,7 @@ public class EventActivity extends AppCompatActivity {
         noBtn.setText("NO");
         noBtn.setId(row_id);
         noBtn.setBackgroundColor(Color.RED);
-//        noBtn.setBackgroundResource(R.drawable.benlogo);
+        noBtn.setBackgroundResource(R.drawable.ic_action_name);
         noBtn.setTextColor(Color.WHITE);
         noBtn.setTypeface(null, Typeface.BOLD);
         noBtn.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -105,6 +113,7 @@ public class EventActivity extends AppCompatActivity {
         yesBtn.setText("YES");
         yesBtn.setId((row_id+2));
         yesBtn.setBackgroundColor(Color.GREEN);
+        yesBtn.setBackgroundResource(R.drawable.ic_check);
         yesBtn.setTextColor(Color.WHITE);
         yesBtn.setTypeface(null, Typeface.BOLD);
         yesBtn.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -138,6 +147,7 @@ public class EventActivity extends AppCompatActivity {
                     Difficulty difficulty = dungeon.getDifficulty();
                     String failMessage = dungeon.failDay(date);
                     Toast.makeText(EventActivity.this, failMessage, Toast.LENGTH_SHORT).show();
+
                 }
             }
         });
@@ -156,6 +166,17 @@ public class EventActivity extends AppCompatActivity {
                     b.setTextColor(Color.argb(50, 0,0,0));
                     Difficulty difficulty = dungeon.getDifficulty();
                     String rewardTitle = dungeon.completeDay(date ,user.getSprite());
+
+                    DatabaseHelper databaseHelper = new DatabaseHelper(EventActivity.this);
+                    Cursor spriteCursor = databaseHelper.readAllSprites(databaseHelper.getReadableDatabase());
+                    spriteCursor.moveToFirst();
+
+                    databaseHelper.updateSprite(1,
+                            user.getSprite().getMaxHealth(),user.getSprite().getExp(),user.getSprite().getLevel(), user.getSprite().getGold(),
+                            databaseHelper.getWritableDatabase());
+                    spriteCursor.close();
+                    databaseHelper.close();
+                    Log.d("INFO", user.getSprite().getExp() + "Experience");
                     Toast.makeText(EventActivity.this, rewardTitle, Toast.LENGTH_SHORT).show();
                 }
             }
