@@ -146,12 +146,14 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
     public void createEvent(View view){
-        startActivity(new Intent(this, CreateEventActivity.class));
+        Intent intent = new Intent(this, CreateEventActivity.class);
+        intent.putExtra("user", user);
+        startActivity(intent);
     }
 
     private void createTestDungeons(){
-        user.addDungeon("Test Dungeon 1", new Date(2018,6,7), Difficulty.Squire);
-        user.addDungeon("Test Dungeon 2", new Date(2018,6,28), Difficulty.Knight);
+        user.addDungeon("Test Dungeon 1", new Date(2018,9,26), Difficulty.Squire);
+        user.addDungeon("Test Dungeon 2", new Date(2018,5,7), Difficulty.Knight);
     }
 
     private void addUserDungeons(){
