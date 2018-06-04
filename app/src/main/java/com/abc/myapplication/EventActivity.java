@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -157,6 +158,7 @@ public class EventActivity extends AppCompatActivity {
                     b.setTextColor(Color.argb(50, 0,0,0));
                     Difficulty difficulty = dungeon.getDifficulty();
                     String rewardTitle = dungeon.completeDay(date ,user.getSprite());
+                    Log.d("INFO", user.getSprite().getExp() + "Experience");
                     Toast.makeText(EventActivity.this, rewardTitle, Toast.LENGTH_SHORT).show();
                 }
             }
