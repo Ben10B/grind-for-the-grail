@@ -311,7 +311,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         String date = dungeonDatesCursor.getString(dungeonDatesCursor.getColumnIndex(DatabaseDungeonDatesContract.ContractEntry.DATE));
                         String status = dungeonDatesCursor.getString(dungeonDatesCursor.getColumnIndex(DatabaseDungeonDatesContract.ContractEntry.STATUS));
                         try {
-                            DungeonDate dungeonDate = new DungeonDate(new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse(date), Status.valueOf(status));
+                            DungeonDate dungeonDate = new DungeonDate(new SimpleDateFormat("mm-dd-yyyy hh:mm:ss").parse(date), Status.valueOf(status));
                             dungeonDateList.add(dungeonDate);
                             dungeonDatesCursor.moveToNext();
                         } catch(ParseException e){ }

@@ -26,12 +26,6 @@ public class User implements Serializable{
 
     public void addDungeon(String title, Date endDate, Difficulty d){
         Dungeon temp = new Dungeon(title, sprite.getMaxHealth(), endDate, d);
-//        Dungeon[] oldArr = getDungeons();
-////        Dungeon[] newArr = new Dungeon[oldArr.length + 1];
-////        for(int i = 0; i < oldArr.length; i++){
-////            newArr[i] = oldArr[i];
-////        }
-////        newArr[oldArr.length] = temp;
         ArrayList<Dungeon> arr = getDungeons();
         arr.add(temp);
         setDungeons(arr);
