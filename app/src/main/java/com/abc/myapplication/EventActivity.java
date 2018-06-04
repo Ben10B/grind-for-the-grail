@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,6 +50,11 @@ public class EventActivity extends AppCompatActivity {
         Toast.makeText(this, dungeonTitle, Toast.LENGTH_SHORT).show();
         dungeon = user.getDungeonByTitle(dungeonTitle);
         setContentView(R.layout.activity_event);
+
+        //Progress Bar Dynamic Stuff
+        ProgressBar progressBar = findViewById(R.id.dungeon_health_progress_bar);
+        progressBar.setMax(dungeon.getMaxHealth());
+        progressBar.setProgress(dungeon.getCurrentHealth());
 
 //        viewPager = findViewById(R.id.pager);
 //        adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -87,7 +93,7 @@ public class EventActivity extends AppCompatActivity {
         noBtn.setText("NO");
         noBtn.setId(row_id);
         noBtn.setBackgroundColor(Color.RED);
-//        noBtn.setBackgroundResource(R.drawable.benlogo);
+        noBtn.setBackgroundResource(R.drawable.ic_action_name);
         noBtn.setTextColor(Color.WHITE);
         noBtn.setTypeface(null, Typeface.BOLD);
         noBtn.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -108,6 +114,7 @@ public class EventActivity extends AppCompatActivity {
         yesBtn.setText("YES");
         yesBtn.setId((row_id+2));
         yesBtn.setBackgroundColor(Color.GREEN);
+        yesBtn.setBackgroundResource(R.drawable.ic_check);
         yesBtn.setTextColor(Color.WHITE);
         yesBtn.setTypeface(null, Typeface.BOLD);
         yesBtn.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -141,6 +148,7 @@ public class EventActivity extends AppCompatActivity {
                     Difficulty difficulty = dungeon.getDifficulty();
                     String failMessage = dungeon.failDay(date);
                     Toast.makeText(EventActivity.this, failMessage, Toast.LENGTH_SHORT).show();
+
                 }
             }
         });
