@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.EventLog;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -24,6 +25,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import Database.DatabaseDungeonContract;
+import Database.DatabaseDungeonDatesContract;
 import Database.DatabaseHelper;
 import Database.DatabaseSpriteContract;
 import Models.Difficulty;
@@ -145,6 +148,30 @@ public class EventActivity extends AppCompatActivity {
 
                     Difficulty difficulty = dungeon.getDifficulty();
                     String failMessage = dungeon.failDay(date);
+                    DatabaseHelper databaseHelper = new DatabaseHelper(EventActivity.this);
+                    Cursor dungeonCursor = databaseHelper.readAllDungeons(databaseHelper.getReadableDatabase());
+                    if (dungeonCursor.moveToFirst()) {
+                        while (!dungeonCursor.isAfterLast()) {
+                            if(dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.NAME)) == dungeon.getTitle()){
+                                databaseHelper.updateDungeon(dungeonCursor.getInt(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.DUNGEONID)),
+                                        dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.NAME)),
+                                        dungeonCursor.getInt(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.MAXHEALTH)),
+                                        dungeon.getCurrentHealth(),
+                                        dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.DIFFICULTY)),
+                                        dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.REGULARPENALTY)),
+                                        dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.REGULARREWARD)),
+                                        dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.ULTIMATEFAILURE)),
+                                        dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.ULTIMATEREWARD)),
+                                        dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.HEROMODE)),
+                                        databaseHelper.getWritableDatabase());
+                            }
+
+                            dungeonCursor.moveToNext();
+                        }
+                    }
+                    String date = tv.getText().toString();
+                    UpdateWithStatus(date,Status.Failed);
+
                     Toast.makeText(EventActivity.this, failMessage, Toast.LENGTH_SHORT).show();
 
                 }
@@ -175,6 +202,8 @@ public class EventActivity extends AppCompatActivity {
                             databaseHelper.getWritableDatabase());
                     spriteCursor.close();
                     databaseHelper.close();
+                    String date = tv.getText().toString();
+                    UpdateWithStatus(date,Status.Completed);
                     Log.d("INFO", user.getSprite().getExp() + "Experience");
                     Toast.makeText(EventActivity.this, rewardTitle, Toast.LENGTH_SHORT).show();
                 }
@@ -186,6 +215,29 @@ public class EventActivity extends AppCompatActivity {
             noBtn.setBackgroundColor(Color.argb(50, 88,88,88));
             yesBtn.setBackgroundColor(Color.argb(50, 88,88,88));
             textView.setBackgroundColor(Color.argb(50, 88,88,88));
+        }
+    }
+    private void UpdateWithStatus(String date,Status status){
+        DatabaseHelper databaseHelper = new DatabaseHelper(EventActivity.this);
+        Cursor dungeonCursor = databaseHelper.readAllDungeons(databaseHelper.getReadableDatabase());
+        int dungeonid = -1;
+        if (dungeonCursor.moveToFirst()) {
+            while (!dungeonCursor.isAfterLast()) {
+                if(dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.NAME)) == dungeon.getTitle())
+                    dungeonid =  dungeonCursor.getInt(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.DUNGEONID));
+                dungeonCursor.moveToNext();
+            }
+        }
+        Cursor dungeonDatesCursor = databaseHelper.readDungeonDatesByDungeon(dungeonid,databaseHelper.getReadableDatabase());
+        if (dungeonDatesCursor.moveToFirst()) {
+            while (!dungeonDatesCursor.isAfterLast()) {
+                if(dungeonDatesCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonDatesContract.ContractEntry.DATE)) == date)
+                    databaseHelper.updateDungeonDates(dungeonDatesCursor.getInt(dungeonDatesCursor.getColumnIndex(DatabaseDungeonDatesContract.ContractEntry.DATEID)),
+                            dungeonid,
+                            dungeonDatesCursor.getString(dungeonDatesCursor.getColumnIndex(DatabaseDungeonDatesContract.ContractEntry.DATE)),
+                            status.toString(),databaseHelper.getWritableDatabase());
+                dungeonDatesCursor.moveToNext();
+            }
         }
     }
 }
