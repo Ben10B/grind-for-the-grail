@@ -44,7 +44,6 @@ public class EventActivity extends AppCompatActivity {
         Intent intent = getIntent();
         user = (User)intent.getSerializableExtra("user");
         String dungeonTitle = intent.getStringExtra("dungeonTitle");
-        Toast.makeText(this, dungeonTitle, Toast.LENGTH_SHORT).show();
         dungeon = user.getDungeonByTitle(dungeonTitle);
         setContentView(R.layout.activity_event);
 

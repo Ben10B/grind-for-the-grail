@@ -155,7 +155,9 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
     public void createEvent(View view){
-        startActivity(new Intent(this, CreateEventActivity.class));
+        Intent intent = new Intent(this, CreateEventActivity.class);
+        intent.putExtra("user", user);
+        startActivity(intent);
     }
 
     private void createTestDungeons(){
