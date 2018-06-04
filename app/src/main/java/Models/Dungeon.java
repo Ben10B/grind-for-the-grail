@@ -1,16 +1,12 @@
 package Models;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
-public class Dungeon implements Serializable{// Parcelable{
+public class Dungeon implements Serializable {
     private String title;
     private int maxHealth;
     private int currentHealth;
@@ -18,33 +14,10 @@ public class Dungeon implements Serializable{// Parcelable{
     private String regReward;// <<stretch>>
     private String ultimatePenalty;// <<stretch>>
     private String regPenalty;// <<stretch>>
-//    private DungeonDate[] dungeonDates;// <<stretch>>
     private ArrayList<DungeonDate> dungeonDates;// <<stretch>>
     private Difficulty difficulty;// <<stretch>>
-    //    private boolean heroMode;// <<stretch>>
-//    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
-//        public Dungeon createFromParcel(Parcel in) {
-//            return new Dungeon(in);
-//        }
-//
-//        public Dungeon[] newArray(int size) {
-//            return new Dungeon[size];
-//        }
-//    };
-//
-//    public Dungeon(Parcel in) {
-//        this.title = in.readString();
-//        this.maxHealth = in.readInt();
-//        this.currentHealth = in.readInt();
-//        this.ultimateReward = in.readString();
-//        this.regReward = in.readString();
-//        this.ultimatePenalty = in.readString();
-//        this.regPenalty = in.readString();
-//        Object[] arr = in.readArray(DungeonDate.class.getClassLoader());
-//        this.dungeonDates = Arrays.copyOf(arr, arr.length,DungeonDate[].class);
-//        this.difficulty = Difficulty.valueOf(in.readString());
-////        this.heroMode = in.read;
-//    }
+    private boolean heroMode;// <<stretch>>
+
 
     public Dungeon(String title, int maxHealth, Date endDate) {
         this.title = title;
@@ -72,7 +45,7 @@ public class Dungeon implements Serializable{// Parcelable{
 //        this.heroMode = false;
     }
 
-    public Dungeon(String title, int maxHealth, Date endDate, String ultimateReward, String regReward, String ultimatePenalty, String regPenalty, Difficulty difficulty){//, boolean heroMode) {
+    public Dungeon(String title, int maxHealth, Date endDate, String ultimateReward, String regReward, String ultimatePenalty, String regPenalty, Difficulty difficulty) {//, boolean heroMode) {
         this.title = title;
         this.maxHealth = maxHealth;
         this.currentHealth = maxHealth;
@@ -84,6 +57,7 @@ public class Dungeon implements Serializable{// Parcelable{
         this.difficulty = difficulty;
 //        this.heroMode = heroMode;
     }
+
     public Dungeon(String title, int maxHealth, int currentHealth, String ultimateReward, String regReward, String ultimatePenalty, String regPenalty, ArrayList<DungeonDate> dungeonDates, Difficulty difficulty) {
         this.title = title;
         this.maxHealth = maxHealth;
@@ -105,7 +79,7 @@ public class Dungeon implements Serializable{// Parcelable{
         boolean isAlive = getCurrentHealth() > 0;
         if (isAlive && !getRegPenalty().isEmpty()) {
             penalty = getRegPenalty();
-        } else if(!isAlive && !getUltimatePenalty().isEmpty()) {
+        } else if (!isAlive && !getUltimatePenalty().isEmpty()) {
             penalty = getUltimatePenalty();
         }
         String output = "- " + hpLost + " hp\n" + penalty;
@@ -118,9 +92,10 @@ public class Dungeon implements Serializable{// Parcelable{
         DungeonDate completedDay = getDungeonDates().get(getDungeonDateIndexByDate(day));
         completedDay.setStatus(Status.Completed);
         int exp = 0;
-        int gold = rand.nextInt(10)+1;
+        int gold = rand.nextInt(10) + 1;
         switch (getDifficulty()) {
-            case Squire: case None:
+            case Squire:
+            case None:
                 exp = 1;
                 break;
             case Knight:
@@ -132,22 +107,25 @@ public class Dungeon implements Serializable{// Parcelable{
         }
         if (!isCompleted() && !getRegReward().isEmpty()) {
             reward = getRegReward();
-        } else if(isCompleted()) {
-            if (!getUltimateReward().isEmpty()){reward = getUltimateReward();}
+        } else if (isCompleted()) {
+            if (!getUltimateReward().isEmpty()) {
+                reward = getUltimateReward();
+            }
             //exp = length * diffMod
             //gold = (length * 7-10)* diffMod
             switch (getDifficulty()) {
-                case Squire: case None:
+                case Squire:
+                case None:
                     exp += (getDungeonDates().size() * 1);
-                    gold += (getDungeonDates().size() * rand.nextInt(4)+7)*1;
+                    gold += (getDungeonDates().size() * rand.nextInt(4) + 7) * 1;
                     break;
                 case Knight:
                     exp += (getDungeonDates().size() * 1.5);
-                    gold += (getDungeonDates().size() * rand.nextInt(4)+7)*1.5;
+                    gold += (getDungeonDates().size() * rand.nextInt(4) + 7) * 1.5;
                     break;
                 case Grail:
                     exp += (getDungeonDates().size() * 2);
-                    gold += (getDungeonDates().size() * rand.nextInt(4)+7)*2;
+                    gold += (getDungeonDates().size() * rand.nextInt(4) + 7) * 2;
                     break;
             }
         }
@@ -157,7 +135,8 @@ public class Dungeon implements Serializable{// Parcelable{
         return output;
     }
 
-    /**Determines the amount of health that the player will lose when they fail a day.
+    /**
+     * Determines the amount of health that the player will lose when they fail a day.
      * This is based on how many days in a row they have failed.
      * Helper Method.
      */
@@ -166,7 +145,7 @@ public class Dungeon implements Serializable{// Parcelable{
         ArrayList<DungeonDate> dates = getDungeonDates();
         int index = getDungeonDateIndexByDate(Calendar.getInstance().getTime());
         if (index > 0) {
-            for (int i = index; i > dates.size(); i--) {
+            for (int i = index; i >= 0; i--) {
                 if (dates.get(i).getStatus() != Status.Failed) {
                     break;
                 } else if (dates.get(i).getStatus() == Status.Failed) {
@@ -179,13 +158,14 @@ public class Dungeon implements Serializable{// Parcelable{
 
     /**
      * Determines if the Dungeon is completed by checking the Status of all DungeonDates.
+     *
      * @return - Whether the Dungeon is completed.
      */
     private boolean isCompleted() {
         boolean output = true;
         ArrayList<DungeonDate> dates = getDungeonDates();
-        for (DungeonDate dDate : dates){
-            if(dDate.getStatus() != Status.Completed && dDate.getStatus() != Status.Failed){
+        for (DungeonDate dDate : dates) {
+            if (dDate.getStatus() != Status.Completed && dDate.getStatus() != Status.Failed) {
                 output = false;
                 break;
             }
@@ -196,6 +176,7 @@ public class Dungeon implements Serializable{// Parcelable{
     /**
      * Finds the DungeonDate that matches the given Date. Returns null if there is no match.
      * Helper Method.
+     *
      * @param date - Date of the desired DungeonDate
      * @return - Matching DungeonDate
      */
@@ -217,10 +198,11 @@ public class Dungeon implements Serializable{// Parcelable{
     /**
      * Creates the initial collection of DungeonDates from the current date to the given end Date.
      * Helper Method
+     *
      * @param endDate - Date of the last day
      * @return - Collection of DungeonDates from current day to endDate
      */
-    private ArrayList<DungeonDate> createDungeonDates(Date endDate){
+    private ArrayList<DungeonDate> createDungeonDates(Date endDate) {
         ArrayList<DungeonDate> dates = new ArrayList<DungeonDate>();
         Calendar c = Calendar.getInstance();
         DungeonDate temp = new DungeonDate(c.getTime(), Status.Inactive);
@@ -228,29 +210,23 @@ public class Dungeon implements Serializable{// Parcelable{
             dates.add(temp);
             c.add(Calendar.DATE, 1);
             temp = new DungeonDate(c.getTime(), Status.Inactive);
-        } while (temp.getDate().getMonth() != endDate.getMonth() && temp.getDate().getDay() != endDate.getDay());
+        }
+        while (temp.getDate().getMonth() != endDate.getMonth() && temp.getDate().getDay() != endDate.getDay());
 //        DungeonDate[] output = dates.toArray(new DungeonDate[dates.size()]);
         return dates;
     }
 
-//    @Override
-//    public int describeContents() {
-//        return 0;
-//    }
-//
-//    @Override
-//    public void writeToParcel(Parcel dest, int flags) {
-//        dest.writeString(getTitle());
-//        dest.writeInt(getMaxHealth());
-//        dest.writeInt(getCurrentHealth());
-//        dest.writeString(getUltimateReward());
-//        dest.writeString(getRegReward());
-//        dest.writeString(getUltimatePenalty());
-//        dest.writeString(getRegPenalty());
-//        dest.writeArray(getDungeonDates());
-//        dest.writeString(getDifficulty().name());
-////        this.heroMode = in.read;
-//    }
+    public void updateDungeonDates() {
+        ArrayList<DungeonDate> dates = getDungeonDates();
+        int index = getDungeonDateIndexByDate(Calendar.getInstance().getTime());
+        for (int i = index; i >= 0; i--) {
+            DungeonDate ddate = dates.get(i);
+//                if (ddate.getStatus() != Status.Failed || ddate.getStatus() != Status.Completed) {
+            if (ddate.getStatus() == Status.Inactive) {
+                ddate.setStatus(Status.Unresolved);
+            }
+        }
+    }
 
     //Getters and Setters beyond this point
 
@@ -326,12 +302,12 @@ public class Dungeon implements Serializable{// Parcelable{
         this.difficulty = difficulty;
     }
 
-//    public boolean isHeroMode() {
-//        return heroMode;
-//    }
-//
-//    public void setHeroMode(boolean heroMode) {
-//        this.heroMode = heroMode;
-//    }
+    public boolean isHeroMode() {
+        return heroMode;
+    }
+
+    public void setHeroMode(boolean heroMode) {
+        this.heroMode = heroMode;
+    }
 
 }

@@ -1,39 +1,14 @@
 package Models;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 
-import Database.DatabaseHelper;
-
-public class User implements Serializable{//Parcelable{
+public class User implements Serializable{
     private String username;
     private String email; //<<stretch>>
     private Sprite sprite;
-//    private Dungeon[] dungeons;
     private ArrayList<Dungeon> dungeons;
-//    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
-//        public User createFromParcel(Parcel in) {
-//            return new User(in);
-//        }
-//
-//        public User[] newArray(int size) {
-//            return new User[size];
-//        }
-//    };
-//
-//    public User(Parcel in){
-//        this.username = in.readString();
-//        this.email = in.readString();
-//        this.sprite =  in.readParcelable(Sprite.class.getClassLoader());
-//        Object[] ar = in.readArray(Dungeon.class.getClassLoader());
-//        this.dungeons = Arrays.copyOf(ar,ar.length,Dungeon[].class);
-//        //TODO This might break!
-//    }
 
     public User(String username, String email) {
         this.username = username;
@@ -92,20 +67,6 @@ public class User implements Serializable{//Parcelable{
         }
         return output;
     }
-
-//    @Override
-//    public int describeContents() {
-//        return 0;
-//    }
-//
-//    @Override
-//    public void writeToParcel(Parcel dest, int flags) {
-//        dest.writeString(getUsername());
-//        dest.writeString(getEmail());
-//        getSprite().writeToParcel(dest,0);
-//        dest.writeArray(getDungeons());
-//        //TODO This might break!
-//    }
 
     //Getters and Setters beyond this point
     public String getUsername() {
