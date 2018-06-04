@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import Database.DatabaseDungeonContract;
+import Database.DatabaseDungeonDatesContract;
 import Database.DatabaseHelper;
 import Database.DatabaseSpriteContract;
 import Database.DatabaseUserContract;
@@ -80,7 +81,7 @@ public class CreateEventActivity extends AppCompatActivity {
             spriteCursor.close();
             SQLiteDatabase database = databaseHelper.getWritableDatabase();
             Dungeon dungeon = new Dungeon(goal,maxhealth,endDate,Difficulty.valueOf(diff));
-            databaseHelper.addDungeon(goal,maxhealth, maxhealth, diff, penalty,reward, "", "", null, database);
+
             Cursor dungeonCursor = databaseHelper.readAllDungeons(databaseHelper.getReadableDatabase());
             int dungeonid = 0;
             if (dungeonCursor.moveToFirst()) {
@@ -92,10 +93,17 @@ public class CreateEventActivity extends AppCompatActivity {
                     dungeonCursor.moveToNext();
                 }
             }
+            databaseHelper.addDungeon(dungeonid,goal,maxhealth, maxhealth, diff, penalty,reward, "", "", null, database);
 
             for (DungeonDate d : dungeon.getDungeonDates()) {
                 DateFormat dateFormat = new SimpleDateFormat("mm-dd-yyyy hh:mm:ss");
-                databaseHelper.addDungeonDate(dungeonid,dateFormat.format(d.getDate()),d.getStatus().toString(),databaseHelper.getWritableDatabase());
+                Cursor dungeonDateCursor = databaseHelper.readAllDungeonDates(databaseHelper.getReadableDatabase());
+                int dateid = 0;
+                if(dungeonDateCursor.getCount() != 0){
+                    dungeonDateCursor.moveToLast();
+                    dateid = dungeonDateCursor.getInt(dungeonDateCursor.getColumnIndex(DatabaseDungeonDatesContract.ContractEntry.DATEID)) + 1;
+                }
+                databaseHelper.addDungeonDate(dateid,dungeonid,dateFormat.format(d.getDate()),d.getStatus().toString(),databaseHelper.getWritableDatabase());
             }
             databaseHelper.close();
 

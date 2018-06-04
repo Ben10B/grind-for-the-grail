@@ -164,7 +164,7 @@ public class EventActivity extends AppCompatActivity {
                     Cursor spriteCursor = databaseHelper.readAllSprites(databaseHelper.getReadableDatabase());
                     spriteCursor.moveToFirst();
 
-                    databaseHelper.updateSprite(spriteCursor.getInt(spriteCursor.getColumnIndex(DatabaseSpriteContract.ContractEntry.SPRITEID)),
+                    databaseHelper.updateSprite(1,
                             user.getSprite().getMaxHealth(),user.getSprite().getExp(),user.getSprite().getLevel(), user.getSprite().getGold(),
                             databaseHelper.getWritableDatabase());
                     spriteCursor.close();
