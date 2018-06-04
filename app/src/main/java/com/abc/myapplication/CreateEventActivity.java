@@ -84,13 +84,13 @@ public class CreateEventActivity extends AppCompatActivity {
 
             Cursor dungeonCursor = databaseHelper.readAllDungeons(databaseHelper.getReadableDatabase());
             int dungeonid = 0;
-            if (dungeonCursor.moveToFirst()) {
-                while (!dungeonCursor.isAfterLast()) {
-                    if(dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.NAME)) == goal &&
-                            dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.DIFFICULTY)) == diff &&
-                            dungeonCursor.getInt(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.MAXHEALTH)) == maxhealth)
-                        dungeonid = dungeonCursor.getInt(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.DUNGEONID));
-                    dungeonCursor.moveToNext();
+            if(dungeonCursor.getCount() > 0){
+                if (dungeonCursor.moveToFirst()) {
+                    while (!dungeonCursor.isAfterLast()) {
+                        if(dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.NAME)) == goal)
+                            dungeonid = dungeonCursor.getInt(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.DUNGEONID));
+                        dungeonCursor.moveToNext();
+                    }
                 }
             }
             databaseHelper.addDungeon(dungeonid,goal,maxhealth, maxhealth, diff, penalty,reward, "", "", null, database);
