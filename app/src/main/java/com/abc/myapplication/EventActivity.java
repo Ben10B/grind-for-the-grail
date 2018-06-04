@@ -158,6 +158,7 @@ public class EventActivity extends AppCompatActivity {
                     b.setTextColor(Color.argb(50, 0,0,0));
                     Difficulty difficulty = dungeon.getDifficulty();
                     String rewardTitle = dungeon.completeDay(date ,user.getSprite());
+                    //TODO update db
                     Log.d("INFO", user.getSprite().getExp() + "Experience");
                     Toast.makeText(EventActivity.this, rewardTitle, Toast.LENGTH_SHORT).show();
                 }
