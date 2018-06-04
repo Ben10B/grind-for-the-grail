@@ -93,7 +93,7 @@ public class EventActivity extends AppCompatActivity {
         noBtn.setText("NO");
         noBtn.setId(row_id);
         noBtn.setBackgroundColor(Color.RED);
-        noBtn.setBackgroundResource(R.drawable.ic_action_name);
+        //noBtn.setBackgroundResource(R.drawable.treasure);
         noBtn.setTextColor(Color.WHITE);
         noBtn.setTypeface(null, Typeface.BOLD);
         noBtn.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -114,7 +114,6 @@ public class EventActivity extends AppCompatActivity {
         yesBtn.setText("YES");
         yesBtn.setId((row_id+2));
         yesBtn.setBackgroundColor(Color.GREEN);
-        yesBtn.setBackgroundResource(R.drawable.ic_check);
         yesBtn.setTextColor(Color.WHITE);
         yesBtn.setTypeface(null, Typeface.BOLD);
         yesBtn.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
