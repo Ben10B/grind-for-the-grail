@@ -1,5 +1,7 @@
 package Models;
 
+import android.text.format.DateUtils;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -205,15 +207,26 @@ public class Dungeon implements Serializable {
     private ArrayList<DungeonDate> createDungeonDates(Date endDate) {
         ArrayList<DungeonDate> dates = new ArrayList<DungeonDate>();
         Calendar c = Calendar.getInstance();
-        DungeonDate temp = new DungeonDate(c.getTime(), Status.Inactive);
+        DungeonDate temp = new DungeonDate(c.getTime(), Status.Unresolved);
         do {
             dates.add(temp);
             c.add(Calendar.DATE, 1);
             temp = new DungeonDate(c.getTime(), Status.Inactive);
         }
-        while (temp.getDate().getMonth() != endDate.getMonth() && temp.getDate().getDay() != endDate.getDay());
-//        DungeonDate[] output = dates.toArray(new DungeonDate[dates.size()]);
+        while (!isSameDay(c.getTime(),endDate));
+        dates.add(temp);
         return dates;
+    }
+
+    private boolean isSameDay(Date date1, Date date2) {
+        Calendar calendar1 = Calendar.getInstance();
+        calendar1.setTime(date1);
+        Calendar calendar2 = Calendar.getInstance();
+        calendar2.setTime(date2);
+        boolean sameYear = calendar1.get(Calendar.YEAR) == calendar2.get(Calendar.YEAR)-1900;
+        boolean sameMonth = calendar1.get(Calendar.MONTH) == calendar2.get(Calendar.MONTH);
+        boolean sameDay = calendar1.get(Calendar.DAY_OF_MONTH) == calendar2.get(Calendar.DAY_OF_MONTH);
+        return (sameDay && sameMonth && sameYear);
     }
 
     public void updateDungeonDates() {

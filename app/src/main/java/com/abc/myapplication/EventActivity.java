@@ -54,7 +54,7 @@ public class EventActivity extends AppCompatActivity {
 //        tabLayout = findViewById(R.id.tabs);
 //        tabLayout.setupWithViewPager(viewPager);
 
-        dungeon.updateDungeonDates();
+//        dungeon.updateDungeonDates();
         ArrayList<DungeonDate> dates = dungeon.getDungeonDates();
         int id = 1;
         for (int i = 0; i < dates.size(); i++) {

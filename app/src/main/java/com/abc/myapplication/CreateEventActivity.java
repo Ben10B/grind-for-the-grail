@@ -29,13 +29,17 @@ import Models.User;
 
 public class CreateEventActivity extends AppCompatActivity {
 
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        user = (User) intent.getSerializableExtra("user");
         setContentView(R.layout.activity_create_event);
     }
-    public void createDungeon(View view){
+
+    public void createDungeon(View view) {
         EditText gT = findViewById(R.id.goalText);
         EditText dT = findViewById(R.id.dateText);
         EditText rT = findViewById(R.id.rewardText);
@@ -51,7 +55,7 @@ public class CreateEventActivity extends AppCompatActivity {
 
         Date endDate = null;
         String diff = "";
-        try{
+        try {
             diff = button.getText().toString();
 
             int year = Integer.parseInt(date.substring(6, 10));
@@ -60,32 +64,34 @@ public class CreateEventActivity extends AppCompatActivity {
 
             Calendar now = Calendar.getInstance();
             int currentYear = now.get(Calendar.YEAR);
-            if(year >= currentYear){
-                if(month < 12 && month > 0){
+            if (year >= currentYear) {
+                if (month < 12 && month > 0) {
                     Calendar days = new GregorianCalendar(year, month, 1);
                     int daysInMonth = days.getActualMaximum(Calendar.DAY_OF_MONTH);
-                    if(day <= daysInMonth){
+                    if (day <= daysInMonth) {
                         endDate = new Date(year, month, day);
                     }
                 }
             }
 
-        } catch(Exception e){}
+        } catch (Exception e) {
+        }
 
-        if(!goal.equals("") && !diff.equals("") && endDate != null){
+        if (!goal.equals("") && !diff.equals("") && endDate != null) {
             DatabaseHelper databaseHelper = new DatabaseHelper(this);
             Cursor spriteCursor = databaseHelper.readAllSprites(databaseHelper.getReadableDatabase());
             spriteCursor.moveToFirst();
             int maxhealth = spriteCursor.getInt(spriteCursor.getColumnIndex(DatabaseSpriteContract.ContractEntry.MAXHEALTH));
             spriteCursor.close();
             SQLiteDatabase database = databaseHelper.getWritableDatabase();
-            Dungeon dungeon = new Dungeon(goal,maxhealth,endDate,Difficulty.valueOf(diff));
-            databaseHelper.addDungeon(goal,maxhealth, maxhealth, diff, penalty,reward, "", "", null, database);
+            user.addDungeon(goal, endDate, Difficulty.valueOf(diff));
+            Dungeon dungeon = user.getDungeons().get(user.getDungeons().size() - 1);
+            databaseHelper.addDungeon(dungeon.getTitle(), dungeon.getMaxHealth(), dungeon.getMaxHealth(), dungeon.getDifficulty().name(), dungeon.getRegPenalty(), dungeon.getRegReward(), dungeon.getUltimatePenalty(), dungeon.getUltimateReward(), dungeon.isHeroMode()+"", database);
             Cursor dungeonCursor = databaseHelper.readAllDungeons(databaseHelper.getReadableDatabase());
             int dungeonid = 0;
             if (dungeonCursor.moveToFirst()) {
                 while (!dungeonCursor.isAfterLast()) {
-                    if(dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.NAME)) == goal &&
+                    if (dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.NAME)) == goal &&
                             dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.DIFFICULTY)) == diff &&
                             dungeonCursor.getInt(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.MAXHEALTH)) == maxhealth)
                         dungeonid = dungeonCursor.getInt(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.DUNGEONID));
@@ -95,13 +101,13 @@ public class CreateEventActivity extends AppCompatActivity {
 
             for (DungeonDate d : dungeon.getDungeonDates()) {
                 DateFormat dateFormat = new SimpleDateFormat("mm-dd-yyyy hh:mm:ss");
-                databaseHelper.addDungeonDate(dungeonid,dateFormat.format(d.getDate()),d.getStatus().toString(),databaseHelper.getWritableDatabase());
+                databaseHelper.addDungeonDate(dungeonid, dateFormat.format(d.getDate()), d.getStatus().toString(), databaseHelper.getWritableDatabase());
             }
             databaseHelper.close();
 
             startActivity(new Intent(this, MainActivity.class));
             finish();
-        }else{
+        } else {
             Toast.makeText(this, "GOAL, DATE, & DIFFICULTY REQUIRED", Toast.LENGTH_LONG).show();
         }
     }
