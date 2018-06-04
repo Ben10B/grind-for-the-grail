@@ -87,7 +87,6 @@ public class CreateEventActivity extends AppCompatActivity {
             SQLiteDatabase database = databaseHelper.getWritableDatabase();
             user.addDungeon(goal, endDate, Difficulty.valueOf(diff));
             Dungeon dungeon = user.getDungeons().get(user.getDungeons().size() - 1);
-            databaseHelper.addDungeon(dungeon.getTitle(), dungeon.getMaxHealth(), dungeon.getMaxHealth(), dungeon.getDifficulty().name(), dungeon.getRegPenalty(), dungeon.getRegReward(), dungeon.getUltimatePenalty(), dungeon.getUltimateReward(), dungeon.isHeroMode()+"", database);
             Cursor dungeonCursor = databaseHelper.readAllDungeons(databaseHelper.getReadableDatabase());
             int dungeonid = 0;
             if (dungeonCursor.moveToFirst()) {
@@ -103,7 +102,13 @@ public class CreateEventActivity extends AppCompatActivity {
 
             for (DungeonDate d : dungeon.getDungeonDates()) {
                 DateFormat dateFormat = new SimpleDateFormat("mm-dd-yyyy hh:mm:ss");
-                databaseHelper.addDungeonDate(dungeonid, dateFormat.format(d.getDate()), d.getStatus().toString(), databaseHelper.getWritableDatabase());
+                Cursor dungeonDateCursor = databaseHelper.readAllDungeonDates(databaseHelper.getReadableDatabase());
+                int dateid = 0;
+                if(dungeonDateCursor.getCount() != 0){
+                    dungeonDateCursor.moveToLast();
+                    dateid = dungeonDateCursor.getInt(dungeonDateCursor.getColumnIndex(DatabaseDungeonDatesContract.ContractEntry.DATEID)) + 1;
+                }
+                databaseHelper.addDungeonDate(dateid, dungeonid, dateFormat.format(d.getDate()), d.getStatus().toString(), databaseHelper.getWritableDatabase());
             }
             databaseHelper.close();
 
