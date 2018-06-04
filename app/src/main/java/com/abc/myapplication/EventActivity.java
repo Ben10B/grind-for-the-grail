@@ -1,10 +1,9 @@
 package com.abc.myapplication;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.ColorDrawable;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +23,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import Database.DatabaseHelper;
+import Database.DatabaseSpriteContract;
 import Models.Difficulty;
 import Models.Dungeon;
 import Models.DungeonDate;
@@ -56,7 +57,7 @@ public class EventActivity extends AppCompatActivity {
 //        tabLayout = findViewById(R.id.tabs);
 //        tabLayout.setupWithViewPager(viewPager);
 
-        dungeon.updateDungeonDates();
+//        dungeon.updateDungeonDates();
         ArrayList<DungeonDate> dates = dungeon.getDungeonDates();
         int id = 1;
         for (int i = 0; i < dates.size(); i++) {
@@ -158,6 +159,16 @@ public class EventActivity extends AppCompatActivity {
                     b.setTextColor(Color.argb(50, 0,0,0));
                     Difficulty difficulty = dungeon.getDifficulty();
                     String rewardTitle = dungeon.completeDay(date ,user.getSprite());
+
+                    DatabaseHelper databaseHelper = new DatabaseHelper(EventActivity.this);
+                    Cursor spriteCursor = databaseHelper.readAllSprites(databaseHelper.getReadableDatabase());
+                    spriteCursor.moveToFirst();
+
+                    databaseHelper.updateSprite(spriteCursor.getInt(spriteCursor.getColumnIndex(DatabaseSpriteContract.ContractEntry.SPRITEID)),
+                            user.getSprite().getMaxHealth(),user.getSprite().getExp(),user.getSprite().getLevel(), user.getSprite().getGold(),
+                            databaseHelper.getWritableDatabase());
+                    spriteCursor.close();
+                    databaseHelper.close();
                     Log.d("INFO", user.getSprite().getExp() + "Experience");
                     Toast.makeText(EventActivity.this, rewardTitle, Toast.LENGTH_SHORT).show();
                 }

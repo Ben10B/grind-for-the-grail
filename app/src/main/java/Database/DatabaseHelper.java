@@ -26,13 +26,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "(" + DatabaseUserContract.ContractEntry.NAME + " text primary key, " +
             DatabaseUserContract.ContractEntry.EMAIL + " text);";
     public static final String CREATE_TABLE_SPRITE = "create table " + DatabaseSpriteContract.ContractEntry.TABLE_NAME +
-            "(" + DatabaseSpriteContract.ContractEntry.SPRITEID + " number primary key, " +
+            "(" + DatabaseSpriteContract.ContractEntry.SPRITEID + " integer primary key, " +
             DatabaseSpriteContract.ContractEntry.MAXHEALTH + " number, " +
             DatabaseSpriteContract.ContractEntry.EXP + " number, " +
             DatabaseSpriteContract.ContractEntry.LEVEL + " number, " +
             DatabaseSpriteContract.ContractEntry.GOLD + " gold);";
     public static final String CREATE_TABLE_DUNGEON = "create table " + DatabaseDungeonContract.ContractEntry.TABLE_NAME +
-            "(" + DatabaseDungeonContract.ContractEntry.DUNGEONID + " number primary key, " +
+            "(" + DatabaseDungeonContract.ContractEntry.DUNGEONID + " integer primary key, " +
             DatabaseDungeonContract.ContractEntry.NAME + " text, " +
             DatabaseDungeonContract.ContractEntry.MAXHEALTH + " number, " +
             DatabaseDungeonContract.ContractEntry.HEALTH + " number, " +
@@ -43,12 +43,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             DatabaseDungeonContract.ContractEntry.ULTIMATEREWARD + " text, " +
             DatabaseDungeonContract.ContractEntry.HEROMODE + " text);";
     public static final String CREATE_TABLE_DUNGEONDATES = "create table " + DatabaseDungeonDatesContract.ContractEntry.TABLE_NAME +
-            "(" + DatabaseDungeonDatesContract.ContractEntry.DATEID + " number primary key, " +
+            "(" + DatabaseDungeonDatesContract.ContractEntry.DATEID + " integer primary key, " +
             DatabaseDungeonDatesContract.ContractEntry.DUNGEONID + " number, " +
             DatabaseDungeonDatesContract.ContractEntry.DATE + " text, " +
             DatabaseDungeonDatesContract.ContractEntry.STATUS + " text);";
     public static final String CREATE_TABLE_ITEM = "create table " + DatabaseItemContract.ContractEntry.TABLE_NAME +
-            "(" + DatabaseItemContract.ContractEntry.ITEMID + " number primary key, " +
+            "(" + DatabaseItemContract.ContractEntry.ITEMID + " integer primary key, " +
             DatabaseItemContract.ContractEntry.ITEMNAME + " text, " +
             DatabaseItemContract.ContractEntry.COST + " number);";
     public static final String DROP_TABLE_USER = "drop table if exists " + DatabaseUserContract.ContractEntry.TABLE_NAME;
@@ -216,7 +216,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String selection = DatabaseUserContract.ContractEntry.NAME + " = " + name;
         db.update(DatabaseUserContract.ContractEntry.TABLE_NAME, contentValues, selection, null);
     }
-    public void updateSpite(int spriteid,int maxhealth, int exp, int level, int gold, SQLiteDatabase db){
+    public void updateSprite(int spriteid, int maxhealth, int exp, int level, int gold, SQLiteDatabase db){
         ContentValues contentValues = new ContentValues();
         contentValues.put(DatabaseSpriteContract.ContractEntry.MAXHEALTH, maxhealth);
         contentValues.put(DatabaseSpriteContract.ContractEntry.EXP, exp);
