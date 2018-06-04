@@ -19,11 +19,15 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import Models.Difficulty;
 import Models.Dungeon;
 import Models.DungeonDate;
+import Models.Status;
+import Models.User;
 
 public class EventActivity extends AppCompatActivity {
     private Toolbar toolbar;
@@ -31,15 +35,18 @@ public class EventActivity extends AppCompatActivity {
     private ViewPagerAdapter adapter;
     private TabLayout tabLayout;
     Date currentDate = Calendar.getInstance().getTime();
+    private User user;
     private Dungeon dungeon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        dungeon = intent.getParcelableExtra("dungeon");
+        user = (User)intent.getSerializableExtra("user");
+        String dungeonTitle = intent.getStringExtra("dungeonTitle");
+        Toast.makeText(this, dungeonTitle, Toast.LENGTH_SHORT).show();
+        dungeon = user.getDungeonByTitle(dungeonTitle);
         setContentView(R.layout.activity_event);
-        Calendar incrementedDate = Calendar.getInstance();
 
 //        viewPager = findViewById(R.id.pager);
 //        adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -48,24 +55,23 @@ public class EventActivity extends AppCompatActivity {
 //        tabLayout = findViewById(R.id.tabs);
 //        tabLayout.setupWithViewPager(viewPager);
 
-//        DungeonDate[] dates = dungeon.getDungeonDates();
+        dungeon.updateDungeonDates();
+        ArrayList<DungeonDate> dates = dungeon.getDungeonDates();
         int id = 1;
-//        for (int i = 1; i < dates.length; i++) {
-        for(int i = 1; i <= 31; i++) {
-            incrementedDate.add(Calendar.DATE, 1);
-            Date printedDate = incrementedDate.getTime();
-//            Date printedDate = dates[i].getDate();
-            if(i > 1) {
-                addButtons(printedDate + "", id, "yet");
-            }else{
-                addButtons(printedDate+"", id, "came");
+        for (int i = 0; i < dates.size(); i++) {
+            DungeonDate temp = dates.get(i);
+            Date printedDate = temp.getDate();
+            if(temp.getStatus() == Status.Inactive) {
+                addButtons(printedDate, id, "yet");
+            }else if(temp.getStatus() == Status.Unresolved){
+                addButtons(printedDate, id, "came");
             }
             id += 3;
         }
 
     }
 
-    private void addButtons(String date, int row_id, String has) {
+    private void addButtons(final Date date, int row_id, String has) {
         //Row Container
         TableRow tableRow = new TableRow(this);
         tableRow.setGravity(Gravity.CENTER);
@@ -86,7 +92,7 @@ public class EventActivity extends AppCompatActivity {
 
         //Text Date
         TextView textView = new TextView(this);
-        textView.setText(date);
+        textView.setText(date.toString());
         textView.setId((row_id+1));
         textView.setEms(10);
         textView.setBackgroundColor(Color.BLACK);
@@ -129,7 +135,10 @@ public class EventActivity extends AppCompatActivity {
                     Button b = findViewById(id + 2);
                     b.setBackgroundColor(Color.argb(50, 88, 88, 88));
                     b.setTextColor(Color.argb(50, 0, 0, 0));
-                    Toast.makeText(EventActivity.this, R.string.no_btn_clicked_text, Toast.LENGTH_SHORT).show();
+
+                    Difficulty difficulty = dungeon.getDifficulty();
+                    String failMessage = dungeon.failDay(date);
+                    Toast.makeText(EventActivity.this, failMessage, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -146,8 +155,9 @@ public class EventActivity extends AppCompatActivity {
                     Button b = findViewById(id-2);
                     b.setBackgroundColor(Color.argb(50, 88,88,88));
                     b.setTextColor(Color.argb(50, 0,0,0));
-
-                    Toast.makeText(EventActivity.this, R.string.yes_btn_clicked_text, Toast.LENGTH_SHORT).show();
+                    Difficulty difficulty = dungeon.getDifficulty();
+                    String rewardTitle = dungeon.completeDay(date ,user.getSprite());
+                    Toast.makeText(EventActivity.this, rewardTitle, Toast.LENGTH_SHORT).show();
                 }
             }
         });
