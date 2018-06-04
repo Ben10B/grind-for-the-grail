@@ -205,7 +205,7 @@ public class Dungeon implements Serializable {
     private ArrayList<DungeonDate> createDungeonDates(Date endDate) {
         ArrayList<DungeonDate> dates = new ArrayList<DungeonDate>();
         Calendar c = Calendar.getInstance();
-        DungeonDate temp = new DungeonDate(c.getTime(), Status.Inactive);
+        DungeonDate temp = new DungeonDate(c.getTime(), Status.Unresolved);
         do {
             dates.add(temp);
             c.add(Calendar.DATE, 1);
