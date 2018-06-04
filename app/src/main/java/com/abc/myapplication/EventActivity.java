@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,9 +47,13 @@ public class EventActivity extends AppCompatActivity {
         Intent intent = getIntent();
         user = (User)intent.getSerializableExtra("user");
         String dungeonTitle = intent.getStringExtra("dungeonTitle");
-        Toast.makeText(this, dungeonTitle, Toast.LENGTH_SHORT).show();
         dungeon = user.getDungeonByTitle(dungeonTitle);
         setContentView(R.layout.activity_event);
+
+        //Progress Bar Dynamic Stuff
+        ProgressBar progressBar = findViewById(R.id.dungeon_health_progress_bar);
+        progressBar.setMax(dungeon.getMaxHealth());
+        progressBar.setProgress(dungeon.getCurrentHealth());
 
 //        viewPager = findViewById(R.id.pager);
 //        adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -57,7 +62,7 @@ public class EventActivity extends AppCompatActivity {
 //        tabLayout = findViewById(R.id.tabs);
 //        tabLayout.setupWithViewPager(viewPager);
 
-//        dungeon.updateDungeonDates();
+        dungeon.updateDungeonDates();
         ArrayList<DungeonDate> dates = dungeon.getDungeonDates();
         int id = 1;
         for (int i = 0; i < dates.size(); i++) {
@@ -87,7 +92,7 @@ public class EventActivity extends AppCompatActivity {
         noBtn.setText("NO");
         noBtn.setId(row_id);
         noBtn.setBackgroundColor(Color.RED);
-//        noBtn.setBackgroundResource(R.drawable.benlogo);
+        //noBtn.setBackgroundResource(R.drawable.treasure);
         noBtn.setTextColor(Color.WHITE);
         noBtn.setTypeface(null, Typeface.BOLD);
         noBtn.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -141,6 +146,7 @@ public class EventActivity extends AppCompatActivity {
                     Difficulty difficulty = dungeon.getDifficulty();
                     String failMessage = dungeon.failDay(date);
                     Toast.makeText(EventActivity.this, failMessage, Toast.LENGTH_SHORT).show();
+
                 }
             }
         });

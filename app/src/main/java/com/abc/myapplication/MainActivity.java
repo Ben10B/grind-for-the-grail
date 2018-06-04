@@ -40,15 +40,6 @@ public class MainActivity extends AppCompatActivity
 
         this.user = databaseHelper.generateUserFromDatabase();
         databaseHelper.close();
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -155,12 +146,14 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
     public void createEvent(View view){
-        startActivity(new Intent(this, CreateEventActivity.class));
+        Intent intent = new Intent(this, CreateEventActivity.class);
+        intent.putExtra("user", user);
+        startActivity(intent);
     }
 
     private void createTestDungeons(){
-        user.addDungeon("Test Dungeon 1", new Date(2018,6,7), Difficulty.Squire);
-        user.addDungeon("Test Dungeon 2", new Date(2018,6,28), Difficulty.Knight);
+        user.addDungeon("Test Dungeon 1", new Date(2018,9,26), Difficulty.Squire);
+        user.addDungeon("Test Dungeon 2", new Date(2018,5,7), Difficulty.Knight);
     }
 
     private void addUserDungeons(){
