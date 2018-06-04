@@ -95,6 +95,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
     public void addSprite(int maxhealth, int exp, int level, int gold, SQLiteDatabase db){
         ContentValues contentValues = new ContentValues();
+        contentValues.put(DatabaseSpriteContract.ContractEntry.SPRITEID, 1);
         contentValues.put(DatabaseSpriteContract.ContractEntry.MAXHEALTH, maxhealth);
         contentValues.put(DatabaseSpriteContract.ContractEntry.EXP, exp);
         contentValues.put(DatabaseSpriteContract.ContractEntry.LEVEL, level);
@@ -102,9 +103,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert(DatabaseSpriteContract.ContractEntry.TABLE_NAME,null,contentValues);
         Log.d("Database", "One row inserted in " + DatabaseSpriteContract.ContractEntry.TABLE_NAME);
     }
-    public void addDungeon(String name,int maxhealth, int health, String difficulty, String regularpenalty, String regularreward,
+    public void addDungeon(int dungeonid, String name,int maxhealth, int health, String difficulty, String regularpenalty, String regularreward,
                            String ultimatefailure, String ultimatereward , String heromode, SQLiteDatabase db){
         ContentValues contentValues = new ContentValues();
+        contentValues.put(DatabaseDungeonContract.ContractEntry.DUNGEONID, dungeonid);
         contentValues.put(DatabaseDungeonContract.ContractEntry.NAME, name);
         contentValues.put(DatabaseDungeonContract.ContractEntry.MAXHEALTH, maxhealth);
         contentValues.put(DatabaseDungeonContract.ContractEntry.HEALTH, health);
@@ -117,16 +119,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert(DatabaseDungeonContract.ContractEntry.TABLE_NAME,null,contentValues);
         Log.d("Database", "One row inserted in " + DatabaseDungeonContract.ContractEntry.TABLE_NAME);
     }
-    public void addDungeonDate(int dungeonid, String date, String status, SQLiteDatabase db){
+    public void addDungeonDate(int dateid, int dungeonid, String date, String status, SQLiteDatabase db){
         ContentValues contentValues = new ContentValues();
+        contentValues.put(DatabaseDungeonDatesContract.ContractEntry.DATEID, dateid);
         contentValues.put(DatabaseDungeonDatesContract.ContractEntry.DUNGEONID, dungeonid);
         contentValues.put(DatabaseDungeonDatesContract.ContractEntry.DATE, date);
         contentValues.put(DatabaseDungeonDatesContract.ContractEntry.STATUS, status);
         db.insert(DatabaseDungeonDatesContract.ContractEntry.TABLE_NAME,null,contentValues);
         Log.d("Database", "One row inserted in " + DatabaseDungeonDatesContract.ContractEntry.TABLE_NAME);
     }
-    public void addItem(String itemname, int cost, SQLiteDatabase db){
+    public void addItem(int itemid, String itemname, int cost, SQLiteDatabase db){
         ContentValues contentValues = new ContentValues();
+        contentValues.put(DatabaseItemContract.ContractEntry.ITEMID, itemid);
         contentValues.put(DatabaseItemContract.ContractEntry.ITEMNAME, itemname);
         contentValues.put(DatabaseItemContract.ContractEntry.COST, cost);
         db.insert(DatabaseItemContract.ContractEntry.TABLE_NAME,null,contentValues);
