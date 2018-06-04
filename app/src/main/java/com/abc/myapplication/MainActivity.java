@@ -140,7 +140,9 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if(id == R.id.nav_account){
-            startActivity(new Intent(this, ProfileActivity.class));
+            Intent intent = new Intent(this, ProfileActivity.class);
+            intent.putExtra("user", user);
+            startActivity(intent);
         }else if(id == R.id.nav_modelInfo){
             startActivity(new Intent(this, FoggModelActivity.class));
         }

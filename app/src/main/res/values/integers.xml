@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="dungeon_max_health_int">10</integer>
+    <integer name="dungeon_current_health_int" >5</integer>
+</resources>

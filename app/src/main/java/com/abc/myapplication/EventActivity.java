@@ -132,7 +132,10 @@ public class EventActivity extends AppCompatActivity {
                     Button b = findViewById(id + 2);
                     b.setBackgroundColor(Color.argb(50, 88, 88, 88));
                     b.setTextColor(Color.argb(50, 0, 0, 0));
-                    Toast.makeText(EventActivity.this, R.string.no_btn_clicked_text, Toast.LENGTH_SHORT).show();
+
+                    Difficulty difficulty = dungeon.getDifficulty();
+                    String failMessage = dungeon.failDay(date);
+                    Toast.makeText(EventActivity.this, failMessage, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -151,8 +154,6 @@ public class EventActivity extends AppCompatActivity {
                     b.setTextColor(Color.argb(50, 0,0,0));
                     Difficulty difficulty = dungeon.getDifficulty();
                     String rewardTitle = dungeon.completeDay(date ,user.getSprite());
-
-
                     Toast.makeText(EventActivity.this, rewardTitle, Toast.LENGTH_SHORT).show();
                 }
             }
