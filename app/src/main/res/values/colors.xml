@@ -7,6 +7,6 @@
     <color name="black">#000000</color>
     <color name="darkGrey">#222222</color>
     <color name="seaBlue">#1e605e</color>
-    <color name="MichaelRed">#D32F2F</color>
+    <color name="MichaelRed">#d32f2f</color>
     <color name="MichaelGreen">#4caf50</color>
 </resources>
