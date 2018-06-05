@@ -208,6 +208,7 @@ public class EventActivity extends AppCompatActivity {
                     databaseHelper.close();
                     String date = tv.getText().toString();
                     UpdateWithStatus(date,Status.Completed);
+                    //if(dungeon.is)
                     Toast.makeText(EventActivity.this, rewardTitle, Toast.LENGTH_SHORT).show();
                 }
             }
@@ -222,7 +223,7 @@ public class EventActivity extends AppCompatActivity {
         else if(status == Status.Completed){
             noBtn.setBackgroundColor(Color.argb(50, 88,88,88));
             noBtn.setTextColor(Color.argb(50, 0,0,0));
-            textView.setBackgroundColor(Color.GREEN);
+            textView.setBackgroundColor(getResources().getColor(R.color.MichaelGreen));
             textView.setTextColor(Color.BLACK);
             yesBtn.setBackgroundColor(Color.argb(50, 88,88,88));
             yesBtn.setTextColor(Color.argb(50, 0,0,0));
@@ -230,7 +231,7 @@ public class EventActivity extends AppCompatActivity {
         else if(status == Status.Failed){
             noBtn.setBackgroundColor(Color.argb(50, 88, 88, 88));
             noBtn.setTextColor(Color.argb(50, 0, 0, 0));
-            textView.setBackgroundColor(Color.RED);
+            textView.setBackgroundColor(getResources().getColor(R.color.MichaelRed));
             textView.setTextColor(Color.BLACK);
             yesBtn.setBackgroundColor(Color.argb(50, 88, 88, 88));
             yesBtn.setTextColor(Color.argb(50, 0, 0, 0));
