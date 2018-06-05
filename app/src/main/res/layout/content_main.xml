@@ -40,5 +40,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dungeonContainer" />
+        app:layout_constraintTop_toBottomOf="@+id/dungeonContainer"
+        android:theme="@style/AppTheme.Button" />
 </android.support.constraint.ConstraintLayout>
