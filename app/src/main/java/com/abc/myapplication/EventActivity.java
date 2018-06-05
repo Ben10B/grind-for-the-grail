@@ -21,6 +21,8 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -103,7 +105,8 @@ public class EventActivity extends AppCompatActivity {
 
         //Text Date
         TextView textView = new TextView(this);
-        textView.setText(date.toString());
+        DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+        textView.setText(dateFormat.format(date));
         textView.setId((row_id+1));
         textView.setEms(10);
         textView.setBackgroundColor(Color.BLACK);
@@ -192,9 +195,6 @@ public class EventActivity extends AppCompatActivity {
                     b.setBackgroundColor(Color.argb(50, 88,88,88));
                     b.setTextColor(Color.argb(50, 0,0,0));
                     Difficulty difficulty = dungeon.getDifficulty();
-                    for (DungeonDate date: dungeon.getDungeonDates()) {
-                        Log.d("---EventActivity",  "DungeonDate: " + date.getDate());
-                    }
                     String rewardTitle = dungeon.completeDay(date ,user.getSprite());
 
                     DatabaseHelper databaseHelper = new DatabaseHelper(EventActivity.this);
