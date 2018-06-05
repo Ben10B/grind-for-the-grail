@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".FoggModelActivity"
-    tools:showIn="@layout/activity_fogg_model">
+    tools:showIn="@layout/activity_fogg_model"
+    android:background="">
 
     <TextView
         android:layout_width="wrap_content"
