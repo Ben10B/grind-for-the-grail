@@ -20,9 +20,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
 import java.util.Date;
-
 import Database.DatabaseDungeonContract;
 import Database.DatabaseHelper;
 import Models.Difficulty;

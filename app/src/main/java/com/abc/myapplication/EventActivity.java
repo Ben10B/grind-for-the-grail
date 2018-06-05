@@ -58,11 +58,7 @@ public class EventActivity extends AppCompatActivity {
         dungeon = user.getDungeonByTitle(dungeonTitle);
         setContentView(R.layout.activity_event);
 
-        //Progress Bar Dynamic Stuff
-        progressBar = findViewById(R.id.dungeon_health_progress_bar);
-        progressBar.setMax(dungeon.getMaxHealth());
-        progressBar.setProgress(dungeon.getCurrentHealth());
-
+        updateHealthbar();
         dungeon.updateDungeonDates();
         ArrayList<DungeonDate> dates = dungeon.getDungeonDates();
         int id = 1;
@@ -76,6 +72,16 @@ public class EventActivity extends AppCompatActivity {
             addButtons(printedDate, id, temp.getStatus());
             id += 3;
         }
+    }
+
+    private void updateHealthbar(){
+        int hp = dungeon.getCurrentHealth();
+        int maxhp = dungeon.getMaxHealth();
+        ProgressBar progressBar = findViewById(R.id.dungeon_health_progress_bar);
+        progressBar.setMax(maxhp);
+        progressBar.setProgress(hp);
+        TextView hpTextView = findViewById(R.id.HPTextview);
+        hpTextView.setText("HP: " + hp);
     }
 
     private void addButtons(final Date date, int row_id, Status status) {
@@ -169,7 +175,7 @@ public class EventActivity extends AppCompatActivity {
                     }
                     String date = tv.getText().toString();
                     UpdateWithStatus(date,Status.Failed);
-                    progressBar.setProgress(dungeon.getCurrentHealth());
+                    updateHealthbar();
                     Toast.makeText(EventActivity.this, failMessage, Toast.LENGTH_SHORT).show();
 
                 }
@@ -278,14 +284,13 @@ public class EventActivity extends AppCompatActivity {
             DatabaseHelper databaseHelper = new DatabaseHelper(this);
             Cursor dungeonCursor = databaseHelper.readAllDungeons(databaseHelper.getReadableDatabase());
             if (dungeonCursor.moveToFirst()) {
-//                while (!dungeonCursor.isAfterLast()) {
-//                    if(dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.NAME)).equals(dungeon.getTitle()))
-//                        databaseHelper.deleteDungeon(dungeonCursor.getInt(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.DUNGEONID)),databaseHelper.getWritableDatabase());
-//                }
+                while (!dungeonCursor.isAfterLast()) {
+                    if(dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.NAME)).equals(dungeon.getTitle()))
+                        databaseHelper.deleteDungeon(dungeonCursor.getInt(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.DUNGEONID)),databaseHelper.getWritableDatabase());
+                    dungeonCursor.moveToNext();
+                }
             }databaseHelper.close();
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra("DELETE", dungeon.getTitle());
-            startActivity(intent);
+            startActivity(new Intent(this, MainActivity.class));
             finish();
         }
         return super.onOptionsItemSelected(item);
