@@ -70,7 +70,7 @@ public class EventActivity extends AppCompatActivity {
             DungeonDate temp = dates.get(i);
             Date printedDate = temp.getDate();
 
-            if(currentDate.after(printedDate)){
+            if(printedDate.before(currentDate) && temp.getStatus() == Status.Inactive){
                 UpdateWithStatus(printedDate.toString(), Status.Unresolved);
             }
             addButtons(printedDate, id, temp.getStatus());
@@ -272,18 +272,21 @@ public class EventActivity extends AppCompatActivity {
         super.onOptionsItemSelected(item);
         int id = item.getItemId();
 
+
         //noinspection SimplifiableIfStatement
         if (id == R.id.delete_dungeon) {
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
             DatabaseHelper databaseHelper = new DatabaseHelper(this);
             Cursor dungeonCursor = databaseHelper.readAllDungeons(databaseHelper.getReadableDatabase());
             if (dungeonCursor.moveToFirst()) {
-                while (!dungeonCursor.isAfterLast()) {
-                    if(dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.NAME)).equals(dungeon.getTitle()))
-                        databaseHelper.deleteDungeon(dungeonCursor.getInt(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.DUNGEONID)),databaseHelper.getWritableDatabase());
-                }
-            }
+//                while (!dungeonCursor.isAfterLast()) {
+//                    if(dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.NAME)).equals(dungeon.getTitle()))
+//                        databaseHelper.deleteDungeon(dungeonCursor.getInt(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.DUNGEONID)),databaseHelper.getWritableDatabase());
+//                }
+            }databaseHelper.close();
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("DELETE", dungeon.getTitle());
+            startActivity(intent);
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }

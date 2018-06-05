@@ -1,6 +1,7 @@
 package com.abc.myapplication;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcel;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 
 import java.util.Date;
 
+import Database.DatabaseDungeonContract;
 import Database.DatabaseHelper;
 import Models.Difficulty;
 import Models.Dungeon;
@@ -33,15 +35,26 @@ public class MainActivity extends AppCompatActivity
     private User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+//        Intent deleteIntent = getIntent();
+//        String deleteDungeonTitle = deleteIntent.getStringExtra("DELETE");
+//        if(deleteDungeonTitle != null){
+//            DatabaseHelper dbHelper = new DatabaseHelper(this);
+//            Cursor dungeonCursor = dbHelper.readAllDungeons(dbHelper.getReadableDatabase());
+//            if (dungeonCursor.moveToFirst()) {
+//                while (!dungeonCursor.isAfterLast()) {
+//                    if(dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.NAME)).equals(deleteDungeonTitle)){}
+//                        dbHelper.deleteDungeon(dungeonCursor.getInt(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.DUNGEONID)),dbHelper.getWritableDatabase());
+//                }
+//            }dbHelper.close();
+//        }
 
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
-
         this.user = databaseHelper.generateUserFromDatabase();
-        databaseHelper.close();
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
