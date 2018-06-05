@@ -192,6 +192,9 @@ public class EventActivity extends AppCompatActivity {
                     b.setBackgroundColor(Color.argb(50, 88,88,88));
                     b.setTextColor(Color.argb(50, 0,0,0));
                     Difficulty difficulty = dungeon.getDifficulty();
+                    for (DungeonDate date: dungeon.getDungeonDates()) {
+                        Log.d("---EventActivity",  "DungeonDate: " + date.getDate());
+                    }
                     String rewardTitle = dungeon.completeDay(date ,user.getSprite());
 
                     DatabaseHelper databaseHelper = new DatabaseHelper(EventActivity.this);
@@ -205,7 +208,6 @@ public class EventActivity extends AppCompatActivity {
                     databaseHelper.close();
                     String date = tv.getText().toString();
                     UpdateWithStatus(date,Status.Completed);
-                    Log.d("INFO", user.getSprite().getExp() + "Experience");
                     Toast.makeText(EventActivity.this, rewardTitle, Toast.LENGTH_SHORT).show();
                 }
             }
