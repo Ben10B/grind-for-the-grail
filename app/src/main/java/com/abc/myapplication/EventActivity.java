@@ -173,6 +173,7 @@ public class EventActivity extends AppCompatActivity {
                             dungeonCursor.moveToNext();
                         }
                     }
+                    dungeonCursor.close();
                     String date = tv.getText().toString();
                     UpdateWithStatus(date,Status.Failed);
                     updateHealthbar();
@@ -210,7 +211,7 @@ public class EventActivity extends AppCompatActivity {
                     UpdateWithStatus(date,Status.Completed);
                     if(dungeon.isCompleted()){
                         deleteCurrentDungeon();
-                        //startActivity(new Intent(this, MainActivity.class));
+                        startActivity(new Intent(EventActivity.this, VictoryActivity.class));
                     }else {
                         Toast.makeText(EventActivity.this, rewardTitle, Toast.LENGTH_SHORT).show();
                     }
@@ -255,6 +256,7 @@ public class EventActivity extends AppCompatActivity {
                 dungeonCursor.moveToNext();
             }
         }
+        dungeonCursor.close();
         Cursor dungeonDatesCursor = databaseHelper.readDungeonDatesByDungeon(dungeonid,databaseHelper.getReadableDatabase());
         if (dungeonDatesCursor.moveToFirst()) {
             while (!dungeonDatesCursor.isAfterLast()) {
@@ -268,6 +270,7 @@ public class EventActivity extends AppCompatActivity {
                 dungeonDatesCursor.moveToNext();
             }
         }
+        dungeonDatesCursor.close();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
