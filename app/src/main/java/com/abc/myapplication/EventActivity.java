@@ -58,30 +58,24 @@ public class EventActivity extends AppCompatActivity {
         progressBar.setMax(dungeon.getMaxHealth());
         progressBar.setProgress(dungeon.getCurrentHealth());
 
-//        viewPager = findViewById(R.id.pager);
-//        adapter = new ViewPagerAdapter(getSupportFragmentManager());
-//        viewPager.setAdapter(adapter);
-//
-//        tabLayout = findViewById(R.id.tabs);
-//        tabLayout.setupWithViewPager(viewPager);
-
         dungeon.updateDungeonDates();
         ArrayList<DungeonDate> dates = dungeon.getDungeonDates();
         int id = 1;
         for (int i = 0; i < dates.size(); i++) {
             DungeonDate temp = dates.get(i);
             Date printedDate = temp.getDate();
-            if(temp.getStatus() == Status.Inactive) {
-                addButtons(printedDate, id, "yet");
-            }else if(temp.getStatus() == Status.Unresolved){
-                addButtons(printedDate, id, "came");
-            }
+//            if(temp.getStatus() == Status.Inactive) {
+//                addButtons(printedDate, id, "yet");
+//            }else if(temp.getStatus() == Status.Unresolved){
+//                addButtons(printedDate, id, "came");
+//            }
+            addButtons(printedDate, id, temp.getStatus());
             id += 3;
         }
 
     }
 
-    private void addButtons(final Date date, int row_id, String has) {
+    private void addButtons(final Date date, int row_id, Status status) {
         //Row Container
         TableRow tableRow = new TableRow(this);
         tableRow.setGravity(Gravity.CENTER);
@@ -209,12 +203,31 @@ public class EventActivity extends AppCompatActivity {
                 }
             }
         });
-        if(has.equals("yet")){
+        if(status == Status.Inactive){
             noBtn.setClickable(false);
             yesBtn.setClickable(false);
             noBtn.setBackgroundColor(Color.argb(50, 88,88,88));
             yesBtn.setBackgroundColor(Color.argb(50, 88,88,88));
             textView.setBackgroundColor(Color.argb(50, 88,88,88));
+        }
+        else if(status == Status.Completed){
+            noBtn.setBackgroundColor(Color.argb(50, 88,88,88));
+            noBtn.setTextColor(Color.argb(50, 0,0,0));
+            textView.setBackgroundColor(Color.GREEN);
+            textView.setTextColor(Color.BLACK);
+            yesBtn.setBackgroundColor(Color.argb(50, 88,88,88));
+            yesBtn.setTextColor(Color.argb(50, 0,0,0));
+        }
+        else if(status == Status.Failed){
+            noBtn.setBackgroundColor(Color.argb(50, 88, 88, 88));
+            noBtn.setTextColor(Color.argb(50, 0, 0, 0));
+            textView.setBackgroundColor(Color.RED);
+            textView.setTextColor(Color.BLACK);
+            yesBtn.setBackgroundColor(Color.argb(50, 88, 88, 88));
+            yesBtn.setTextColor(Color.argb(50, 0, 0, 0));
+        }
+        if(date.before(currentDate) && status == Status.Inactive){
+            UpdateWithStatus(textView.getText().toString(), Status.Unresolved);
         }
     }
     private void UpdateWithStatus(String date,Status status){
