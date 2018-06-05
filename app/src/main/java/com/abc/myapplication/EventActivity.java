@@ -70,10 +70,12 @@ public class EventActivity extends AppCompatActivity {
 //            }else if(temp.getStatus() == Status.Unresolved){
 //                addButtons(printedDate, id, "came");
 //            }
+            if(currentDate.after(printedDate)){
+                UpdateWithStatus(printedDate.toString(), Status.Unresolved);
+            }
             addButtons(printedDate, id, temp.getStatus());
             id += 3;
         }
-
     }
 
     private void addButtons(final Date date, int row_id, Status status) {
@@ -229,9 +231,9 @@ public class EventActivity extends AppCompatActivity {
             yesBtn.setBackgroundColor(Color.argb(50, 88, 88, 88));
             yesBtn.setTextColor(Color.argb(50, 0, 0, 0));
         }
-        if(date.before(currentDate) && status == Status.Inactive){
-            UpdateWithStatus(textView.getText().toString(), Status.Unresolved);
-        }
+//        if(currentDate.after(date) && status == Status.Inactive){
+//            UpdateWithStatus(textView.getText().toString(), Status.Unresolved);
+//        }
     }
     private void UpdateWithStatus(String date,Status status){
         DatabaseHelper databaseHelper = new DatabaseHelper(EventActivity.this);
