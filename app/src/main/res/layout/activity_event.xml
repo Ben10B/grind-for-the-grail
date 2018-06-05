@@ -55,13 +55,6 @@
             android:progressBackgroundTint="@color/white"
             android:progressTint="@color/colorAccent" />
 
-        <Button
-            android:id="@+id/event_delete_dungeon_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="DELETE DUNGEON"
-            android:theme="@style/AppTheme.Button" />
-
     </LinearLayout>
 
 </ScrollView>
