@@ -274,7 +274,16 @@ public class EventActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.delete_dungeon) {
-
+            DatabaseHelper databaseHelper = new DatabaseHelper(this);
+            Cursor dungeonCursor = databaseHelper.readAllDungeons(databaseHelper.getReadableDatabase());
+            if (dungeonCursor.moveToFirst()) {
+                while (!dungeonCursor.isAfterLast()) {
+                    if(dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.NAME)).equals(dungeon.getTitle()))
+                        databaseHelper.deleteDungeon(dungeonCursor.getInt(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.DUNGEONID)),databaseHelper.getWritableDatabase());
+                }
+            }
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }
