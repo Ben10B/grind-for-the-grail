@@ -1,7 +1,5 @@
 package Models;
 
-import android.text.format.DateUtils;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -167,7 +165,7 @@ public class Dungeon implements Serializable {
      *
      * @return - Whether the Dungeon is completed.
      */
-    private boolean isCompleted() {
+    public boolean isCompleted() {
         boolean output = true;
         ArrayList<DungeonDate> dates = getDungeonDates();
         for (DungeonDate dDate : dates) {
