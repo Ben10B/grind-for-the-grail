@@ -21,6 +21,8 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -99,7 +101,8 @@ public class EventActivity extends AppCompatActivity {
 
         //Text Date
         TextView textView = new TextView(this);
-        textView.setText(date.toString());
+        DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+        textView.setText(dateFormat.format(date));
         textView.setId((row_id+1));
         textView.setEms(10);
         textView.setBackgroundColor(Color.BLACK);
@@ -188,9 +191,6 @@ public class EventActivity extends AppCompatActivity {
                     b.setBackgroundColor(Color.argb(50, 88,88,88));
                     b.setTextColor(Color.argb(50, 0,0,0));
                     Difficulty difficulty = dungeon.getDifficulty();
-                    for (DungeonDate date: dungeon.getDungeonDates()) {
-                        Log.d("---EventActivity",  "DungeonDate: " + date.getDate());
-                    }
                     String rewardTitle = dungeon.completeDay(date ,user.getSprite());
 
                     DatabaseHelper databaseHelper = new DatabaseHelper(EventActivity.this);
@@ -241,7 +241,9 @@ public class EventActivity extends AppCompatActivity {
         int dungeonid = -1;
         if (dungeonCursor.moveToFirst()) {
             while (!dungeonCursor.isAfterLast()) {
-                if(dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.NAME)) == dungeon.getTitle())
+                String d = dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.NAME));
+                String e = dungeon.getTitle();
+                if( d.equals(e) )
                     dungeonid =  dungeonCursor.getInt(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.DUNGEONID));
                 dungeonCursor.moveToNext();
             }
@@ -249,7 +251,9 @@ public class EventActivity extends AppCompatActivity {
         Cursor dungeonDatesCursor = databaseHelper.readDungeonDatesByDungeon(dungeonid,databaseHelper.getReadableDatabase());
         if (dungeonDatesCursor.moveToFirst()) {
             while (!dungeonDatesCursor.isAfterLast()) {
-                if(dungeonDatesCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonDatesContract.ContractEntry.DATE)) == date)
+                String x = date;
+                String a = dungeonDatesCursor.getString(dungeonDatesCursor.getColumnIndex(DatabaseDungeonDatesContract.ContractEntry.DATE));
+                if(dungeonDatesCursor.getString(dungeonDatesCursor.getColumnIndex(DatabaseDungeonDatesContract.ContractEntry.DATE)).equals(date))
                     databaseHelper.updateDungeonDates(dungeonDatesCursor.getInt(dungeonDatesCursor.getColumnIndex(DatabaseDungeonDatesContract.ContractEntry.DATEID)),
                             dungeonid,
                             dungeonDatesCursor.getString(dungeonDatesCursor.getColumnIndex(DatabaseDungeonDatesContract.ContractEntry.DATE)),
