@@ -59,14 +59,14 @@ public class CreateEventActivity extends AppCompatActivity {
         try {
             diff = button.getText().toString();
 
-            int year = Integer.parseInt(date.substring(6, 10));
             int month = Integer.parseInt(date.substring(0, 2)) - 1;
             int day = Integer.parseInt(date.substring(3, 5));
+            int year = Integer.parseInt(date.substring(6, 10));
 
             Calendar now = Calendar.getInstance();
             int currentYear = now.get(Calendar.YEAR);
             if (year >= currentYear) {
-                if (month < 12 && month > 0) {
+                if (month < 12 && month >= 0) {
                     Calendar days = new GregorianCalendar(year, month, 1);
                     int daysInMonth = days.getActualMaximum(Calendar.DAY_OF_MONTH);
                     if (day <= daysInMonth) {
@@ -96,7 +96,8 @@ public class CreateEventActivity extends AppCompatActivity {
             databaseHelper.addDungeon(dungeonid,goal,maxhealth, maxhealth, diff, penalty,reward, "", "", null, database);
 
             for (DungeonDate d : dungeon.getDungeonDates()) {
-                DateFormat dateFormat = new SimpleDateFormat("mm-dd-yyyy hh:mm:ss");
+                DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+                String date1 = dateFormat.format(d.getDate());
                 Cursor dungeonDateCursor = databaseHelper.readAllDungeonDates(databaseHelper.getReadableDatabase());
                 int dateid = 0;
                 if(dungeonDateCursor.getCount() != 0){

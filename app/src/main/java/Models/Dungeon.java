@@ -73,8 +73,9 @@ public class Dungeon implements Serializable {
     }
 
     public String failDay(Date day) {
+        ArrayList<DungeonDate> dates = getDungeonDates();
         String penalty = "";
-        DungeonDate failedDay = getDungeonDates().get(getDungeonDateIndexByDate(day));
+        DungeonDate failedDay = dates.get(getDungeonDateIndexByDate(day));
         failedDay.setStatus(Status.Failed);
         int hpLost = getHealthLost();
         currentHealth -= hpLost;
@@ -85,13 +86,15 @@ public class Dungeon implements Serializable {
             penalty = getUltimatePenalty();
         }
         String output = "- " + hpLost + " hp\n" + penalty;
+        setDungeonDates(dates);
         return output;
     }
 
     public String completeDay(Date day, Sprite sprite) {
+        ArrayList<DungeonDate> dates = getDungeonDates();
         String reward = "";
         Random rand = new Random();
-        DungeonDate completedDay = getDungeonDates().get(getDungeonDateIndexByDate(day));
+        DungeonDate completedDay = dates.get(getDungeonDateIndexByDate(day));
         completedDay.setStatus(Status.Completed);
         int exp = 0;
         int gold = rand.nextInt(10) + 1;
@@ -134,6 +137,7 @@ public class Dungeon implements Serializable {
         sprite.addExp(exp);
         sprite.addGold(gold);
         String output = "+ " + gold + " gp + " + exp + " xp\n" + reward;
+        setDungeonDates(dates);
         return output;
     }
 
@@ -234,11 +238,11 @@ public class Dungeon implements Serializable {
         int index = getDungeonDateIndexByDate(Calendar.getInstance().getTime());
         for (int i = index; i >= 0; i--) {
             DungeonDate ddate = dates.get(i);
-//                if (ddate.getStatus() != Status.Failed || ddate.getStatus() != Status.Completed) {
             if (ddate.getStatus() == Status.Inactive) {
                 ddate.setStatus(Status.Unresolved);
             }
         }
+        setDungeonDates(dates);
     }
 
     //Getters and Setters beyond this point
