@@ -12,6 +12,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.EventLog;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -55,6 +57,7 @@ public class EventActivity extends AppCompatActivity {
         String dungeonTitle = intent.getStringExtra("dungeonTitle");
         dungeon = user.getDungeonByTitle(dungeonTitle);
         setContentView(R.layout.activity_event);
+
 
         //Progress Bar Dynamic Stuff
         progressBar = findViewById(R.id.dungeon_health_progress_bar);
@@ -227,9 +230,9 @@ public class EventActivity extends AppCompatActivity {
             yesBtn.setBackgroundColor(Color.argb(50, 88, 88, 88));
             yesBtn.setTextColor(Color.argb(50, 0, 0, 0));
         }
-        if(currentDate.after(date) && status == Status.Inactive){
-            UpdateWithStatus(textView.getText().toString(), Status.Unresolved);
-        }
+//        if(currentDate.after(date) && status == Status.Inactive){
+//            UpdateWithStatus(textView.getText().toString(), Status.Unresolved);
+//        }
     }
     private void UpdateWithStatus(String date,Status status){
         DatabaseHelper databaseHelper = new DatabaseHelper(EventActivity.this);
@@ -257,5 +260,27 @@ public class EventActivity extends AppCompatActivity {
                 dungeonDatesCursor.moveToNext();
             }
         }
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_event, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        super.onOptionsItemSelected(item);
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.delete_dungeon) {
+
+            return true;
+        }
+        return true;
     }
 }

@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.abc.myapplication.EventActivity">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/delete_dungeon"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="Delete Dungeon"
         app:showAsAction="never" />
 </menu>
