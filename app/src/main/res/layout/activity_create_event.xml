@@ -52,7 +52,8 @@
             android:ems="10"
             android:hint="@string/endDateInput"
             android:inputType="date"
-            android:textColorHint="@color/black" />
+            android:textColor="@color/white"
+            android:textColorHint="@color/white" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -75,6 +76,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/rewardInput"
+            android:textColor="@color/white"
             android:textColorHint="@color/white" />
     </android.support.design.widget.TextInputLayout>
 
@@ -97,6 +99,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/punishmentInput"
+            android:textColor="@color/white"
             android:textColorHint="@color/white" />
     </android.support.design.widget.TextInputLayout>
 
