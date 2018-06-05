@@ -52,13 +52,14 @@ public class Sprite implements Serializable{
     public void levelUp(int overflow) {
         setMaxHealth(getMaxHealth() + 1);
         setExp(0 + overflow);
+        setLevel(getLevel()+1);
     }
 
     public void addExp(int amt) {
         setExp(getExp() + amt);
         int nextLvl = ((getLevel() * 2) + 3);
         if (getExp() >= nextLvl) {
-            levelUp((nextLvl - getExp()));
+            levelUp((getExp() - nextLvl));
         }
     }
 

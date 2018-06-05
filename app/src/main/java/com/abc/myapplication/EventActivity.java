@@ -43,6 +43,7 @@ public class EventActivity extends AppCompatActivity {
     Date currentDate = Calendar.getInstance().getTime();
     private User user;
     private Dungeon dungeon;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,7 @@ public class EventActivity extends AppCompatActivity {
         setContentView(R.layout.activity_event);
 
         //Progress Bar Dynamic Stuff
-        ProgressBar progressBar = findViewById(R.id.dungeon_health_progress_bar);
+        progressBar = findViewById(R.id.dungeon_health_progress_bar);
         progressBar.setMax(dungeon.getMaxHealth());
         progressBar.setProgress(dungeon.getCurrentHealth());
 
@@ -165,7 +166,7 @@ public class EventActivity extends AppCompatActivity {
                     }
                     String date = tv.getText().toString();
                     UpdateWithStatus(date,Status.Failed);
-
+                    progressBar.setProgress(dungeon.getCurrentHealth());
                     Toast.makeText(EventActivity.this, failMessage, Toast.LENGTH_SHORT).show();
 
                 }
@@ -185,6 +186,9 @@ public class EventActivity extends AppCompatActivity {
                     b.setBackgroundColor(Color.argb(50, 88,88,88));
                     b.setTextColor(Color.argb(50, 0,0,0));
                     Difficulty difficulty = dungeon.getDifficulty();
+                    for (DungeonDate date: dungeon.getDungeonDates()) {
+                        Log.d("---EventActivity",  "DungeonDate: " + date.getDate());
+                    }
                     String rewardTitle = dungeon.completeDay(date ,user.getSprite());
 
                     DatabaseHelper databaseHelper = new DatabaseHelper(EventActivity.this);
@@ -198,7 +202,6 @@ public class EventActivity extends AppCompatActivity {
                     databaseHelper.close();
                     String date = tv.getText().toString();
                     UpdateWithStatus(date,Status.Completed);
-                    Log.d("INFO", user.getSprite().getExp() + "Experience");
                     Toast.makeText(EventActivity.this, rewardTitle, Toast.LENGTH_SHORT).show();
                 }
             }
