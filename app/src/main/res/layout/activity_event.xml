@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".EventActivity"
     android:orientation="vertical"
-    android:background="@drawable/cave3">
+    android:background="@drawable/blue3">
     <!--<include layout="@layout/toolbar_layout"/>-->
 
     <!--<android.support.design.widget.TabLayout-->

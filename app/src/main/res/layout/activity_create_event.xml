@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CreateEventActivity"
-    android:background="@drawable/register">
+    android:background="@drawable/blue1">
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/textInputLayout2"
@@ -16,7 +16,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:textColorHint="@color/black"
+        android:textColorHint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,7 +26,8 @@
             android:id="@+id/goalText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/goalInput" />
+            android:hint="@string/goalInput"
+            android:textColor="@color/white" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -38,7 +39,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:textColorHint="@color/black"
+        android:textColorHint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,7 +64,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:textColorHint="@color/black"
+        android:textColorHint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -74,7 +75,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/rewardInput"
-            android:textColorHint="@color/black" />
+            android:textColorHint="@color/white" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -86,7 +87,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:textColorHint="@color/black"
+        android:textColorHint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
@@ -95,7 +96,8 @@
             android:id="@+id/punishmentText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/punishmentInput" />
+            android:hint="@string/punishmentInput"
+            android:textColorHint="@color/white" />
     </android.support.design.widget.TextInputLayout>
 
     <TextView
@@ -110,7 +112,7 @@
         android:layout_weight="1"
         android:text="@string/diffTextView"
         android:textAllCaps="true"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -138,7 +140,7 @@
             android:layout_weight="1"
             android:checked="false"
             android:text="@string/easyRadioBtn"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
 
@@ -148,6 +150,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/mediumRadioBtn"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
             app:layout_constraintEnd_toStartOf="@+id/hardButton"
             app:layout_constraintStart_toEndOf="@+id/easyButton"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
@@ -158,6 +162,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/hardRadioBtn"
+            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
 
