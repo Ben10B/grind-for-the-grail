@@ -208,8 +208,13 @@ public class EventActivity extends AppCompatActivity {
                     databaseHelper.close();
                     String date = tv.getText().toString();
                     UpdateWithStatus(date,Status.Completed);
-                    //if(dungeon.is)
-                    Toast.makeText(EventActivity.this, rewardTitle, Toast.LENGTH_SHORT).show();
+                    if(dungeon.isCompleted()){
+                        deleteCurrentDungeon();
+                        //startActivity(new Intent(this, MainActivity.class));
+                    }else {
+                        Toast.makeText(EventActivity.this, rewardTitle, Toast.LENGTH_SHORT).show();
+                    }
+
                 }
             }
         });
@@ -282,18 +287,22 @@ public class EventActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.delete_dungeon) {
-            DatabaseHelper databaseHelper = new DatabaseHelper(this);
-            Cursor dungeonCursor = databaseHelper.readAllDungeons(databaseHelper.getReadableDatabase());
-            if (dungeonCursor.moveToFirst()) {
-                while (!dungeonCursor.isAfterLast()) {
-                    if(dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.NAME)).equals(dungeon.getTitle()))
-                        databaseHelper.deleteDungeon(dungeonCursor.getInt(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.DUNGEONID)),databaseHelper.getWritableDatabase());
-                    dungeonCursor.moveToNext();
-                }
-            }databaseHelper.close();
+            deleteCurrentDungeon();
             startActivity(new Intent(this, MainActivity.class));
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+    private void deleteCurrentDungeon(){
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        Cursor dungeonCursor = databaseHelper.readAllDungeons(databaseHelper.getReadableDatabase());
+        if (dungeonCursor.moveToFirst()) {
+            while (!dungeonCursor.isAfterLast()) {
+                if(dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.NAME)).equals(dungeon.getTitle()))
+                    databaseHelper.deleteDungeon(dungeonCursor.getInt(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.DUNGEONID)),databaseHelper.getWritableDatabase());
+                dungeonCursor.moveToNext();
+            }
+        }databaseHelper.close();
+        dungeonCursor.close();
     }
 }
