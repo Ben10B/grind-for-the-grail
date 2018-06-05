@@ -4,22 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".VictoryActivity"
-    android:background="@drawable/reward1">
+    tools:context=".LevelUpActivity"
+    android:background="@drawable/level_up">
 
     <TextView
-        android:id="@+id/victory_textview"
+        android:id="@+id/level_up_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:hapticFeedbackEnabled="true"
-        android:text="Congratulations on completing your goal!"
-        android:textColor="@color/white"
-        android:textSize="18sp"
+        android:layout_marginTop="24dp"
+        android:text="YOU ARE NOW LEVEL"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

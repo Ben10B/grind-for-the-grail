@@ -4,23 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".VictoryActivity"
-    android:background="@drawable/reward1">
+    tools:context=".FailedActivity"
+    android:background="@drawable/penalty1">
 
     <TextView
-        android:id="@+id/victory_textview"
+        android:id="@+id/failure_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:hapticFeedbackEnabled="true"
-        android:text="Congratulations on completing your goal!"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        android:layout_marginTop="24dp"
+        android:text="You Died!"
+        android:textColor="@color/MichaelRed"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

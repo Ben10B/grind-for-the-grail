@@ -94,7 +94,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 dungeonid = dungeonCursor.getInt(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.DUNGEONID)) + 1;
             }
             databaseHelper.addDungeon(dungeonid,goal,maxhealth, maxhealth, diff, penalty,reward, "", "", null, database);
-
+            dungeonCursor.close();
             for (DungeonDate d : dungeon.getDungeonDates()) {
                 DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
                 String date1 = dateFormat.format(d.getDate());
@@ -105,6 +105,7 @@ public class CreateEventActivity extends AppCompatActivity {
                     dateid = dungeonDateCursor.getInt(dungeonDateCursor.getColumnIndex(DatabaseDungeonDatesContract.ContractEntry.DATEID)) + 1;
                 }
                 databaseHelper.addDungeonDate(dateid, dungeonid, dateFormat.format(d.getDate()), d.getStatus().toString(), databaseHelper.getWritableDatabase());
+                dungeonDateCursor.close();
             }
             databaseHelper.close();
 

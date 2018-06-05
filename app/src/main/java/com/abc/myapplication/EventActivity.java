@@ -173,6 +173,7 @@ public class EventActivity extends AppCompatActivity {
                             dungeonCursor.moveToNext();
                         }
                     }
+                    dungeonCursor.close();
                     String date = tv.getText().toString();
                     UpdateWithStatus(date,Status.Failed);
                     updateHealthbar();
@@ -184,6 +185,7 @@ public class EventActivity extends AppCompatActivity {
         yesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if(yesBtn.getCurrentTextColor() != Color.argb(50, 0,0,0)) {
                     yesBtn.setBackgroundColor(Color.argb(50, 88,88,88));
                     yesBtn.setTextColor(Color.argb(50, 0,0,0));
@@ -195,7 +197,9 @@ public class EventActivity extends AppCompatActivity {
                     b.setBackgroundColor(Color.argb(50, 88,88,88));
                     b.setTextColor(Color.argb(50, 0,0,0));
                     Difficulty difficulty = dungeon.getDifficulty();
+                    int spriteLevel = user.getSprite().getLevel();
                     String rewardTitle = dungeon.completeDay(date ,user.getSprite());
+                    int updatedSpriteLevel = user.getSprite().getLevel();
 
                     DatabaseHelper databaseHelper = new DatabaseHelper(EventActivity.this);
                     Cursor spriteCursor = databaseHelper.readAllSprites(databaseHelper.getReadableDatabase());
@@ -208,7 +212,13 @@ public class EventActivity extends AppCompatActivity {
                     databaseHelper.close();
                     String date = tv.getText().toString();
                     UpdateWithStatus(date,Status.Completed);
-                    Toast.makeText(EventActivity.this, rewardTitle, Toast.LENGTH_SHORT).show();
+                    if(dungeon.isCompleted()){
+                        deleteCurrentDungeon();
+                        startActivity(new Intent(EventActivity.this, VictoryActivity.class));
+                    }else {
+                        Toast.makeText(EventActivity.this, rewardTitle, Toast.LENGTH_SHORT).show();
+                    }
+
                 }
             }
         });
@@ -222,7 +232,7 @@ public class EventActivity extends AppCompatActivity {
         else if(status == Status.Completed){
             noBtn.setBackgroundColor(Color.argb(50, 88,88,88));
             noBtn.setTextColor(Color.argb(50, 0,0,0));
-            textView.setBackgroundColor(Color.GREEN);
+            textView.setBackgroundColor(getResources().getColor(R.color.MichaelGreen));
             textView.setTextColor(Color.BLACK);
             yesBtn.setBackgroundColor(Color.argb(50, 88,88,88));
             yesBtn.setTextColor(Color.argb(50, 0,0,0));
@@ -230,7 +240,7 @@ public class EventActivity extends AppCompatActivity {
         else if(status == Status.Failed){
             noBtn.setBackgroundColor(Color.argb(50, 88, 88, 88));
             noBtn.setTextColor(Color.argb(50, 0, 0, 0));
-            textView.setBackgroundColor(Color.RED);
+            textView.setBackgroundColor(getResources().getColor(R.color.MichaelRed));
             textView.setTextColor(Color.BLACK);
             yesBtn.setBackgroundColor(Color.argb(50, 88, 88, 88));
             yesBtn.setTextColor(Color.argb(50, 0, 0, 0));
@@ -249,6 +259,7 @@ public class EventActivity extends AppCompatActivity {
                 dungeonCursor.moveToNext();
             }
         }
+        dungeonCursor.close();
         Cursor dungeonDatesCursor = databaseHelper.readDungeonDatesByDungeon(dungeonid,databaseHelper.getReadableDatabase());
         if (dungeonDatesCursor.moveToFirst()) {
             while (!dungeonDatesCursor.isAfterLast()) {
@@ -262,6 +273,7 @@ public class EventActivity extends AppCompatActivity {
                 dungeonDatesCursor.moveToNext();
             }
         }
+        dungeonDatesCursor.close();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -281,18 +293,22 @@ public class EventActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.delete_dungeon) {
-            DatabaseHelper databaseHelper = new DatabaseHelper(this);
-            Cursor dungeonCursor = databaseHelper.readAllDungeons(databaseHelper.getReadableDatabase());
-            if (dungeonCursor.moveToFirst()) {
-                while (!dungeonCursor.isAfterLast()) {
-                    if(dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.NAME)).equals(dungeon.getTitle()))
-                        databaseHelper.deleteDungeon(dungeonCursor.getInt(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.DUNGEONID)),databaseHelper.getWritableDatabase());
-                    dungeonCursor.moveToNext();
-                }
-            }databaseHelper.close();
+            deleteCurrentDungeon();
             startActivity(new Intent(this, MainActivity.class));
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+    private void deleteCurrentDungeon(){
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        Cursor dungeonCursor = databaseHelper.readAllDungeons(databaseHelper.getReadableDatabase());
+        if (dungeonCursor.moveToFirst()) {
+            while (!dungeonCursor.isAfterLast()) {
+                if(dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.NAME)).equals(dungeon.getTitle()))
+                    databaseHelper.deleteDungeon(dungeonCursor.getInt(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.DUNGEONID)),databaseHelper.getWritableDatabase());
+                dungeonCursor.moveToNext();
+            }
+        }databaseHelper.close();
+        dungeonCursor.close();
     }
 }

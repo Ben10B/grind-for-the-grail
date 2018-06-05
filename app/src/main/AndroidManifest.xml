@@ -61,7 +61,18 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.abc.myapplication.MainActivity" />
         </activity>
-        <activity android:name=".VictoryActivity"></activity>
+        <activity android:name=".VictoryActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.abc.myapplication.MainActivity" />
+        </activity>
+        <activity android:name=".FailedActivity" />
+
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.abc.myapplication.MainActivity" />
+
+        <activity android:name=".LevelUpActivity"></activity>
     </application>
 
 </manifest>
