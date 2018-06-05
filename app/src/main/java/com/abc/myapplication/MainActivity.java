@@ -35,19 +35,6 @@ public class MainActivity extends AppCompatActivity
     private User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        Intent deleteIntent = getIntent();
-//        String deleteDungeonTitle = deleteIntent.getStringExtra("DELETE");
-//        if(deleteDungeonTitle != null){
-//            DatabaseHelper dbHelper = new DatabaseHelper(this);
-//            Cursor dungeonCursor = dbHelper.readAllDungeons(dbHelper.getReadableDatabase());
-//            if (dungeonCursor.moveToFirst()) {
-//                while (!dungeonCursor.isAfterLast()) {
-//                    if(dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.NAME)).equals(deleteDungeonTitle)){}
-//                        dbHelper.deleteDungeon(dungeonCursor.getInt(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.DUNGEONID)),dbHelper.getWritableDatabase());
-//                }
-//            }dbHelper.close();
-//        }
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
