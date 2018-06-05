@@ -169,7 +169,6 @@ public class MainActivity extends AppCompatActivity
             btnShow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(MainActivity.this, "Dungeon Screen", Toast.LENGTH_LONG).show();
                     Intent send = new Intent(MainActivity.this, EventActivity.class);
                     send.putExtra("user", user);
                     send.putExtra("dungeonTitle", btnShow.getText());
