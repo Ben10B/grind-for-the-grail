@@ -58,7 +58,6 @@ public class EventActivity extends AppCompatActivity {
         dungeon = user.getDungeonByTitle(dungeonTitle);
         setContentView(R.layout.activity_event);
 
-
         //Progress Bar Dynamic Stuff
         progressBar = findViewById(R.id.dungeon_health_progress_bar);
         progressBar.setMax(dungeon.getMaxHealth());
@@ -230,9 +229,6 @@ public class EventActivity extends AppCompatActivity {
             yesBtn.setBackgroundColor(Color.argb(50, 88, 88, 88));
             yesBtn.setTextColor(Color.argb(50, 0, 0, 0));
         }
-//        if(currentDate.after(date) && status == Status.Inactive){
-//            UpdateWithStatus(textView.getText().toString(), Status.Unresolved);
-//        }
     }
     private void UpdateWithStatus(String date,Status status){
         DatabaseHelper databaseHelper = new DatabaseHelper(EventActivity.this);
@@ -279,8 +275,7 @@ public class EventActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.delete_dungeon) {
 
-            return true;
         }
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 }
