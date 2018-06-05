@@ -96,7 +96,7 @@ public class CreateEventActivity extends AppCompatActivity {
             databaseHelper.addDungeon(dungeonid,goal,maxhealth, maxhealth, diff, penalty,reward, "", "", null, database);
 
             for (DungeonDate d : dungeon.getDungeonDates()) {
-                DateFormat dateFormat = new SimpleDateFormat("mm-dd-yyyy");
+                DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
                 String date1 = dateFormat.format(d.getDate());
                 Cursor dungeonDateCursor = databaseHelper.readAllDungeonDates(databaseHelper.getReadableDatabase());
                 int dateid = 0;
