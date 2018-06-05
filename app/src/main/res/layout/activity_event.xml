@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".EventActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/seaBlue">
     <!--<include layout="@layout/toolbar_layout"/>-->
 
     <!--<android.support.design.widget.TabLayout-->
@@ -30,7 +31,8 @@
         android:id="@+id/buttonContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:background="@color/seaBlue">
 
         <TextView
             android:id="@+id/textView5"
@@ -44,6 +46,8 @@
         <ProgressBar
             android:id="@+id/dungeon_health_progress_bar"
             style="?android:attr/progressBarStyleHorizontal"
+            android:progressTint="@color/colorAccent"
+            android:progressBackgroundTint="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:max="@integer/dungeon_max_health_int"
