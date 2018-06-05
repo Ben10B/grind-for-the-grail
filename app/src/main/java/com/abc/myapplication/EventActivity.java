@@ -43,6 +43,7 @@ public class EventActivity extends AppCompatActivity {
     Date currentDate = Calendar.getInstance().getTime();
     private User user;
     private Dungeon dungeon;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,7 @@ public class EventActivity extends AppCompatActivity {
         setContentView(R.layout.activity_event);
 
         //Progress Bar Dynamic Stuff
-        ProgressBar progressBar = findViewById(R.id.dungeon_health_progress_bar);
+        progressBar = findViewById(R.id.dungeon_health_progress_bar);
         progressBar.setMax(dungeon.getMaxHealth());
         progressBar.setProgress(dungeon.getCurrentHealth());
 
@@ -171,7 +172,7 @@ public class EventActivity extends AppCompatActivity {
                     }
                     String date = tv.getText().toString();
                     UpdateWithStatus(date,Status.Failed);
-
+                    progressBar.setProgress(dungeon.getCurrentHealth());
                     Toast.makeText(EventActivity.this, failMessage, Toast.LENGTH_SHORT).show();
 
                 }
