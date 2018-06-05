@@ -191,7 +191,7 @@ public class Dungeon implements Serializable {
 //        DungeonDate output = null;
         ArrayList<DungeonDate> dates = getDungeonDates();
         for (int i = 0; i < dates.size(); i++) {
-            if (dates.get(i).getDate() == date) {
+            if (isSameDay(dates.get(i).getDate(), date)) {
 //                output = dates[i];
                 index = i;
                 break;
@@ -210,6 +210,7 @@ public class Dungeon implements Serializable {
      */
     private ArrayList<DungeonDate> createDungeonDates(Date endDate) {
         ArrayList<DungeonDate> dates = new ArrayList<DungeonDate>();
+        endDate.setYear(endDate.getYear()-1900);
         Calendar c = Calendar.getInstance();
         DungeonDate temp = new DungeonDate(c.getTime(), Status.Unresolved);
         do {
@@ -227,7 +228,7 @@ public class Dungeon implements Serializable {
         calendar1.setTime(date1);
         Calendar calendar2 = Calendar.getInstance();
         calendar2.setTime(date2);
-        boolean sameYear = calendar1.get(Calendar.YEAR) == calendar2.get(Calendar.YEAR)-1900;
+        boolean sameYear = calendar1.get(Calendar.YEAR) == calendar2.get(Calendar.YEAR);
         boolean sameMonth = calendar1.get(Calendar.MONTH) == calendar2.get(Calendar.MONTH);
         boolean sameDay = calendar1.get(Calendar.DAY_OF_MONTH) == calendar2.get(Calendar.DAY_OF_MONTH);
         return (sameDay && sameMonth && sameYear);
