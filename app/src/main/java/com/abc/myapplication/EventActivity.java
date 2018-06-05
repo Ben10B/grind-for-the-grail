@@ -91,7 +91,7 @@ public class EventActivity extends AppCompatActivity {
         final Button noBtn = new Button(this);
         noBtn.setText("NO");
         noBtn.setId(row_id);
-        noBtn.setBackgroundColor(Color.RED);
+        noBtn.setBackgroundColor(getResources().getColor(R.color.MichaelRed));
         //noBtn.setBackgroundResource(R.drawable.treasure);
         noBtn.setTextColor(Color.WHITE);
         noBtn.setTypeface(null, Typeface.BOLD);
@@ -113,7 +113,7 @@ public class EventActivity extends AppCompatActivity {
         final Button yesBtn = new Button(this);
         yesBtn.setText("YES");
         yesBtn.setId((row_id+2));
-        yesBtn.setBackgroundColor(Color.GREEN);
+        yesBtn.setBackgroundColor(getResources().getColor(R.color.MichaelGreen));
         yesBtn.setTextColor(Color.WHITE);
         yesBtn.setTypeface(null, Typeface.BOLD);
         yesBtn.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -138,8 +138,8 @@ public class EventActivity extends AppCompatActivity {
                     noBtn.setTextColor(Color.argb(50, 0, 0, 0));
                     int id = noBtn.getId();
                     TextView tv = findViewById(id + 1);
-                    tv.setBackgroundColor(Color.RED);
-                    tv.setTextColor(Color.BLACK);
+                    tv.setBackgroundColor(getResources().getColor(R.color.MichaelRed));
+                    tv.setTextColor(getResources().getColor(R.color.white));
                     Button b = findViewById(id + 2);
                     b.setBackgroundColor(Color.argb(50, 88, 88, 88));
                     b.setTextColor(Color.argb(50, 0, 0, 0));
@@ -183,8 +183,8 @@ public class EventActivity extends AppCompatActivity {
                     yesBtn.setTextColor(Color.argb(50, 0,0,0));
                     int id = yesBtn.getId();
                     TextView tv = findViewById(id-1);
-                    tv.setBackgroundColor(Color.GREEN);
-                    tv.setTextColor(Color.BLACK);
+                    tv.setBackgroundColor(getResources().getColor(R.color.MichaelGreen));
+                    tv.setTextColor(getResources().getColor(R.color.white));
                     Button b = findViewById(id-2);
                     b.setBackgroundColor(Color.argb(50, 88,88,88));
                     b.setTextColor(Color.argb(50, 0,0,0));
