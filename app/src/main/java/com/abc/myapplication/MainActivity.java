@@ -163,8 +163,8 @@ public class MainActivity extends AppCompatActivity
         for(Dungeon d : user.getDungeons()){
             final Button btnShow = new Button(this);
             btnShow.setText(d.getTitle());
-            btnShow.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-            btnShow.setTextColor(getResources().getColor(R.color.white));
+//            btnShow.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+//            btnShow.setTextColor(getResources().getColor(R.color.white));
             btnShow.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             btnShow.setOnClickListener(new View.OnClickListener() {
                 @Override

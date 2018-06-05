@@ -67,11 +67,7 @@ public class EventActivity extends AppCompatActivity {
         for (int i = 0; i < dates.size(); i++) {
             DungeonDate temp = dates.get(i);
             Date printedDate = temp.getDate();
-//            if(temp.getStatus() == Status.Inactive) {
-//                addButtons(printedDate, id, "yet");
-//            }else if(temp.getStatus() == Status.Unresolved){
-//                addButtons(printedDate, id, "came");
-//            }
+
             if(currentDate.after(printedDate)){
                 UpdateWithStatus(printedDate.toString(), Status.Unresolved);
             }
@@ -231,9 +227,9 @@ public class EventActivity extends AppCompatActivity {
             yesBtn.setBackgroundColor(Color.argb(50, 88, 88, 88));
             yesBtn.setTextColor(Color.argb(50, 0, 0, 0));
         }
-//        if(currentDate.after(date) && status == Status.Inactive){
-//            UpdateWithStatus(textView.getText().toString(), Status.Unresolved);
-//        }
+        if(currentDate.after(date) && status == Status.Inactive){
+            UpdateWithStatus(textView.getText().toString(), Status.Unresolved);
+        }
     }
     private void UpdateWithStatus(String date,Status status){
         DatabaseHelper databaseHelper = new DatabaseHelper(EventActivity.this);
