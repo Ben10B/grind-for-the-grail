@@ -226,7 +226,9 @@ public class EventActivity extends AppCompatActivity {
         int dungeonid = -1;
         if (dungeonCursor.moveToFirst()) {
             while (!dungeonCursor.isAfterLast()) {
-                if(dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.NAME)) == dungeon.getTitle())
+                String d = dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.NAME));
+                String e = dungeon.getTitle();
+                if( d.equals(e) )
                     dungeonid =  dungeonCursor.getInt(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.DUNGEONID));
                 dungeonCursor.moveToNext();
             }
@@ -234,7 +236,9 @@ public class EventActivity extends AppCompatActivity {
         Cursor dungeonDatesCursor = databaseHelper.readDungeonDatesByDungeon(dungeonid,databaseHelper.getReadableDatabase());
         if (dungeonDatesCursor.moveToFirst()) {
             while (!dungeonDatesCursor.isAfterLast()) {
-                if(dungeonDatesCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonDatesContract.ContractEntry.DATE)) == date)
+                String x = date;
+                String a = dungeonDatesCursor.getString(dungeonDatesCursor.getColumnIndex(DatabaseDungeonDatesContract.ContractEntry.DATE));
+                if(dungeonDatesCursor.getString(dungeonDatesCursor.getColumnIndex(DatabaseDungeonDatesContract.ContractEntry.DATE)).equals(date))
                     databaseHelper.updateDungeonDates(dungeonDatesCursor.getInt(dungeonDatesCursor.getColumnIndex(DatabaseDungeonDatesContract.ContractEntry.DATEID)),
                             dungeonid,
                             dungeonDatesCursor.getString(dungeonDatesCursor.getColumnIndex(DatabaseDungeonDatesContract.ContractEntry.DATE)),
