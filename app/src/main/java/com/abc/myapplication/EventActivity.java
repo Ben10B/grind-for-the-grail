@@ -284,14 +284,13 @@ public class EventActivity extends AppCompatActivity {
             DatabaseHelper databaseHelper = new DatabaseHelper(this);
             Cursor dungeonCursor = databaseHelper.readAllDungeons(databaseHelper.getReadableDatabase());
             if (dungeonCursor.moveToFirst()) {
-//                while (!dungeonCursor.isAfterLast()) {
-//                    if(dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.NAME)).equals(dungeon.getTitle()))
-//                        databaseHelper.deleteDungeon(dungeonCursor.getInt(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.DUNGEONID)),databaseHelper.getWritableDatabase());
-//                }
+                while (!dungeonCursor.isAfterLast()) {
+                    if(dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.NAME)).equals(dungeon.getTitle()))
+                        databaseHelper.deleteDungeon(dungeonCursor.getInt(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.DUNGEONID)),databaseHelper.getWritableDatabase());
+                    dungeonCursor.moveToNext();
+                }
             }databaseHelper.close();
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra("DELETE", dungeon.getTitle());
-            startActivity(intent);
+            startActivity(new Intent(this, MainActivity.class));
             finish();
         }
         return super.onOptionsItemSelected(item);
