@@ -76,7 +76,6 @@ public class Dungeon implements Serializable {
         DungeonDate failedDay = dates.get(getDungeonDateIndexByDate(day));
         failedDay.setStatus(Status.Failed);
         int hpLost = 0;
-        currentHealth -= hpLost;
         switch (getDifficulty()) {
             case Squire:
             case None:
@@ -89,6 +88,7 @@ public class Dungeon implements Serializable {
                 hpLost = getHealthLost(3);
                 break;
         }
+        currentHealth -= hpLost;
         boolean isAlive = getCurrentHealth() > 0;
         if (isAlive && !getRegPenalty().isEmpty()) {
             penalty = getRegPenalty();
