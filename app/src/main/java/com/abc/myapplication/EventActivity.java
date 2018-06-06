@@ -173,10 +173,19 @@ public class EventActivity extends AppCompatActivity {
                             dungeonCursor.moveToNext();
                         }
                     }
+                    dungeonCursor.close();
                     String date = tv.getText().toString();
                     UpdateWithStatus(date,Status.Failed);
                     updateHealthbar();
-                    Toast.makeText(EventActivity.this, failMessage, Toast.LENGTH_SHORT).show();
+                   // dungeon.setCurrentHealth(0);
+//                    if(dungeon.getCurrentHealth() <= 0){
+//                        deleteCurrentDungeon();
+//                        startActivity(new Intent(EventActivity.this, FailedActivity.class));
+//                        finish();
+//                    }
+//                    else{
+                        Toast.makeText(EventActivity.this, failMessage, Toast.LENGTH_SHORT).show();
+//                    }
 
                 }
             }
@@ -184,6 +193,7 @@ public class EventActivity extends AppCompatActivity {
         yesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if(yesBtn.getCurrentTextColor() != Color.argb(50, 0,0,0)) {
                     yesBtn.setBackgroundColor(Color.argb(50, 88,88,88));
                     yesBtn.setTextColor(Color.argb(50, 0,0,0));
@@ -195,7 +205,9 @@ public class EventActivity extends AppCompatActivity {
                     b.setBackgroundColor(Color.argb(50, 88,88,88));
                     b.setTextColor(Color.argb(50, 0,0,0));
                     Difficulty difficulty = dungeon.getDifficulty();
+                    int spriteLevel = user.getSprite().getLevel();
                     String rewardTitle = dungeon.completeDay(date ,user.getSprite());
+                    int updatedSpriteLevel = user.getSprite().getLevel();
 
                     DatabaseHelper databaseHelper = new DatabaseHelper(EventActivity.this);
                     Cursor spriteCursor = databaseHelper.readAllSprites(databaseHelper.getReadableDatabase());
@@ -210,9 +222,13 @@ public class EventActivity extends AppCompatActivity {
                     UpdateWithStatus(date,Status.Completed);
                     if(dungeon.isCompleted()){
                         deleteCurrentDungeon();
-                        //startActivity(new Intent(this, MainActivity.class));
+                        startActivity(new Intent(EventActivity.this, VictoryActivity.class));
+                        //finish();
                     }else {
                         Toast.makeText(EventActivity.this, rewardTitle, Toast.LENGTH_SHORT).show();
+                        if(spriteLevel != updatedSpriteLevel){
+                            startActivity(new Intent(EventActivity.this, LevelUpActivity.class));
+                        }
                     }
 
                 }
@@ -255,6 +271,7 @@ public class EventActivity extends AppCompatActivity {
                 dungeonCursor.moveToNext();
             }
         }
+        dungeonCursor.close();
         Cursor dungeonDatesCursor = databaseHelper.readDungeonDatesByDungeon(dungeonid,databaseHelper.getReadableDatabase());
         if (dungeonDatesCursor.moveToFirst()) {
             while (!dungeonDatesCursor.isAfterLast()) {
@@ -268,6 +285,7 @@ public class EventActivity extends AppCompatActivity {
                 dungeonDatesCursor.moveToNext();
             }
         }
+        dungeonDatesCursor.close();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

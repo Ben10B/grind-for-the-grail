@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
         this.user = databaseHelper.generateUserFromDatabase();
-
+        databaseHelper.close();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -162,13 +162,13 @@ public class MainActivity extends AppCompatActivity
         for(Dungeon d : user.getDungeons()){
             final Button btnShow = new Button(this);
             btnShow.setText(d.getTitle());
-            btnShow.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+//            btnShow.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            btnShow.setBackgroundColor(R.drawable.button_border2);
             btnShow.setTextColor(getResources().getColor(R.color.white));
             btnShow.setPadding(60,20,60,20);
             ConstraintLayout.LayoutParams lp = new ConstraintLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             lp.setMargins(0,20,0,20);
             btnShow.setLayoutParams(lp);
-         //   btnShow.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             btnShow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
