@@ -79,28 +79,29 @@ public class CreateEventActivity extends AppCompatActivity {
                         Toast.makeText(this, "DATE IS INVALID", Toast.LENGTH_LONG).show(); }
                 }
             }
-
+            //Check for name
             DatabaseHelper dbHelper = new DatabaseHelper(this);
             Cursor dungeonCursor = dbHelper.readAllDungeons(dbHelper.getReadableDatabase());
+            int nameCounter = 0;
             if (dungeonCursor.moveToFirst()) {
-                boolean nameExists = false;
+
                 while (!dungeonCursor.isAfterLast()) {
                     String d = dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.NAME));
                     String e = gT.getText().toString();
-                    if( d.equals(e) ) {
-                        nameExists = true; break;
+                    if (d.equals(e)) {
+                        nameCounter++;
                     }
                     dungeonCursor.moveToNext();
                 }
-                if(!nameExists)
-                    goal = gT.getText().toString();
-                else
-                    Toast.makeText(this, "GOAL ALREADY EXISTS", Toast.LENGTH_LONG).show();
             }
+            if(nameCounter < 1)
+                goal = gT.getText().toString();
+            else
+                Toast.makeText(this, "GOAL ALREADY EXISTS", Toast.LENGTH_LONG).show();
+
             dungeonCursor.close();
         } catch (Exception e) { }
-
-
+        //If name and radio button and date are done correctly, then add to db
         if (!goal.equals("") && !diff.equals("") && endDate != null) {
             DatabaseHelper databaseHelper = new DatabaseHelper(this);
             Cursor spriteCursor = databaseHelper.readAllSprites(databaseHelper.getReadableDatabase());
