@@ -231,7 +231,7 @@ public class Dungeon implements Serializable {
             temp = new DungeonDate(c.getTime(), Status.Inactive);
         }
         while (loop);
-        dates.add(temp);
+//        dates.add(temp);
         return dates;
     }
 
