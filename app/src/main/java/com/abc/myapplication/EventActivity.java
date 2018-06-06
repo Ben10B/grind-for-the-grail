@@ -208,7 +208,6 @@ public class EventActivity extends AppCompatActivity {
                     int spriteLevel = user.getSprite().getLevel();
                     String rewardTitle = dungeon.completeDay(date ,user.getSprite());
                     int updatedSpriteLevel = user.getSprite().getLevel();
-                    
                     DatabaseHelper databaseHelper = new DatabaseHelper(EventActivity.this);
                     Cursor spriteCursor = databaseHelper.readAllSprites(databaseHelper.getReadableDatabase());
                     spriteCursor.moveToFirst();
