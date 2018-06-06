@@ -152,8 +152,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void createTestDungeons(){
-        user.addDungeon("Test Dungeon 1", new Date(2018,9,26), Difficulty.Squire);
-        user.addDungeon("Test Dungeon 2", new Date(2018,5,7), Difficulty.Knight);
+        user.addDungeon("Demo Dungeon", new Date(2018,6,26), Difficulty.Grail);
     }
 
     private void addUserDungeons(){
