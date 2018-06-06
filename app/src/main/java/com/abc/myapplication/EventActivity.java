@@ -1,5 +1,6 @@
 package com.abc.myapplication;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -19,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,6 +58,7 @@ public class EventActivity extends AppCompatActivity {
         user = (User)intent.getSerializableExtra("user");
         String dungeonTitle = intent.getStringExtra("dungeonTitle");
         dungeon = user.getDungeonByTitle(dungeonTitle);
+        this.setTitle(dungeonTitle);
         setContentView(R.layout.activity_event);
 
         updateHealthbar();
