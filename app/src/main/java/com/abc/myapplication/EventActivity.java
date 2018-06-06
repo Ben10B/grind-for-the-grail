@@ -178,14 +178,14 @@ public class EventActivity extends AppCompatActivity {
                     UpdateWithStatus(date,Status.Failed);
                     updateHealthbar();
                    // dungeon.setCurrentHealth(0);
-//                    if(dungeon.getCurrentHealth() <= 0){
-//                        deleteCurrentDungeon();
-//                        startActivity(new Intent(EventActivity.this, FailedActivity.class));
-//                        finish();
-//                    }
-//                    else{
+                    if(dungeon.getCurrentHealth() <= 0){
+                        deleteCurrentDungeon();
+                        finish();
+                        startActivity(new Intent(EventActivity.this, FailedActivity.class));
+                    }
+                    else{
                         Toast.makeText(EventActivity.this, failMessage, Toast.LENGTH_SHORT).show();
-//                    }
+                    }
 
                 }
             }
@@ -208,7 +208,6 @@ public class EventActivity extends AppCompatActivity {
                     int spriteLevel = user.getSprite().getLevel();
                     String rewardTitle = dungeon.completeDay(date ,user.getSprite());
                     int updatedSpriteLevel = user.getSprite().getLevel();
-
                     DatabaseHelper databaseHelper = new DatabaseHelper(EventActivity.this);
                     Cursor spriteCursor = databaseHelper.readAllSprites(databaseHelper.getReadableDatabase());
                     spriteCursor.moveToFirst();
@@ -222,12 +221,15 @@ public class EventActivity extends AppCompatActivity {
                     UpdateWithStatus(date,Status.Completed);
                     if(dungeon.isCompleted()){
                         deleteCurrentDungeon();
+                        finish();
                         startActivity(new Intent(EventActivity.this, VictoryActivity.class));
-                        //finish();
+
                     }else {
                         Toast.makeText(EventActivity.this, rewardTitle, Toast.LENGTH_SHORT).show();
                         if(spriteLevel != updatedSpriteLevel){
-                            startActivity(new Intent(EventActivity.this, LevelUpActivity.class));
+                            Intent i = new Intent(EventActivity.this, LevelUpActivity.class);
+                            i.putExtra("user",user);
+                            startActivity(i);
                         }
                     }
 

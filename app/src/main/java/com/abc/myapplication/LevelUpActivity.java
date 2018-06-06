@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
-
-import Models.Dungeon;
 import Models.User;
 
 public class LevelUpActivity extends AppCompatActivity {
