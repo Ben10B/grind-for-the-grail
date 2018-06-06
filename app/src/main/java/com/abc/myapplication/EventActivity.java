@@ -180,8 +180,8 @@ public class EventActivity extends AppCompatActivity {
                    // dungeon.setCurrentHealth(0);
                     if(dungeon.getCurrentHealth() <= 0){
                         deleteCurrentDungeon();
-                        finish();
                         startActivity(new Intent(EventActivity.this, FailedActivity.class));
+                        finish();
                     }
                     else{
                         Toast.makeText(EventActivity.this, failMessage, Toast.LENGTH_SHORT).show();
