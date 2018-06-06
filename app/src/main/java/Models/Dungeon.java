@@ -75,8 +75,20 @@ public class Dungeon implements Serializable {
         String penalty = "";
         DungeonDate failedDay = dates.get(getDungeonDateIndexByDate(day));
         failedDay.setStatus(Status.Failed);
-        int hpLost = getHealthLost();
+        int hpLost = 0;
         currentHealth -= hpLost;
+        switch (getDifficulty()) {
+            case Squire:
+            case None:
+                hpLost = getHealthLost(1);
+                break;
+            case Knight:
+                hpLost = getHealthLost(2);
+                break;
+            case Grail:
+                hpLost = getHealthLost(3);
+                break;
+        }
         boolean isAlive = getCurrentHealth() > 0;
         if (isAlive && !getRegPenalty().isEmpty()) {
             penalty = getRegPenalty();
@@ -144,8 +156,8 @@ public class Dungeon implements Serializable {
      * This is based on how many days in a row they have failed.
      * Helper Method.
      */
-    private int getHealthLost() {
-        int healthLost = 1;
+    private int getHealthLost(int start) {
+        int healthLost = start;
         ArrayList<DungeonDate> dates = getDungeonDates();
         int index = getDungeonDateIndexByDate(Calendar.getInstance().getTime());
         if (index > 0) {
@@ -153,7 +165,7 @@ public class Dungeon implements Serializable {
                 if (dates.get(i).getStatus() != Status.Failed) {
                     break;
                 } else if (dates.get(i).getStatus() == Status.Failed) {
-                    healthLost *= 2;
+                    healthLost += 1;
                 }
             }
         }
@@ -211,13 +223,15 @@ public class Dungeon implements Serializable {
         endDate.setYear(endDate.getYear()-1900);
         Calendar c = Calendar.getInstance();
         DungeonDate temp = new DungeonDate(c.getTime(), Status.Unresolved);
+        boolean loop = false;
         do {
             dates.add(temp);
+            loop = !isSameDay(c.getTime(),endDate);
             c.add(Calendar.DATE, 1);
             temp = new DungeonDate(c.getTime(), Status.Inactive);
         }
-        while (!isSameDay(c.getTime(),endDate));
-        dates.add(temp);
+        while (loop);
+//        dates.add(temp);
         return dates;
     }
 
