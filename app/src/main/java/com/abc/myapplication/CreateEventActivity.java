@@ -79,7 +79,7 @@ public class CreateEventActivity extends AppCompatActivity {
                         Toast.makeText(this, "DATE IS INVALID", Toast.LENGTH_LONG).show(); }
                 }
             }
-
+            //Check for name
             DatabaseHelper dbHelper = new DatabaseHelper(this);
             Cursor dungeonCursor = dbHelper.readAllDungeons(dbHelper.getReadableDatabase());
             if (dungeonCursor.moveToFirst()) {
@@ -99,8 +99,7 @@ public class CreateEventActivity extends AppCompatActivity {
             }
             dungeonCursor.close();
         } catch (Exception e) { }
-
-
+        //If name and radio button and date are done correctly, then add to db
         if (!goal.equals("") && !diff.equals("") && endDate != null) {
             DatabaseHelper databaseHelper = new DatabaseHelper(this);
             Cursor spriteCursor = databaseHelper.readAllSprites(databaseHelper.getReadableDatabase());
