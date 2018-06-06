@@ -66,13 +66,18 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.abc.myapplication.MainActivity" />
         </activity>
-        <activity android:name=".FailedActivity" />
+        <activity android:name=".FailedActivity"
+            android:parentActivityName=".MainActivity"/>
 
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value="com.abc.myapplication.MainActivity" />
 
-        <activity android:name=".LevelUpActivity"></activity>
+        <activity android:name=".LevelUpActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.abc.myapplication.EventActivity" />
+        </activity>
     </application>
 
 </manifest>
