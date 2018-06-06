@@ -227,7 +227,9 @@ public class EventActivity extends AppCompatActivity {
                     }else {
                         Toast.makeText(EventActivity.this, rewardTitle, Toast.LENGTH_SHORT).show();
                         if(spriteLevel != updatedSpriteLevel){
-                            startActivity(new Intent(EventActivity.this, LevelUpActivity.class));
+                            Intent i = new Intent(EventActivity.this, LevelUpActivity.class);
+                            i.putExtra("user",user);
+                            startActivity(i);
                         }
                     }
 

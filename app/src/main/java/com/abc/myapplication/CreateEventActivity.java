@@ -49,15 +49,19 @@ public class CreateEventActivity extends AppCompatActivity {
         int radioId = radioGroup.getCheckedRadioButtonId();
         RadioButton button = findViewById(radioId);
 
-        String goal = gT.getText().toString();
         String date = dT.getText().toString();
         String reward = rT.getText().toString();
         String penalty = pT.getText().toString();
 
+        String goal = "";
         Date endDate = null;
         String diff = "";
         try {
-            diff = button.getText().toString();
+            if(button != null){
+                diff = button.getText().toString();
+            }else{
+                Toast.makeText(this, "CHOOSE A DIFFICULTY", Toast.LENGTH_LONG).show(); }
+
 
             int month = Integer.parseInt(date.substring(0, 2)) - 1;
             int day = Integer.parseInt(date.substring(3, 5));
@@ -71,12 +75,28 @@ public class CreateEventActivity extends AppCompatActivity {
                     int daysInMonth = days.getActualMaximum(Calendar.DAY_OF_MONTH);
                     if (day <= daysInMonth) {
                         endDate = new Date(year, month, day);
-                    }
+                    }else{
+                        Toast.makeText(this, "DATE IS INVALID", Toast.LENGTH_LONG).show(); }
                 }
             }
 
-        } catch (Exception e) {
-        }
+
+            DatabaseHelper dbHelper = new DatabaseHelper(this);
+            Cursor dungeonCursor = dbHelper.readAllDungeons(dbHelper.getReadableDatabase());
+            if (dungeonCursor.moveToFirst()) {
+                while (!dungeonCursor.isAfterLast()) {
+                    String d = dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.NAME));
+                    String e = goal = gT.getText().toString();
+                    if( d.equals(e) ){
+                        goal = gT.getText().toString();}
+                    else{
+                        Toast.makeText(this, "GOAL ALREADY EXISTS", Toast.LENGTH_LONG).show(); break;}
+                    dungeonCursor.moveToNext();
+                }
+            }
+            dungeonCursor.close();
+        } catch (Exception e) { }
+
 
         if (!goal.equals("") && !diff.equals("") && endDate != null) {
             DatabaseHelper databaseHelper = new DatabaseHelper(this);
