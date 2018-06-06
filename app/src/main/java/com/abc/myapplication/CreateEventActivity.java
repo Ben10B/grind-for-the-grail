@@ -57,12 +57,12 @@ public class CreateEventActivity extends AppCompatActivity {
         Date endDate = null;
         String diff = "";
         try {
+            //Check for radio button
             if(button != null){
                 diff = button.getText().toString();
             }else{
                 Toast.makeText(this, "CHOOSE A DIFFICULTY", Toast.LENGTH_LONG).show(); }
-
-
+            //Check for date
             int month = Integer.parseInt(date.substring(0, 2)) - 1;
             int day = Integer.parseInt(date.substring(3, 5));
             int year = Integer.parseInt(date.substring(6, 10));
@@ -79,25 +79,29 @@ public class CreateEventActivity extends AppCompatActivity {
                         Toast.makeText(this, "DATE IS INVALID", Toast.LENGTH_LONG).show(); }
                 }
             }
-
-
+            //Check for name
             DatabaseHelper dbHelper = new DatabaseHelper(this);
             Cursor dungeonCursor = dbHelper.readAllDungeons(dbHelper.getReadableDatabase());
+            int nameCounter = 0;
             if (dungeonCursor.moveToFirst()) {
+
                 while (!dungeonCursor.isAfterLast()) {
                     String d = dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.NAME));
-                    String e = goal = gT.getText().toString();
-                    if( d.equals(e) ){
-                        goal = gT.getText().toString();}
-                    else{
-                        Toast.makeText(this, "GOAL ALREADY EXISTS", Toast.LENGTH_LONG).show(); break;}
+                    String e = gT.getText().toString();
+                    if (d.equals(e)) {
+                        nameCounter++;
+                    }
                     dungeonCursor.moveToNext();
                 }
             }
+            if(nameCounter < 1)
+                goal = gT.getText().toString();
+            else
+                Toast.makeText(this, "GOAL ALREADY EXISTS", Toast.LENGTH_LONG).show();
+
             dungeonCursor.close();
         } catch (Exception e) { }
-
-
+        //If name and radio button and date are done correctly, then add to db
         if (!goal.equals("") && !diff.equals("") && endDate != null) {
             DatabaseHelper databaseHelper = new DatabaseHelper(this);
             Cursor spriteCursor = databaseHelper.readAllSprites(databaseHelper.getReadableDatabase());
