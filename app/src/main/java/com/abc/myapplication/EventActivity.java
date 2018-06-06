@@ -180,8 +180,8 @@ public class EventActivity extends AppCompatActivity {
                    // dungeon.setCurrentHealth(0);
                     if(dungeon.getCurrentHealth() <= 0){
                         deleteCurrentDungeon();
-                        startActivity(new Intent(EventActivity.this, FailedActivity.class));
                         finish();
+                        startActivity(new Intent(EventActivity.this, FailedActivity.class));
                     }
                     else{
                         Toast.makeText(EventActivity.this, failMessage, Toast.LENGTH_SHORT).show();
@@ -208,7 +208,6 @@ public class EventActivity extends AppCompatActivity {
                     int spriteLevel = user.getSprite().getLevel();
                     String rewardTitle = dungeon.completeDay(date ,user.getSprite());
                     int updatedSpriteLevel = user.getSprite().getLevel();
-                    
                     DatabaseHelper databaseHelper = new DatabaseHelper(EventActivity.this);
                     Cursor spriteCursor = databaseHelper.readAllSprites(databaseHelper.getReadableDatabase());
                     spriteCursor.moveToFirst();
