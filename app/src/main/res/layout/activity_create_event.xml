@@ -203,7 +203,8 @@
                 android:layout_marginTop="16dp"
                 android:onClick="createDungeon"
                 android:text="@string/create_event"
-                android:theme="@style/AppTheme.Button"
+                android:background="@drawable/button_border"
+                android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/radioGroup" />

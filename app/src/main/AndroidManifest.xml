@@ -16,6 +16,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".GreetingActivity"
+            android:theme="@style/AppTheme"
             android:label="Grind for the Grail">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
