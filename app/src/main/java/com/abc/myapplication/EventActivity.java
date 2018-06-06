@@ -316,13 +316,25 @@ public class EventActivity extends AppCompatActivity {
     private void deleteCurrentDungeon(){
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
         Cursor dungeonCursor = databaseHelper.readAllDungeons(databaseHelper.getReadableDatabase());
+        int deletedDungeonId = -1;
         if (dungeonCursor.moveToFirst()) {
             while (!dungeonCursor.isAfterLast()) {
-                if(dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.NAME)).equals(dungeon.getTitle()))
-                    databaseHelper.deleteDungeon(dungeonCursor.getInt(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.DUNGEONID)),databaseHelper.getWritableDatabase());
+                if(dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.NAME)).equals(dungeon.getTitle())){
+                    deletedDungeonId = dungeonCursor.getInt(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.DUNGEONID));
+                    databaseHelper.deleteDungeon(deletedDungeonId,databaseHelper.getWritableDatabase());
+                }
                 dungeonCursor.moveToNext();
             }
-        }databaseHelper.close();
+        }
         dungeonCursor.close();
+        Cursor dungeonDatesCursor = databaseHelper.readDungeonDatesByDungeon(deletedDungeonId,databaseHelper.getReadableDatabase());
+        if (dungeonDatesCursor.moveToFirst()) {
+            while (!dungeonDatesCursor.isAfterLast()) {
+                databaseHelper.deleteDungeonDate(dungeonCursor.getInt(dungeonCursor.getColumnIndex(DatabaseDungeonDatesContract.ContractEntry.DATEID)),databaseHelper.getWritableDatabase());
+                dungeonDatesCursor.moveToNext();
+            }
+        }
+        dungeonDatesCursor.close();
+        databaseHelper.close();
     }
 }
