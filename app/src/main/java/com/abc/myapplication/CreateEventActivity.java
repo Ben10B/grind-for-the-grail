@@ -57,12 +57,12 @@ public class CreateEventActivity extends AppCompatActivity {
         Date endDate = null;
         String diff = "";
         try {
+            //Check for radio button
             if(button != null){
                 diff = button.getText().toString();
             }else{
                 Toast.makeText(this, "CHOOSE A DIFFICULTY", Toast.LENGTH_LONG).show(); }
-
-
+            //Check for date
             int month = Integer.parseInt(date.substring(0, 2)) - 1;
             int day = Integer.parseInt(date.substring(3, 5));
             int year = Integer.parseInt(date.substring(6, 10));
@@ -80,19 +80,22 @@ public class CreateEventActivity extends AppCompatActivity {
                 }
             }
 
-
             DatabaseHelper dbHelper = new DatabaseHelper(this);
             Cursor dungeonCursor = dbHelper.readAllDungeons(dbHelper.getReadableDatabase());
             if (dungeonCursor.moveToFirst()) {
+                boolean nameExists = false;
                 while (!dungeonCursor.isAfterLast()) {
                     String d = dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.NAME));
-                    String e = goal = gT.getText().toString();
-                    if( d.equals(e) ){
-                        goal = gT.getText().toString();}
-                    else{
-                        Toast.makeText(this, "GOAL ALREADY EXISTS", Toast.LENGTH_LONG).show(); break;}
+                    String e = gT.getText().toString();
+                    if( d.equals(e) ) {
+                        nameExists = true; break;
+                    }
                     dungeonCursor.moveToNext();
                 }
+                if(!nameExists)
+                    goal = gT.getText().toString();
+                else
+                    Toast.makeText(this, "GOAL ALREADY EXISTS", Toast.LENGTH_LONG).show();
             }
             dungeonCursor.close();
         } catch (Exception e) { }
