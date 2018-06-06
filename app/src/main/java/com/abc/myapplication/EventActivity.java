@@ -330,7 +330,7 @@ public class EventActivity extends AppCompatActivity {
         Cursor dungeonDatesCursor = databaseHelper.readDungeonDatesByDungeon(deletedDungeonId,databaseHelper.getReadableDatabase());
         if (dungeonDatesCursor.moveToFirst()) {
             while (!dungeonDatesCursor.isAfterLast()) {
-                databaseHelper.deleteDungeonDate(dungeonCursor.getInt(dungeonCursor.getColumnIndex(DatabaseDungeonDatesContract.ContractEntry.DATEID)),databaseHelper.getWritableDatabase());
+                databaseHelper.deleteDungeonDate(dungeonDatesCursor.getInt(dungeonDatesCursor.getColumnIndex(DatabaseDungeonDatesContract.ContractEntry.DATEID)),databaseHelper.getWritableDatabase());
                 dungeonDatesCursor.moveToNext();
             }
         }
