@@ -156,7 +156,7 @@ public class EventActivity extends AppCompatActivity {
                     Cursor dungeonCursor = databaseHelper.readAllDungeons(databaseHelper.getReadableDatabase());
                     if (dungeonCursor.moveToFirst()) {
                         while (!dungeonCursor.isAfterLast()) {
-                            if(dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.NAME)) == dungeon.getTitle()){
+                            if(dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.NAME)).equals(dungeon.getTitle())){
                                 databaseHelper.updateDungeon(dungeonCursor.getInt(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.DUNGEONID)),
                                         dungeonCursor.getString(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.NAME)),
                                         dungeonCursor.getInt(dungeonCursor.getColumnIndex(DatabaseDungeonContract.ContractEntry.MAXHEALTH)),
