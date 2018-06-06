@@ -33,7 +33,7 @@
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".EventActivity"
-            android:label="Dungeon"
+            android:label="@string/dungeon_label"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".FoggModelActivity"
